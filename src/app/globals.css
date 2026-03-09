@@ -1,26 +1,374 @@
 @import "tailwindcss";
 
+/* ─── Custom Theme Tokens (Tailwind v4 CSS config) ─────────────────────────── */
+@theme {
+  --color-charcoal: #2c2c2c;
+  --color-cream: #f5f0eb;
+  --color-navy: #0a1628;
+  --color-gold: #c4965a;
+  --color-mist: #8a9ba8;
+  --color-light-gray: #e8e4df;
+
+  --font-display: "Barlow Condensed", sans-serif;
+  --font-serif: "Cormorant Garamond", serif;
+  --font-mono: "DM Mono", monospace;
+}
+
+/* ─── CSS Variables ─────────────────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f5f0eb;
+  --foreground: #2c2c2c;
+  --charcoal: #2c2c2c;
+  --cream: #f5f0eb;
+  --navy: #0a1628;
+  --gold: #c4965a;
+  --mist: #8a9ba8;
+  --light-gray: #e8e4df;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── Base Reset ────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Cormorant Garamond", serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ─── Custom Scrollbar ──────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--charcoal);
+}
+
+/* ─── Selection ─────────────────────────────────────────────────────────────── */
+::selection {
+  background: var(--gold);
+  color: #fff;
+}
+
+/* ─── Typography Utilities ──────────────────────────────────────────────────── */
+.font-display {
+  font-family: var(--font-display);
+}
+.font-serif {
+  font-family: var(--font-serif);
+}
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* ─── Grain texture overlay ─────────────────────────────────────────────────── */
+.grain-overlay {
+  position: relative;
+}
+.grain-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.3;
+}
+
+/* ─── Gold horizontal rule ──────────────────────────────────────────────────── */
+.gold-rule {
+  width: 60px;
+  height: 2px;
+  background: var(--gold);
+  display: block;
+}
+
+/* ─── Text gradient (gold) ──────────────────────────────────────────────────── */
+.text-gradient-gold {
+  background: linear-gradient(135deg, #c4965a 0%, #e8c08a 50%, #c4965a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Keyframe Animations ───────────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scrollBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease forwards;
+}
+.animate-slide-up {
+  animation: slideUp 0.8s ease forwards;
+}
+.animate-slide-down {
+  animation: slideDown 0.6s ease forwards;
+}
+.animate-scale-in {
+  animation: scaleIn 0.6s ease forwards;
+}
+.animate-scroll-bounce {
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+/* ─── Image hover zoom ──────────────────────────────────────────────────────── */
+.img-hover-zoom {
+  overflow: hidden;
+}
+.img-hover-zoom img {
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.img-hover-zoom:hover img {
+  transform: scale(1.08);
+}
+
+/* ─── Gold underline hover ──────────────────────────────────────────────────── */
+.gold-underline {
+  position: relative;
+}
+.gold-underline::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.3s ease;
+}
+.gold-underline:hover::after {
+  width: 100%;
+}
+
+/* ─── Swiper overrides ──────────────────────────────────────────────────────── */
+.swiper-pagination-bullet {
+  background: var(--gold) !important;
+}
+.swiper-button-next,
+.swiper-button-prev {
+  color: var(--gold) !important;
+}
+
+/* ─── Form inputs ───────────────────────────────────────────────────────────── */
+.form-input {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(196, 150, 90, 0.4);
+  padding: 12px 0;
+  color: inherit;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  outline: none;
+}
+.form-input:focus {
+  border-bottom-color: var(--gold);
+}
+.form-input::placeholder {
+  color: var(--mist);
+}
+.form-input option {
+  background: var(--charcoal);
+  color: var(--cream);
+}
+
+/* ─── Nav link transitions ──────────────────────────────────────────────────── */
+.nav-link {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.3s ease;
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* ─── Button styles ─────────────────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: var(--gold);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.btn-primary:hover {
+  background: #a87a42;
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 32px;
+  background: transparent;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+.btn-outline:hover {
+  border-color: var(--gold);
+  background: rgba(196, 150, 90, 0.1);
+}
+
+.btn-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: var(--charcoal);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.btn-dark:hover {
+  background: #000;
+}
+
+/* ─── Section spacing ───────────────────────────────────────────────────────── */
+.section-pad {
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+@media (max-width: 768px) {
+  .section-pad {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+}
+
+/* ─── Container ─────────────────────────────────────────────────────────────── */
+.container-xl {
+  max-width: 1320px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+@media (max-width: 768px) {
+  .container-xl {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* ─── Luxury card hover ─────────────────────────────────────────────────────── */
+.luxury-card {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.4s ease;
+}
+.luxury-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12);
+}
+
+/* ─── Parallax container ────────────────────────────────────────────────────── */
+.parallax-container {
+  overflow: hidden;
+  position: relative;
 }

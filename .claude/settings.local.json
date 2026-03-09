@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git --yes)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git --yes --force)",
+      "Read(//private/tmp/**)",
+      "Bash(npx create-next-app@latest almayachting --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git --yes)",
+      "Bash(npm install gsap @gsap/react swiper framer-motion @headlessui/react lucide-react)",
+      "Bash(npx next build)",
+      "Bash(npm install)",
+      "Bash(node --version)",
+      "Bash(/Users/tasssop-macbook-pro/Desktop/almayachting/node_modules/next/dist/bin/next --version)",
+      "Bash(node /Users/tasssop-macbook-pro/Desktop/almayachting/node_modules/next/dist/bin/next build)",
+      "Bash(npm run build)",
+      "Bash(npm install next@latest)",
+      "Bash(ln -s ../next/dist/bin/next node_modules/.bin/next)",
+      "Bash(curl -I \"https://images.unsplash.com/photo-1548574169-d870fc490f40?w=1920&q=80\")",
+      "Bash(curl -I \"https://images.unsplash.com/photo-1563738099-7cf905400a2b?w=800&q=80\")",
+      "Bash(curl -I \"https://picsum.photos/1920/1080\")",
+      "WebFetch(domain:www.lagoon-catamaran.com)",
+      "WebFetch(domain:www.fountaine-pajot.com)",
+      "WebFetch(domain:www.istionluxuryyachts.com)",
+      "WebFetch(domain:www.catamarans-fountaine-pajot.com)",
+      "WebFetch(domain:assets.istionluxuryyachts.com)",
+      "WebFetch(domain:commons.wikimedia.org)",
+      "WebFetch(domain:upload.wikimedia.org)",
+      "WebFetch(domain:pixabay.com)",
+      "WebFetch(domain:www.visitgreece.gr)",
+      "WebFetch(domain:images.unsplash.com)",
+      "WebFetch(domain:www.fxyachting.com)",
+      "WebFetch(domain:fxyachting.com)",
+      "WebFetch(domain:www.centralyachtagent.com)"
+    ],
+    "additionalDirectories": [
+      "/Users/tasssop-macbook-pro/Desktop/almayachting/src/app/fleet",
+      "/Users/tasssop-macbook-pro/Desktop/almayachting/src/app/fleet/[slug]",
+      "/Users/tasssop-macbook-pro/.claude/projects/-Users-tasssop-macbook-pro-Desktop-almayachting"
+    ]
+  }
+}
