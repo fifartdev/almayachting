@@ -13,7 +13,9 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const yacht = getYachtBySlug(slug);
 
@@ -27,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: yacht.name,
     description: `${yacht.name} — ${yacht.type}, ${yacht.year}. ${yacht.guests} guests, ${yacht.cabins} cabins. From €${yacht.startingPrice.toLocaleString()}/week. Based in ${yacht.basePort}.`,
     openGraph: {
-      images: [{ url: `${yacht.heroImage.split("?")[0]}?w=1200&q=80` }],
+      images: [{ url: `${yacht.heroImage.split("?")[0]}` }],
     },
   };
 }

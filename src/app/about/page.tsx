@@ -49,19 +49,22 @@ const team = [
     name: "Alexandros Papadopoulos",
     role: "Founder & Managing Director",
     bio: "Former competitive offshore sailor, Alexandros founded ALMA Yachting in 2014 after 15 years racing and cruising in Greek waters. His vision: make the finest sailing experiences in Greece accessible to those who love the sea.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
+    image:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
   },
   {
     name: "Marina Kostaki",
     role: "Head of Charter Operations",
     bio: "With a background in luxury hospitality and a lifelong passion for sailing, Marina oversees every guest charter from first enquiry to final departure, ensuring every voyage exceeds expectations.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
+    image:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
   },
   {
     name: "Nikos Georgiou",
     role: "Fleet Technical Director",
     bio: "A marine engineer with 20 years' experience, Nikos ensures every ALMA vessel is maintained to an immaculate standard. His obsession with technical excellence is the reason our fleet is always ready to sail.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
+    image:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
   },
 ];
 
@@ -74,7 +77,7 @@ export default function AboutPage() {
         style={{ height: "70vh", minHeight: "500px" }}
       >
         <Image
-          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80"
+          src="/images/various/hero.jpg"
           alt="Greek coast from the sea"
           fill
           priority
@@ -118,7 +121,10 @@ export default function AboutPage() {
       </div>
 
       {/* Story Section */}
-      <section className="section-pad grain-overlay" style={{ background: "#F5F0EB" }}>
+      <section
+        className="section-pad grain-overlay"
+        style={{ background: "#F5F0EB" }}
+      >
         <div className="container-xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
             {/* Left: image */}
@@ -128,7 +134,7 @@ export default function AboutPage() {
                 style={{ aspectRatio: "3/4" }}
               >
                 <Image
-                  src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=900&q=80"
+                  src="/images/various/attica-riviera-b.jpg"
                   alt="ALMA Yachting — sailing Greece"
                   fill
                   className="object-cover"
@@ -144,7 +150,10 @@ export default function AboutPage() {
                   <div
                     key={stat.label}
                     className="flex flex-col items-center justify-center p-5"
-                    style={{ background: "rgba(44,44,44,0.92)", minWidth: "100px" }}
+                    style={{
+                      background: "rgba(44,44,44,0.92)",
+                      minWidth: "100px",
+                    }}
                   >
                     <span
                       style={{
@@ -192,10 +201,10 @@ export default function AboutPage() {
                   }}
                 >
                   ALMA Yachting was born from a simple conviction: that the
-                  Greek islands — among the most beautiful places on Earth —
-                  are best experienced not from a hotel terrace, but from the
-                  deck of a yacht, with the freedom to go wherever the wind
-                  and your curiosity lead you.
+                  Greek islands — among the most beautiful places on Earth — are
+                  best experienced not from a hotel terrace, but from the deck
+                  of a yacht, with the freedom to go wherever the wind and your
+                  curiosity lead you.
                 </p>
                 <p
                   style={{
@@ -209,9 +218,9 @@ export default function AboutPage() {
                   Papadopoulos, ALMA started as a single-vessel charter
                   operation in the Saronic Gulf. Within three years, growing
                   demand from discerning international guests had led to the
-                  development of our current fleet of five premium catamarans
-                  — each chosen for the quality of their design, performance,
-                  and onboard experience.
+                  development of our current fleet of five premium catamarans —
+                  each chosen for the quality of their design, performance, and
+                  onboard experience.
                 </p>
                 <p
                   style={{
@@ -222,11 +231,11 @@ export default function AboutPage() {
                   }}
                 >
                   Today, ALMA Yachting serves guests from more than 30
-                  countries, offering not just yacht charter but a full suite
-                  of maritime services: fleet management, crewing, and a
-                  concierge programme designed to make every moment on the
-                  Greek islands unforgettable. We are, in every sense, a
-                  company built by sailors, for those who love the sea.
+                  countries, offering not just yacht charter but a full suite of
+                  maritime services: fleet management, crewing, and a concierge
+                  programme designed to make every moment on the Greek islands
+                  unforgettable. We are, in every sense, a company built by
+                  sailors, for those who love the sea.
                 </p>
               </div>
 
@@ -312,80 +321,6 @@ export default function AboutPage() {
       </section>
 
       {/* Team */}
-      <section className="section-pad" style={{ background: "#F5F0EB" }}>
-        <div className="container-xl">
-          <div className="mb-14">
-            <SectionTitle
-              label="The Team"
-              heading="The People<br/>Behind ALMA"
-              subtitle="A small, dedicated team united by a love of sailing and a commitment to excellence."
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {team.map((member) => (
-              <div
-                key={member.name}
-                className="group"
-              >
-                <div
-                  className="relative overflow-hidden mb-6 img-hover-zoom"
-                  style={{ aspectRatio: "3/4" }}
-                >
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                  {/* Gold overlay on hover */}
-                  <div
-                    className="absolute bottom-0 left-0 right-0 h-0.5 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"
-                    style={{ background: "#C4965A" }}
-                  />
-                </div>
-
-                <div
-                  style={{
-                    fontFamily: "var(--font-dm-mono), monospace",
-                    fontSize: "9px",
-                    letterSpacing: "0.18em",
-                    color: "#C4965A",
-                    textTransform: "uppercase",
-                    marginBottom: "6px",
-                  }}
-                >
-                  {member.role}
-                </div>
-                <h3
-                  className="mb-3"
-                  style={{
-                    fontFamily: "var(--font-barlow-condensed), sans-serif",
-                    fontWeight: 700,
-                    fontSize: "24px",
-                    color: "#2C2C2C",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.02em",
-                  }}
-                >
-                  {member.name}
-                </h3>
-                <p
-                  style={{
-                    fontFamily: "var(--font-cormorant-garamond), serif",
-                    fontSize: "15px",
-                    color: "rgba(44,44,44,0.6)",
-                    lineHeight: "1.7",
-                  }}
-                >
-                  {member.bio}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA */}
       <section

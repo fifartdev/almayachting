@@ -21,7 +21,7 @@ export default function FleetPage() {
         style={{ height: "60vh", minHeight: "400px" }}
       >
         <Image
-          src="https://images.unsplash.com/photo-1614252369475-531eba835eb1?w=1920&q=80"
+          src="/images/FP44/FP-44-4.jpg"
           alt="ALMA Yachting fleet"
           fill
           priority
@@ -82,7 +82,8 @@ export default function FleetPage() {
                 color: "rgba(245,240,235,0.6)",
               }}
             >
-              Five premium catamarans. All based in Athens. All available for crewed or bareboat charter.
+              Five premium catamarans. All based in Athens. All available for
+              crewed or bareboat charter.
             </p>
             <div className="flex items-center gap-6">
               <div>
@@ -109,7 +110,11 @@ export default function FleetPage() {
                 </span>
               </div>
               <div
-                style={{ width: "1px", height: "32px", background: "rgba(196,150,90,0.2)" }}
+                style={{
+                  width: "1px",
+                  height: "32px",
+                  background: "rgba(196,150,90,0.2)",
+                }}
               />
               <div>
                 <span
@@ -135,7 +140,11 @@ export default function FleetPage() {
                 </span>
               </div>
               <div
-                style={{ width: "1px", height: "32px", background: "rgba(196,150,90,0.2)" }}
+                style={{
+                  width: "1px",
+                  height: "32px",
+                  background: "rgba(196,150,90,0.2)",
+                }}
               />
               <div>
                 <span

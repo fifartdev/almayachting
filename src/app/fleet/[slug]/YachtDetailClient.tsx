@@ -67,10 +67,7 @@ export default function YachtDetailClient({ yacht, related }: Props) {
         />
 
         {/* Breadcrumb */}
-        <div
-          className="absolute top-24 left-0 right-0"
-          style={{ zIndex: 1 }}
-        >
+        <div className="absolute top-24 left-0 right-0" style={{ zIndex: 1 }}>
           <div className="container-xl">
             <div
               className="flex items-center gap-2"
@@ -259,21 +256,47 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                   }}
                 >
                   {[
-                    { label: "Length Overall", value: yacht.specifications.loa },
+                    {
+                      label: "Length Overall",
+                      value: yacht.specifications.loa,
+                    },
                     { label: "Beam", value: yacht.specifications.beam },
                     { label: "Draft", value: yacht.specifications.draft },
-                    { label: "Displacement", value: yacht.specifications.displacement },
+                    {
+                      label: "Displacement",
+                      value: yacht.specifications.displacement,
+                    },
                     ...(yacht.specifications.sailArea
-                      ? [{ label: "Sail Area", value: yacht.specifications.sailArea }]
+                      ? [
+                          {
+                            label: "Sail Area",
+                            value: yacht.specifications.sailArea,
+                          },
+                        ]
                       : []),
                     { label: "Engines", value: yacht.specifications.engines },
-                    { label: "Fuel Capacity", value: yacht.specifications.fuelCapacity },
-                    { label: "Water Capacity", value: yacht.specifications.waterCapacity },
-                    { label: "Max Speed", value: yacht.specifications.maxSpeed },
-                    { label: "Cruising Speed", value: yacht.specifications.cruisingSpeed },
+                    {
+                      label: "Fuel Capacity",
+                      value: yacht.specifications.fuelCapacity,
+                    },
+                    {
+                      label: "Water Capacity",
+                      value: yacht.specifications.waterCapacity,
+                    },
+                    {
+                      label: "Max Speed",
+                      value: yacht.specifications.maxSpeed,
+                    },
+                    {
+                      label: "Cruising Speed",
+                      value: yacht.specifications.cruisingSpeed,
+                    },
                     { label: "Guests", value: `${yacht.guests} persons` },
                     { label: "Cabins", value: `${yacht.cabins} cabins` },
-                    { label: "Bathrooms", value: `${yacht.bathrooms} en-suite` },
+                    {
+                      label: "Bathrooms",
+                      value: `${yacht.bathrooms} en-suite`,
+                    },
                     { label: "Base Port", value: yacht.basePort },
                   ].map((row, i) => (
                     <div
@@ -344,7 +367,7 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                         style={{ aspectRatio: "4/3" }}
                       >
                         <Image
-                          src={`${img.split("?")[0]}?w=800&q=80`}
+                          src={`${img.split("?")[0]}`}
                           alt={`${yacht.name} — image ${idx + 1}`}
                           fill
                           className="object-cover"
@@ -419,7 +442,8 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                       </div>
                       <p
                         style={{
-                          fontFamily: "var(--font-barlow-condensed), sans-serif",
+                          fontFamily:
+                            "var(--font-barlow-condensed), sans-serif",
                           fontWeight: 700,
                           fontSize: "18px",
                           color: "#F5F0EB",
@@ -438,14 +462,16 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                           lineHeight: "1.6",
                         }}
                       >
-                        We&apos;ll be in touch within 24 hours to begin planning your voyage.
+                        We&apos;ll be in touch within 24 hours to begin planning
+                        your voyage.
                       </p>
                     </div>
                   ) : (
                     <form onSubmit={handleSubmit} className="space-y-5">
                       <p
                         style={{
-                          fontFamily: "var(--font-barlow-condensed), sans-serif",
+                          fontFamily:
+                            "var(--font-barlow-condensed), sans-serif",
                           fontWeight: 700,
                           fontSize: "14px",
                           letterSpacing: "0.12em",
@@ -458,9 +484,24 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                       </p>
 
                       {[
-                        { name: "name", label: "Full Name", type: "text", required: true },
-                        { name: "email", label: "Email Address", type: "email", required: true },
-                        { name: "phone", label: "Phone Number", type: "tel", required: false },
+                        {
+                          name: "name",
+                          label: "Full Name",
+                          type: "text",
+                          required: true,
+                        },
+                        {
+                          name: "email",
+                          label: "Email Address",
+                          type: "email",
+                          required: true,
+                        },
+                        {
+                          name: "phone",
+                          label: "Phone Number",
+                          type: "tel",
+                          required: false,
+                        },
                       ].map((field) => (
                         <div key={field.name}>
                           <label
@@ -482,7 +523,9 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                             id={`sidebar-${field.name}`}
                             type={field.type}
                             required={field.required}
-                            value={formData[field.name as keyof typeof formData]}
+                            value={
+                              formData[field.name as keyof typeof formData]
+                            }
                             onChange={(e) =>
                               setFormData((p) => ({
                                 ...p,
@@ -520,7 +563,10 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                             required
                             value={formData.checkIn}
                             onChange={(e) =>
-                              setFormData((p) => ({ ...p, checkIn: e.target.value }))
+                              setFormData((p) => ({
+                                ...p,
+                                checkIn: e.target.value,
+                              }))
                             }
                             className="form-input"
                             style={{
@@ -551,7 +597,10 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                             required
                             value={formData.checkOut}
                             onChange={(e) =>
-                              setFormData((p) => ({ ...p, checkOut: e.target.value }))
+                              setFormData((p) => ({
+                                ...p,
+                                checkOut: e.target.value,
+                              }))
                             }
                             className="form-input"
                             style={{
@@ -583,24 +632,30 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                           required
                           value={formData.guests}
                           onChange={(e) =>
-                            setFormData((p) => ({ ...p, guests: e.target.value }))
+                            setFormData((p) => ({
+                              ...p,
+                              guests: e.target.value,
+                            }))
                           }
                           className="form-input"
                           style={{
-                            color: formData.guests ? "#F5F0EB" : "rgba(138,155,168,0.8)",
+                            color: formData.guests
+                              ? "#F5F0EB"
+                              : "rgba(138,155,168,0.8)",
                             borderBottomColor: "rgba(196,150,90,0.25)",
                           }}
                         >
                           <option value="" disabled>
                             Select guests
                           </option>
-                          {Array.from({ length: yacht.guests }, (_, i) => i + 1).map(
-                            (n) => (
-                              <option key={n} value={n}>
-                                {n} {n === 1 ? "Guest" : "Guests"}
-                              </option>
-                            )
-                          )}
+                          {Array.from(
+                            { length: yacht.guests },
+                            (_, i) => i + 1,
+                          ).map((n) => (
+                            <option key={n} value={n}>
+                              {n} {n === 1 ? "Guest" : "Guests"}
+                            </option>
+                          ))}
                         </select>
                       </div>
 
@@ -624,7 +679,10 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                           rows={3}
                           value={formData.message}
                           onChange={(e) =>
-                            setFormData((p) => ({ ...p, message: e.target.value }))
+                            setFormData((p) => ({
+                              ...p,
+                              message: e.target.value,
+                            }))
                           }
                           placeholder="Tell us about your ideal voyage..."
                           className="form-input"

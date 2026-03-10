@@ -20,7 +20,7 @@ export default function FleetCard({ yacht }: FleetCardProps) {
       {/* Image */}
       <div className="img-hover-zoom relative" style={{ aspectRatio: "4/3" }}>
         <Image
-          src={`${yacht.heroImage.split("?")[0]}?w=800&q=80`}
+          src={`${yacht.heroImage.split("?")[0]}`}
           alt={yacht.name}
           fill
           className="object-cover"
@@ -51,7 +51,8 @@ export default function FleetCard({ yacht }: FleetCardProps) {
         <div
           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
           style={{
-            background: "linear-gradient(to top, rgba(196,150,90,0.25) 0%, transparent 60%)",
+            background:
+              "linear-gradient(to top, rgba(196,150,90,0.25) 0%, transparent 60%)",
           }}
         />
       </div>

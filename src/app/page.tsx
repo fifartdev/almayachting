@@ -105,10 +105,10 @@ export default function HomePage() {
                     lineHeight: "1.8",
                   }}
                 >
-                  ALMA Yachting was founded on a singular belief: that the
-                  Greek islands deserve to be experienced from the water, on
-                  your own terms, with the freedom to discover hidden coves
-                  inaccessible to any other traveller.
+                  ALMA Yachting was founded on a singular belief: that the Greek
+                  islands deserve to be experienced from the water, on your own
+                  terms, with the freedom to discover hidden coves inaccessible
+                  to any other traveller.
                 </p>
                 <p
                   style={{
@@ -137,10 +137,7 @@ export default function HomePage() {
       </section>
 
       {/* 3. Fleet Preview */}
-      <section
-        className="section-pad"
-        style={{ background: "#fff" }}
-      >
+      <section className="section-pad" style={{ background: "#fff" }}>
         <div className="container-xl">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
             <SectionTitle
@@ -190,7 +187,10 @@ export default function HomePage() {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px" style={{ background: "rgba(255,255,255,0.05)" }}>
+          <div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px"
+            style={{ background: "rgba(255,255,255,0.05)" }}
+          >
             {services.map((service, i) => {
               const Icon = service.icon;
               return (
@@ -278,10 +278,7 @@ export default function HomePage() {
       </section>
 
       {/* 5. Destinations */}
-      <section
-        className="section-pad"
-        style={{ background: "#F5F0EB" }}
-      >
+      <section className="section-pad" style={{ background: "#F5F0EB" }}>
         <div className="container-xl">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
             <SectionTitle
@@ -316,7 +313,7 @@ export default function HomePage() {
               style={{ aspectRatio: "16/10" }}
             >
               <Image
-                src={`${featuredDestinations[0].image.split("?")[0]}?w=1200&q=80`}
+                src={`${featuredDestinations[0].image.split("?")[0]}`}
                 alt={featuredDestinations[0].name}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -325,7 +322,8 @@ export default function HomePage() {
               <div
                 className="absolute inset-0"
                 style={{
-                  background: "linear-gradient(to top, rgba(10,22,40,0.85) 0%, transparent 55%)",
+                  background:
+                    "linear-gradient(to top, rgba(10,22,40,0.85) 0%, transparent 55%)",
                 }}
               />
               <div className="absolute bottom-0 left-0 p-8">
@@ -366,7 +364,7 @@ export default function HomePage() {
                   style={{ aspectRatio: "1/1" }}
                 >
                   <Image
-                    src={`${dest.image.split("?")[0]}?w=600&q=80`}
+                    src={`${dest.image.split("?")[0]}`}
                     alt={dest.name}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -375,7 +373,8 @@ export default function HomePage() {
                   <div
                     className="absolute inset-0"
                     style={{
-                      background: "linear-gradient(to top, rgba(10,22,40,0.8) 0%, transparent 55%)",
+                      background:
+                        "linear-gradient(to top, rgba(10,22,40,0.8) 0%, transparent 55%)",
                     }}
                   />
                   <div className="absolute bottom-0 left-0 p-4">
@@ -486,7 +485,13 @@ export default function HomePage() {
           </div>
 
           <div className="mt-16 flex items-center justify-center gap-3">
-            <div style={{ width: "30px", height: "1px", background: "rgba(196,150,90,0.4)" }} />
+            <div
+              style={{
+                width: "30px",
+                height: "1px",
+                background: "rgba(196,150,90,0.4)",
+              }}
+            />
             <span
               style={{
                 fontFamily: "var(--font-dm-mono), monospace",
@@ -497,7 +502,13 @@ export default function HomePage() {
             >
               MARINA ZEA · PIRAEUS · ATHENS
             </span>
-            <div style={{ width: "30px", height: "1px", background: "rgba(196,150,90,0.4)" }} />
+            <div
+              style={{
+                width: "30px",
+                height: "1px",
+                background: "rgba(196,150,90,0.4)",
+              }}
+            />
           </div>
         </div>
       </section>

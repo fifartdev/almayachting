@@ -29,7 +29,7 @@ const services = [
       "Airport transfers and logistics coordination",
       "24/7 shore support throughout your voyage",
     ],
-    image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=1200&q=80",
+    image: "/images/services/yacht-charter.jpg",
   },
   {
     id: "management",
@@ -49,7 +49,7 @@ const services = [
       "Revenue generation through managed charter",
       "Monthly condition reports and photography",
     ],
-    image: "https://images.unsplash.com/photo-1614252369475-531eba835eb1?w=1200&q=80",
+    image: "/images/services/fleet-management.jpg",
   },
   {
     id: "crewing",
@@ -69,7 +69,7 @@ const services = [
       "Multilingual crew options (English, Greek, French, German)",
       "Careful crew-to-guest personality matching",
     ],
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&q=80",
+    image: "/images/services/crewing-services.jpg",
   },
   {
     id: "concierge",
@@ -89,7 +89,7 @@ const services = [
       "Private chefs and event catering on board",
       "Bespoke wedding and celebration packages",
     ],
-    image: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?w=1200&q=80",
+    image: "/images/services/concierge-extras.jpg",
   },
 ];
 
@@ -125,7 +125,7 @@ export default function ServicesPage() {
         style={{ height: "60vh", minHeight: "420px" }}
       >
         <Image
-          src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff?w=1920&q=80"
+          src="/images/various/hero.jpg"
           alt="Luxury yacht services"
           fill
           priority
@@ -218,7 +218,8 @@ export default function ServicesPage() {
                     >
                       <span
                         style={{
-                          fontFamily: "var(--font-barlow-condensed), sans-serif",
+                          fontFamily:
+                            "var(--font-barlow-condensed), sans-serif",
                           fontWeight: 800,
                           fontSize: "20px",
                           color: "#fff",
@@ -301,7 +302,8 @@ export default function ServicesPage() {
                           </div>
                           <span
                             style={{
-                              fontFamily: "var(--font-cormorant-garamond), serif",
+                              fontFamily:
+                                "var(--font-cormorant-garamond), serif",
                               fontSize: "16px",
                               color: "rgba(44,44,44,0.7)",
                               lineHeight: "1.5",
@@ -341,7 +343,10 @@ export default function ServicesPage() {
             />
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px" style={{ background: "rgba(255,255,255,0.06)" }}>
+          <div
+            className="grid grid-cols-2 lg:grid-cols-4 gap-px"
+            style={{ background: "rgba(255,255,255,0.06)" }}
+          >
             {whyAlma.map((item) => (
               <div
                 key={item.stat}

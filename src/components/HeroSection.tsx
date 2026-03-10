@@ -26,31 +26,31 @@ export default function HeroSection() {
       tl.fromTo(
         labelRef.current,
         { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.7, ease: "power2.out" }
+        { y: 0, opacity: 1, duration: 0.7, ease: "power2.out" },
       )
         .fromTo(
           headlineRef.current,
           { y: 60, opacity: 0, skewY: 2 },
           { y: 0, opacity: 1, skewY: 0, duration: 1, ease: "power3.out" },
-          "-=0.3"
+          "-=0.3",
         )
         .fromTo(
           subtitleRef.current,
           { y: 30, opacity: 0 },
           { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" },
-          "-=0.5"
+          "-=0.5",
         )
         .fromTo(
           ctaRef.current,
           { y: 20, opacity: 0 },
           { y: 0, opacity: 1, duration: 0.7, ease: "power2.out" },
-          "-=0.4"
+          "-=0.4",
         )
         .fromTo(
           scrollRef.current,
           { opacity: 0 },
           { opacity: 1, duration: 0.6 },
-          "-=0.2"
+          "-=0.2",
         );
 
       // Parallax on scroll
@@ -84,7 +84,7 @@ export default function HeroSection() {
         style={{ top: "-20%", bottom: "-20%", height: "140%" }}
       >
         <Image
-          src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=1920&q=80"
+          src="/images/various/hero-b.jpg"
           alt="Luxury catamaran sailing the Aegean Sea"
           fill
           priority
@@ -120,10 +120,7 @@ export default function HeroSection() {
       >
         <div className="max-w-4xl">
           {/* Label */}
-          <div
-            ref={labelRef}
-            className="flex items-center gap-4 mb-8"
-          >
+          <div ref={labelRef} className="flex items-center gap-4 mb-8">
             <div
               style={{
                 width: "40px",
@@ -206,10 +203,7 @@ export default function HeroSection() {
                 { value: "300+", label: "Happy Guests" },
                 { value: "10+", label: "Years Experience" },
               ].map((stat) => (
-                <div
-                  key={stat.label}
-                  className="px-6 py-5 text-center"
-                >
+                <div key={stat.label} className="px-6 py-5 text-center">
                   <div
                     style={{
                       fontFamily: "var(--font-barlow-condensed), sans-serif",

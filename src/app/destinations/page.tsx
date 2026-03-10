@@ -101,7 +101,10 @@ export default function DestinationsPage() {
       {/* Seas Section */}
       <section className="py-16" style={{ background: "#0A1628" }}>
         <div className="container-xl">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px" style={{ background: "rgba(255,255,255,0.06)" }}>
+          <div
+            className="grid grid-cols-1 md:grid-cols-3 gap-px"
+            style={{ background: "rgba(255,255,255,0.06)" }}
+          >
             {seas.map((sea) => {
               const Icon = sea.icon;
               return (
@@ -196,7 +199,7 @@ export default function DestinationsPage() {
                   style={{ aspectRatio: "4/3" }}
                 >
                   <Image
-                    src={`${dest.image.split("?")[0]}?w=900&q=80`}
+                    src={`${dest.image.split("?")[0]}`}
                     alt={dest.name}
                     fill
                     className="object-cover"
@@ -235,7 +238,11 @@ export default function DestinationsPage() {
                       {dest.region}
                     </span>
                     <div
-                      style={{ width: "20px", height: "1px", background: "rgba(196,150,90,0.4)" }}
+                      style={{
+                        width: "20px",
+                        height: "1px",
+                        background: "rgba(196,150,90,0.4)",
+                      }}
                     />
                     <span
                       style={{
@@ -329,7 +336,10 @@ export default function DestinationsPage() {
         className="relative overflow-hidden"
         style={{ background: "#0A1628" }}
       >
-        <div className="container-xl py-24 text-center" style={{ zIndex: 1, position: "relative" }}>
+        <div
+          className="container-xl py-24 text-center"
+          style={{ zIndex: 1, position: "relative" }}
+        >
           <div
             className="mx-auto mb-8"
             style={{ width: "50px", height: "1px", background: "#C4965A" }}
@@ -370,8 +380,8 @@ export default function DestinationsPage() {
               lineHeight: "1.65",
             }}
           >
-            Tell us your dream islands and we&apos;ll craft the perfect itinerary —
-            from a weekend Saronic hop to a two-week Aegean odyssey.
+            Tell us your dream islands and we&apos;ll craft the perfect
+            itinerary — from a weekend Saronic hop to a two-week Aegean odyssey.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link href="/contact" className="btn-primary">

@@ -22,7 +22,7 @@ export default function ContactPage() {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -45,7 +45,7 @@ export default function ContactPage() {
         style={{ height: "50vh", minHeight: "360px" }}
       >
         <Image
-          src="https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?w=1920&q=80"
+          src="/images/various/hero.jpg"
           alt="Athens harbour"
           fill
           priority
@@ -161,9 +161,9 @@ export default function ContactPage() {
                         lineHeight: "1.6",
                       }}
                     >
-                      Marina Zea, Piraeus
+                      Alimos Marina, Athens
                       <br />
-                      Athens, Greece 18536
+                      Athens, Greece 12345
                     </p>
                   </div>
                 </div>
@@ -198,10 +198,12 @@ export default function ContactPage() {
                         transition: "color 0.2s",
                       }}
                       onMouseEnter={(e) =>
-                        ((e.currentTarget as HTMLElement).style.color = "#C4965A")
+                        ((e.currentTarget as HTMLElement).style.color =
+                          "#C4965A")
                       }
                       onMouseLeave={(e) =>
-                        ((e.currentTarget as HTMLElement).style.color = "#2C2C2C")
+                        ((e.currentTarget as HTMLElement).style.color =
+                          "#2C2C2C")
                       }
                     >
                       +30 210 123 4567
@@ -239,10 +241,12 @@ export default function ContactPage() {
                         transition: "color 0.2s",
                       }}
                       onMouseEnter={(e) =>
-                        ((e.currentTarget as HTMLElement).style.color = "#C4965A")
+                        ((e.currentTarget as HTMLElement).style.color =
+                          "#C4965A")
                       }
                       onMouseLeave={(e) =>
-                        ((e.currentTarget as HTMLElement).style.color = "#2C2C2C")
+                        ((e.currentTarget as HTMLElement).style.color =
+                          "#2C2C2C")
                       }
                     >
                       info@almayachting.com
@@ -282,7 +286,12 @@ export default function ContactPage() {
                       <br />
                       Saturday: 10:00 – 14:00
                       <br />
-                      <span style={{ color: "rgba(44,44,44,0.5)", fontSize: "14px" }}>
+                      <span
+                        style={{
+                          color: "rgba(44,44,44,0.5)",
+                          fontSize: "14px",
+                        }}
+                      >
                         (EET / UTC+2)
                       </span>
                     </p>
@@ -296,7 +305,7 @@ export default function ContactPage() {
                 style={{ aspectRatio: "4/3" }}
               >
                 <Image
-                  src="https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?w=800&q=80"
+                  src="/images/various/marina.jpg"
                   alt="Athens marina"
                   fill
                   className="object-cover"
@@ -323,7 +332,7 @@ export default function ContactPage() {
                         textTransform: "uppercase",
                       }}
                     >
-                      Marina Zea, Athens
+                      Alimos Marina, Athens
                     </span>
                   </div>
                 </div>
@@ -390,7 +399,8 @@ export default function ContactPage() {
                       </p>
                       <h2
                         style={{
-                          fontFamily: "var(--font-barlow-condensed), sans-serif",
+                          fontFamily:
+                            "var(--font-barlow-condensed), sans-serif",
                           fontWeight: 800,
                           fontSize: "32px",
                           color: "#2C2C2C",
