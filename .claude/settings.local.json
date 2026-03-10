@@ -29,7 +29,17 @@
       "WebFetch(domain:images.unsplash.com)",
       "WebFetch(domain:www.fxyachting.com)",
       "WebFetch(domain:fxyachting.com)",
-      "WebFetch(domain:www.centralyachtagent.com)"
+      "WebFetch(domain:www.centralyachtagent.com)",
+      "Bash(ls -la /Users/tasssop-macbook-pro/.claude/projects/-Users-tasssop-macbook-pro-Desktop-almayachting/*.jsonl)",
+      "Bash(python3 -c \":*)",
+      "Bash(sed -i '' 's|photo-1548574169-d870fc490f40|photo-1551698618-1dfe5d97d256|g' /Users/tasssop-macbook-pro/Desktop/almayachting/src/components/HeroSection.tsx)",
+      "Bash(sed -i '' 's|photo-1548574169-d870fc490f40|photo-1551698618-1dfe5d97d256|g' /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/about/page.tsx)",
+      "Bash(sed -i '' 's|photo-1548574169-d870fc490f40|photo-1551698618-1dfe5d97d256|g' /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/layout.tsx)",
+      "Bash(sed -i '' 's|photo-1548574169-d870fc490f40|photo-1551698618-1dfe5d97d256|g' /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/services/page.tsx)",
+      "Bash(sed -i '' 's|photo-1566576912-9bbbb76bcf66|photo-1614252369475-531eba835eb1|g' /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/fleet/page.tsx)",
+      "Bash(sed -i '' 's|photo-1566576912-9bbbb76bcf66|photo-1614252369475-531eba835eb1|g' /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/services/page.tsx)",
+      "Bash(sed -i '' 's|photo-1590080875-aced2f3bc4ff|photo-1526772662000-3f88f10405ff|g' /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/services/page.tsx)",
+      "Bash(sed -i '' 's|photo-1530739498450-fe0c3e1a16d2|photo-1577717903315-1691ae25ab3f|g' /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/contact/page.tsx)"
     ],
     "additionalDirectories": [
       "/Users/tasssop-macbook-pro/Desktop/almayachting/src/app/fleet",

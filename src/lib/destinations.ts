@@ -57,7 +57,7 @@ export const destinations: Destination[] = [
       "Corfu is the emerald jewel of the Ionian Sea — an island of lush green hills, Venetian fortresses, and a cuisine that reflects centuries of Italian, French, and British influence. The old town of Corfu is a UNESCO World Heritage Site, its narrow streets and elegant architecture a testament to the island's extraordinary history. Sailing the Ionian is a gentler experience than the Aegean — lighter winds, calmer seas, and a succession of breathtaking anchorages in turquoise bays where the water is so clear you can count the pebbles on the seabed.",
     shortDescription:
       "The emerald jewel of the Ionian with Venetian old town and lush green hills.",
-    image: `${UNSPLASH_BASE}/photo-1530739498450-fe0c3e1a16d2?w=1920&q=80`,
+    image: `${UNSPLASH_BASE}/photo-1577717903315-1691ae25ab3f?w=1920&q=80`,
     highlights: [
       "UNESCO World Heritage old town",
       "Venetian fortresses and architecture",
@@ -75,7 +75,7 @@ export const destinations: Destination[] = [
       "Rhodes stands as one of the great crossroads of Mediterranean civilisation — a sun-drenched island of Crusader castles, ancient acropoli, and beaches that stretch for miles under the relentless Aegean sun. The medieval old town, entirely enclosed within its original walls, is a living museum where knights once walked. By contrast, the beaches of Faliraki and Lindos offer the full spectrum of Aegean holiday pleasure. Sailing the Dodecanese from a base in Rhodes opens up a chain of islands — from the volcanic Nisyros to the serene Symi — each with its own distinct character.",
     shortDescription:
       "Sun-drenched island with medieval Crusader walls and ancient history.",
-    image: `${UNSPLASH_BASE}/photo-1564596489416-83e32fc14c55?w=1920&q=80`,
+    image: `${UNSPLASH_BASE}/photo-1519074069444-1ba4fff66d16?w=1920&q=80`,
     highlights: [
       "Medieval old town — UNESCO World Heritage",
       "Ancient Acropolis of Lindos",
@@ -111,7 +111,7 @@ export const destinations: Destination[] = [
       "Paros occupies a special place in the hearts of those who have discovered her — close enough to Mykonos for comparison, yet retaining an authenticity and unhurried pace that makes her a favourite among discerning travellers. The island is famed for its luminous white marble, its medieval Venetian villages, and the picture-perfect harbour of Naoussa where fishing boats rock gently beside fashionable restaurants. Paros is also a world-class windsurfing destination, but for yacht guests, the island's greatest gift is its proximity to the unspoiled islets of Antiparos and Despotiko.",
     shortDescription:
       "Authentic Cycladic beauty with marble quarries and Naoussa's charming harbour.",
-    image: `${UNSPLASH_BASE}/photo-1533105079780-92b9be482077?w=1920&q=80`,
+    image: `${UNSPLASH_BASE}/photo-1590069261209-f8e9b8642343?w=1920&q=80`,
     highlights: [
       "Picturesque Naoussa harbour",
       "Day trips to uninhabited Despotiko island",
@@ -129,7 +129,7 @@ export const destinations: Destination[] = [
       "Zakynthos — known to Italians as Zante, 'the flower of the Levant' — is an island of extraordinary natural drama. The famous Navagio Beach (Shipwreck Beach), accessible only by sea, is one of the most photographed places on Earth: a pristine crescent of white pebbles enclosed by towering limestone cliffs, with the rusting hull of a smuggler's ship at its centre. The Blue Caves, carved by centuries of wave action into the northern cliffs, glow with an otherworldly light in the afternoon sun. Loggerhead sea turtles nest on the southern beaches, making a late-night anchorage here a privileged wildlife encounter.",
     shortDescription:
       "Home to the legendary Shipwreck Beach and the magical Blue Caves.",
-    image: `${UNSPLASH_BASE}/photo-1555993539-1732b0258235?w=1920&q=80`,
+    image: `${UNSPLASH_BASE}/photo-1516483638261-f4dbaf036963?w=1920&q=80`,
     highlights: [
       "Iconic Navagio Shipwreck Beach",
       "Blue Caves sea kayaking and exploration",
@@ -147,7 +147,7 @@ export const destinations: Destination[] = [
       "Hydra is the most singular island in all of Greece. Motor vehicles are banned here — the only transport is by foot, donkey, or boat — and the result is an island of perfect, timeless tranquility. The horseshoe harbour, ringed by grand 18th-century stone mansions built by shipping merchants, is one of the most beautiful in the Aegean. Artists, writers, and musicians have found sanctuary here for generations, drawn by the quality of the light, the silence, and the sense that time moves at a different pace. As the closest jewel in the Saronic chain to Athens, Hydra is the perfect first or last night of any Greek charter.",
     shortDescription:
       "The car-free island of artists and stone mansions — closest gem to Athens.",
-    image: `${UNSPLASH_BASE}/photo-1533105079780-92b9be482077?w=1920&q=80`,
+    image: `${UNSPLASH_BASE}/photo-1602088113235-229c19758e9f?w=1920&q=80`,
     highlights: [
       "No motor vehicles — total tranquility",
       "Elegant 18th-century stone mansions",

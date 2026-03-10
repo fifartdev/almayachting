@@ -128,7 +128,7 @@ export default function AboutPage() {
                 style={{ aspectRatio: "3/4" }}
               >
                 <Image
-                  src="https://images.unsplash.com/photo-1548574169-d870fc490f40?w=900&q=80"
+                  src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=900&q=80"
                   alt="ALMA Yachting — sailing Greece"
                   fill
                   className="object-cover"

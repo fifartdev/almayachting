@@ -29,7 +29,7 @@ const services = [
       "Airport transfers and logistics coordination",
       "24/7 shore support throughout your voyage",
     ],
-    image: "https://images.unsplash.com/photo-1548574169-d870fc490f40?w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=1200&q=80",
   },
   {
     id: "management",
@@ -49,7 +49,7 @@ const services = [
       "Revenue generation through managed charter",
       "Monthly condition reports and photography",
     ],
-    image: "https://images.unsplash.com/photo-1566576912-9bbbb76bcf66?w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1614252369475-531eba835eb1?w=1200&q=80",
   },
   {
     id: "crewing",
@@ -89,7 +89,7 @@ const services = [
       "Private chefs and event catering on board",
       "Bespoke wedding and celebration packages",
     ],
-    image: "https://images.unsplash.com/photo-1590080875-aced2f3bc4ff?w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?w=1200&q=80",
   },
 ];
 
@@ -125,7 +125,7 @@ export default function ServicesPage() {
         style={{ height: "60vh", minHeight: "420px" }}
       >
         <Image
-          src="https://images.unsplash.com/photo-1590080875-aced2f3bc4ff?w=1920&q=80"
+          src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff?w=1920&q=80"
           alt="Luxury yacht services"
           fill
           priority

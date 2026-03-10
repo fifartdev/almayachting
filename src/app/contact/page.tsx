@@ -45,7 +45,7 @@ export default function ContactPage() {
         style={{ height: "50vh", minHeight: "360px" }}
       >
         <Image
-          src="https://images.unsplash.com/photo-1530739498450-fe0c3e1a16d2?w=1920&q=80"
+          src="https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?w=1920&q=80"
           alt="Athens harbour"
           fill
           priority
@@ -296,7 +296,7 @@ export default function ContactPage() {
                 style={{ aspectRatio: "4/3" }}
               >
                 <Image
-                  src="https://images.unsplash.com/photo-1530739498450-fe0c3e1a16d2?w=800&q=80"
+                  src="https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?w=800&q=80"
                   alt="Athens marina"
                   fill
                   className="object-cover"

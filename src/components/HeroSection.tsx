@@ -84,7 +84,7 @@ export default function HeroSection() {
         style={{ top: "-20%", bottom: "-20%", height: "140%" }}
       >
         <Image
-          src="https://images.unsplash.com/photo-1548574169-d870fc490f40?w=1920&q=80"
+          src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=1920&q=80"
           alt="Luxury catamaran sailing the Aegean Sea"
           fill
           priority

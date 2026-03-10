@@ -21,7 +21,7 @@ export default function FleetPage() {
         style={{ height: "60vh", minHeight: "400px" }}
       >
         <Image
-          src="https://images.unsplash.com/photo-1566576912-9bbbb76bcf66?w=1920&q=80"
+          src="https://images.unsplash.com/photo-1614252369475-531eba835eb1?w=1920&q=80"
           alt="ALMA Yachting fleet"
           fill
           priority
