@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import { Menu, X, Anchor } from "lucide-react";
@@ -95,44 +96,16 @@ export default function Navigation() {
         <div className="container-xl">
           <div className="flex items-center justify-between h-[72px]">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group">
-              <div ref={logoRef} className="flex items-end gap-[6px]">
-                <span
-                  className="text-[28px] leading-none tracking-[-0.02em] select-none"
-                  style={{
-                    fontFamily: "var(--font-barlow-condensed), sans-serif",
-                    fontWeight: 800,
-                    color: isTransparent ? "#F5F0EB" : "#F5F0EB",
-                    letterSpacing: "-0.01em",
-                  }}
-                >
-                  ALMA
-                </span>
-                <div className="flex flex-col items-start mb-[3px]">
-                  <span
-                    className="block leading-none"
-                    style={{
-                      fontFamily: "var(--font-barlow-condensed), sans-serif",
-                      fontWeight: 400,
-                      fontSize: "8px",
-                      letterSpacing: "0.22em",
-                      color: isTransparent
-                        ? "rgba(245,240,235,0.7)"
-                        : "rgba(196,150,90,0.9)",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    YACHTING
-                  </span>
-                  <div
-                    className="mt-[3px] transition-all duration-300 group-hover:w-full"
-                    style={{
-                      width: "16px",
-                      height: "1px",
-                      background: "#C4965A",
-                    }}
-                  />
-                </div>
+            <Link href="/" className="flex items-center">
+              <div ref={logoRef}>
+                <Image
+                  src="/alma-logo.png"
+                  alt="ALMA Yachting"
+                  width={140}
+                  height={48}
+                  className="h-10 w-auto object-contain"
+                  priority
+                />
               </div>
             </Link>
 

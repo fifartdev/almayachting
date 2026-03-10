@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Anchor, MapPin, Phone, Mail, Instagram, Facebook } from "lucide-react";
 
 const companyLinks = [
@@ -30,48 +31,20 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer
-      style={{ background: "#2C2C2C", color: "rgba(245,240,235,0.75)" }}
-    >
+    <footer style={{ background: "#2C2C2C", color: "rgba(245,240,235,0.75)" }}>
       {/* Top section */}
       <div className="container-xl py-16 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand column */}
           <div className="lg:col-span-1">
-            <Link href="/" className="flex items-end gap-2 mb-6 group w-fit">
-              <span
-                className="text-[32px] leading-none"
-                style={{
-                  fontFamily: "var(--font-barlow-condensed), sans-serif",
-                  fontWeight: 800,
-                  color: "#F5F0EB",
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                ALMA
-              </span>
-              <div className="flex flex-col items-start mb-[4px]">
-                <span
-                  style={{
-                    fontFamily: "var(--font-barlow-condensed), sans-serif",
-                    fontWeight: 400,
-                    fontSize: "8px",
-                    letterSpacing: "0.22em",
-                    color: "rgba(196,150,90,0.8)",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  YACHTING
-                </span>
-                <div
-                  style={{
-                    width: "16px",
-                    height: "1px",
-                    background: "#C4965A",
-                    marginTop: "3px",
-                  }}
-                />
-              </div>
+            <Link href="/" className="block mb-6 w-fit">
+              <Image
+                src="/alma-logo.png"
+                alt="ALMA Yachting"
+                width={240}
+                height={80}
+                className="h-20 w-auto object-contain"
+              />
             </Link>
 
             <p
@@ -87,10 +60,7 @@ export default function Footer() {
             </p>
 
             <div className="flex items-center gap-2 mb-8">
-              <Anchor
-                size={14}
-                style={{ color: "#C4965A", flexShrink: 0 }}
-              />
+              <Anchor size={14} style={{ color: "#C4965A", flexShrink: 0 }} />
               <span
                 style={{
                   fontFamily: "var(--font-dm-mono), monospace",
@@ -313,9 +283,9 @@ export default function Footer() {
                     lineHeight: "1.6",
                   }}
                 >
-                  Marina Zea, Piraeus
+                  Alimos Marina,
                   <br />
-                  Athens, Greece 18536
+                  Athens, Greece 12345
                 </span>
               </li>
               <li className="flex items-center gap-3">
@@ -372,9 +342,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div
-        style={{ borderTop: "1px solid rgba(196,150,90,0.12)" }}
-      >
+      <div style={{ borderTop: "1px solid rgba(196,150,90,0.12)" }}>
         <div className="container-xl py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p
