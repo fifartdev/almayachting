@@ -55,7 +55,7 @@ export const metadata: Metadata = {
       "Bespoke luxury yacht charter and fleet management in Greece. Sail the Aegean aboard our premium catamaran fleet.",
     images: [
       {
-        url: `https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=1200&q=80`,
+        url: "/images/various/hero-b.jpg",
         width: 1200,
         height: 630,
         alt: "ALMA Yachting - Luxury Yacht Charter in Greece",
