@@ -125,15 +125,16 @@ export default function HeroSection() {
               style={{
                 width: "40px",
                 height: "1px",
-                background: "#C4965A",
+                background: "rgba(138,155,168,0.5)",
               }}
             />
             <span
               style={{
-                fontFamily: "var(--font-dm-mono), monospace",
+                fontFamily: "var(--font-barlow-condensed), sans-serif",
+                fontWeight: 500,
                 fontSize: "11px",
                 letterSpacing: "0.2em",
-                color: "rgba(196,150,90,0.9)",
+                color: "rgba(138,155,168,0.9)",
                 textTransform: "uppercase",
               }}
             >
@@ -156,7 +157,7 @@ export default function HeroSection() {
           >
             Sail the
             <br />
-            <span style={{ color: "#C4965A" }}>Mediterranean</span>
+            <span style={{ color: "#8A9BA8" }}>Mediterranean</span>
           </h1>
 
           {/* Subtitle */}
@@ -209,7 +210,7 @@ export default function HeroSection() {
                       fontFamily: "var(--font-barlow-condensed), sans-serif",
                       fontWeight: 700,
                       fontSize: "28px",
-                      color: "#C4965A",
+                      color: "#8A9BA8",
                       letterSpacing: "-0.01em",
                     }}
                   >
@@ -217,7 +218,8 @@ export default function HeroSection() {
                   </div>
                   <div
                     style={{
-                      fontFamily: "var(--font-dm-mono), monospace",
+                      fontFamily: "var(--font-barlow-condensed), sans-serif",
+                      fontWeight: 400,
                       fontSize: "9px",
                       letterSpacing: "0.15em",
                       color: "rgba(245,240,235,0.45)",
@@ -242,7 +244,8 @@ export default function HeroSection() {
       >
         <span
           style={{
-            fontFamily: "var(--font-dm-mono), monospace",
+            fontFamily: "var(--font-barlow-condensed), sans-serif",
+            fontWeight: 400,
             fontSize: "9px",
             letterSpacing: "0.2em",
             color: "rgba(245,240,235,0.4)",
@@ -255,7 +258,7 @@ export default function HeroSection() {
         </span>
         <div
           className="animate-scroll-bounce"
-          style={{ color: "rgba(196,150,90,0.6)" }}
+          style={{ color: "rgba(138,155,168,0.6)" }}
         >
           <ArrowDown size={16} />
         </div>

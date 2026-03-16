@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import {
   Barlow_Condensed,
-  Cormorant_Garamond,
+  Jost,
   DM_Mono,
 } from "next/font/google";
 import "./globals.css";
@@ -15,7 +15,7 @@ const barlowCondensed = Barlow_Condensed({
   display: "swap",
 });
 
-const cormorantGaramond = Cormorant_Garamond({
+const jost = Jost({
   variable: "--font-cormorant-garamond",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
@@ -81,8 +81,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${barlowCondensed.variable} ${cormorantGaramond.variable} ${dmMono.variable} antialiased`}
-        style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+        className={`${barlowCondensed.variable} ${jost.variable} ${dmMono.variable} antialiased`}
+        style={{ fontFamily: "var(--font-cormorant-garamond), sans-serif" }}
       >
         <Navigation />
         <main>{children}</main>

@@ -143,10 +143,11 @@ export default function ServicesPage() {
           <p
             className="mb-3"
             style={{
-              fontFamily: "var(--font-dm-mono), monospace",
+              fontFamily: "var(--font-barlow-condensed), sans-serif",
+              fontWeight: 500,
               fontSize: "10px",
               letterSpacing: "0.22em",
-              color: "#C4965A",
+              color: "#8A9BA8",
               textTransform: "uppercase",
             }}
           >
@@ -235,16 +236,17 @@ export default function ServicesPage() {
                     <div className="flex items-center gap-4 mb-6">
                       <div
                         className="flex items-center justify-center w-10 h-10"
-                        style={{ border: "1px solid rgba(196,150,90,0.4)" }}
+                        style={{ border: "1px solid rgba(10,22,40,0.4)" }}
                       >
-                        <Icon size={18} style={{ color: "#C4965A" }} />
+                        <Icon size={18} style={{ color: "#0A1628" }} />
                       </div>
                       <span
                         style={{
-                          fontFamily: "var(--font-dm-mono), monospace",
+                          fontFamily: "var(--font-barlow-condensed), sans-serif",
+                          fontWeight: 500,
                           fontSize: "10px",
                           letterSpacing: "0.18em",
-                          color: "#C4965A",
+                          color: "#0A1628",
                           textTransform: "uppercase",
                         }}
                       >
@@ -296,9 +298,9 @@ export default function ServicesPage() {
                         <li key={feature} className="flex items-start gap-3">
                           <div
                             className="flex items-center justify-center w-5 h-5 mt-0.5 shrink-0"
-                            style={{ background: "rgba(196,150,90,0.12)" }}
+                            style={{ background: "rgba(10,22,40,0.08)" }}
                           >
-                            <Check size={11} style={{ color: "#C4965A" }} />
+                            <Check size={11} style={{ color: "#0A1628" }} />
                           </div>
                           <span
                             style={{
@@ -358,7 +360,7 @@ export default function ServicesPage() {
                     fontFamily: "var(--font-barlow-condensed), sans-serif",
                     fontWeight: 800,
                     fontSize: "clamp(40px, 5vw, 64px)",
-                    color: "#C4965A",
+                    color: "#8A9BA8",
                     lineHeight: 1,
                     marginBottom: "8px",
                   }}

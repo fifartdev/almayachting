@@ -60,13 +60,14 @@ export default function Footer() {
             </p>
 
             <div className="flex items-center gap-2 mb-8">
-              <Anchor size={14} style={{ color: "#C4965A", flexShrink: 0 }} />
+              <Anchor size={14} style={{ color: "#8A9BA8", flexShrink: 0 }} />
               <span
                 style={{
-                  fontFamily: "var(--font-dm-mono), monospace",
+                  fontFamily: "var(--font-barlow-condensed), sans-serif",
+                  fontWeight: 500,
                   fontSize: "10px",
                   letterSpacing: "0.15em",
-                  color: "rgba(196,150,90,0.7)",
+                  color: "rgba(138,155,168,0.7)",
                 }}
               >
                 ATHENS, GREECE
@@ -81,17 +82,17 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="flex items-center justify-center w-9 h-9 border transition-all duration-300 hover:border-gold"
                 style={{
-                  border: "1px solid rgba(196,150,90,0.25)",
+                  border: "1px solid rgba(138,155,168,0.25)",
                   color: "rgba(245,240,235,0.5)",
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement;
-                  el.style.borderColor = "#C4965A";
-                  el.style.color = "#C4965A";
+                  el.style.borderColor = "#8A9BA8";
+                  el.style.color = "#8A9BA8";
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget as HTMLElement;
-                  el.style.borderColor = "rgba(196,150,90,0.25)";
+                  el.style.borderColor = "rgba(138,155,168,0.25)";
                   el.style.color = "rgba(245,240,235,0.5)";
                 }}
                 aria-label="Instagram"
@@ -104,17 +105,17 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="flex items-center justify-center w-9 h-9 border transition-all duration-300"
                 style={{
-                  border: "1px solid rgba(196,150,90,0.25)",
+                  border: "1px solid rgba(138,155,168,0.25)",
                   color: "rgba(245,240,235,0.5)",
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement;
-                  el.style.borderColor = "#C4965A";
-                  el.style.color = "#C4965A";
+                  el.style.borderColor = "#8A9BA8";
+                  el.style.color = "#8A9BA8";
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget as HTMLElement;
-                  el.style.borderColor = "rgba(196,150,90,0.25)";
+                  el.style.borderColor = "rgba(138,155,168,0.25)";
                   el.style.color = "rgba(245,240,235,0.5)";
                 }}
                 aria-label="Facebook"
@@ -133,7 +134,7 @@ export default function Footer() {
                 fontWeight: 700,
                 fontSize: "11px",
                 letterSpacing: "0.2em",
-                color: "#C4965A",
+                color: "#8A9BA8",
                 textTransform: "uppercase",
               }}
             >
@@ -174,7 +175,7 @@ export default function Footer() {
                 fontWeight: 700,
                 fontSize: "11px",
                 letterSpacing: "0.2em",
-                color: "#C4965A",
+                color: "#8A9BA8",
                 textTransform: "uppercase",
               }}
             >
@@ -210,7 +211,7 @@ export default function Footer() {
               style={{
                 width: "30px",
                 height: "1px",
-                background: "rgba(196,150,90,0.4)",
+                background: "rgba(138,155,168,0.3)",
               }}
             />
 
@@ -221,7 +222,7 @@ export default function Footer() {
                 fontWeight: 700,
                 fontSize: "11px",
                 letterSpacing: "0.2em",
-                color: "#C4965A",
+                color: "#8A9BA8",
                 textTransform: "uppercase",
               }}
             >
@@ -262,7 +263,7 @@ export default function Footer() {
                 fontWeight: 700,
                 fontSize: "11px",
                 letterSpacing: "0.2em",
-                color: "#C4965A",
+                color: "#8A9BA8",
                 textTransform: "uppercase",
               }}
             >
@@ -283,9 +284,9 @@ export default function Footer() {
                     lineHeight: "1.6",
                   }}
                 >
-                  Alimos Marina,
+                  46 Archimidous str., 17563
                   <br />
-                  Athens, Greece 12345
+                  Paleo Faliro, Athens, Greece
                 </span>
               </li>
               <li className="flex items-center gap-3">
@@ -295,7 +296,7 @@ export default function Footer() {
                   style={{ color: "#C4965A" }}
                 />
                 <a
-                  href="tel:+302101234567"
+                  href="tel:+302103001618"
                   style={{
                     fontFamily: "var(--font-cormorant-garamond), serif",
                     fontSize: "15px",
@@ -309,7 +310,7 @@ export default function Footer() {
                       "rgba(245,240,235,0.55)";
                   }}
                 >
-                  +30 210 123 4567
+                  +30 210 300 1618
                 </a>
               </li>
               <li className="flex items-center gap-3">
@@ -342,12 +343,12 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div style={{ borderTop: "1px solid rgba(196,150,90,0.12)" }}>
+      <div style={{ borderTop: "1px solid rgba(138,155,168,0.12)" }}>
         <div className="container-xl py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p
               style={{
-                fontFamily: "var(--font-dm-mono), monospace",
+                fontFamily: "var(--font-barlow-condensed), sans-serif",
                 fontSize: "10px",
                 letterSpacing: "0.12em",
                 color: "rgba(245,240,235,0.3)",
@@ -360,7 +361,7 @@ export default function Footer() {
                 fontFamily: "var(--font-cormorant-garamond), serif",
                 fontSize: "13px",
                 fontStyle: "italic",
-                color: "rgba(196,150,90,0.5)",
+                color: "rgba(138,155,168,0.5)",
                 letterSpacing: "0.04em",
               }}
             >
@@ -370,7 +371,7 @@ export default function Footer() {
               <Link
                 href="/privacy"
                 style={{
-                  fontFamily: "var(--font-dm-mono), monospace",
+                  fontFamily: "var(--font-barlow-condensed), sans-serif",
                   fontSize: "10px",
                   letterSpacing: "0.1em",
                   color: "rgba(245,240,235,0.3)",
@@ -389,7 +390,7 @@ export default function Footer() {
               <Link
                 href="/terms"
                 style={{
-                  fontFamily: "var(--font-dm-mono), monospace",
+                  fontFamily: "var(--font-barlow-condensed), sans-serif",
                   fontSize: "10px",
                   letterSpacing: "0.1em",
                   color: "rgba(245,240,235,0.3)",

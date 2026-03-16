@@ -39,12 +39,16 @@
       "Bash(sed -i '' 's|photo-1566576912-9bbbb76bcf66|photo-1614252369475-531eba835eb1|g' /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/fleet/page.tsx)",
       "Bash(sed -i '' 's|photo-1566576912-9bbbb76bcf66|photo-1614252369475-531eba835eb1|g' /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/services/page.tsx)",
       "Bash(sed -i '' 's|photo-1590080875-aced2f3bc4ff|photo-1526772662000-3f88f10405ff|g' /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/services/page.tsx)",
-      "Bash(sed -i '' 's|photo-1530739498450-fe0c3e1a16d2|photo-1577717903315-1691ae25ab3f|g' /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/contact/page.tsx)"
+      "Bash(sed -i '' 's|photo-1530739498450-fe0c3e1a16d2|photo-1577717903315-1691ae25ab3f|g' /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/contact/page.tsx)",
+      "Read(//Users/tasssop-macbook-pro/.claude/**)",
+      "Bash(grep -c \"C4965A\\\\|196,150,90\\\\|font-dm-mono\" /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/fleet/page.tsx /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/services/page.tsx /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/about/page.tsx /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/destinations/page.tsx /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/fleet/[slug]/page.tsx)",
+      "Bash(npm install:*)"
     ],
     "additionalDirectories": [
       "/Users/tasssop-macbook-pro/Desktop/almayachting/src/app/fleet",
       "/Users/tasssop-macbook-pro/Desktop/almayachting/src/app/fleet/[slug]",
-      "/Users/tasssop-macbook-pro/.claude/projects/-Users-tasssop-macbook-pro-Desktop-almayachting"
+      "/Users/tasssop-macbook-pro/.claude/projects/-Users-tasssop-macbook-pro-Desktop-almayachting",
+      "/Users/tasssop-macbook-pro/Desktop/almayachting/.claude"
     ]
   }
 }

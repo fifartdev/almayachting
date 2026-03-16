@@ -39,10 +39,11 @@ export default function FleetPage() {
           <p
             className="mb-3"
             style={{
-              fontFamily: "var(--font-dm-mono), monospace",
+              fontFamily: "var(--font-barlow-condensed), sans-serif",
+              fontWeight: 500,
               fontSize: "10px",
               letterSpacing: "0.22em",
-              color: "#C4965A",
+              color: "#8A9BA8",
               textTransform: "uppercase",
             }}
           >
@@ -69,7 +70,7 @@ export default function FleetPage() {
         className="py-6"
         style={{
           background: "#2C2C2C",
-          borderBottom: "1px solid rgba(196,150,90,0.15)",
+          borderBottom: "1px solid rgba(138,155,168,0.15)",
         }}
       >
         <div className="container-xl">
@@ -92,14 +93,15 @@ export default function FleetPage() {
                     fontFamily: "var(--font-barlow-condensed), sans-serif",
                     fontWeight: 700,
                     fontSize: "22px",
-                    color: "#C4965A",
+                    color: "#8A9BA8",
                   }}
                 >
                   5
                 </span>
                 <span
                   style={{
-                    fontFamily: "var(--font-dm-mono), monospace",
+                    fontFamily: "var(--font-barlow-condensed), sans-serif",
+                    fontWeight: 500,
                     fontSize: "9px",
                     letterSpacing: "0.15em",
                     color: "rgba(245,240,235,0.4)",
@@ -113,7 +115,7 @@ export default function FleetPage() {
                 style={{
                   width: "1px",
                   height: "32px",
-                  background: "rgba(196,150,90,0.2)",
+                  background: "rgba(138,155,168,0.2)",
                 }}
               />
               <div>
@@ -122,14 +124,15 @@ export default function FleetPage() {
                     fontFamily: "var(--font-barlow-condensed), sans-serif",
                     fontWeight: 700,
                     fontSize: "22px",
-                    color: "#C4965A",
+                    color: "#8A9BA8",
                   }}
                 >
                   44–55ft
                 </span>
                 <span
                   style={{
-                    fontFamily: "var(--font-dm-mono), monospace",
+                    fontFamily: "var(--font-barlow-condensed), sans-serif",
+                    fontWeight: 500,
                     fontSize: "9px",
                     letterSpacing: "0.15em",
                     color: "rgba(245,240,235,0.4)",
@@ -143,7 +146,7 @@ export default function FleetPage() {
                 style={{
                   width: "1px",
                   height: "32px",
-                  background: "rgba(196,150,90,0.2)",
+                  background: "rgba(138,155,168,0.2)",
                 }}
               />
               <div>
@@ -152,14 +155,15 @@ export default function FleetPage() {
                     fontFamily: "var(--font-barlow-condensed), sans-serif",
                     fontWeight: 700,
                     fontSize: "22px",
-                    color: "#C4965A",
+                    color: "#8A9BA8",
                   }}
                 >
                   6–8
                 </span>
                 <span
                   style={{
-                    fontFamily: "var(--font-dm-mono), monospace",
+                    fontFamily: "var(--font-barlow-condensed), sans-serif",
+                    fontWeight: 500,
                     fontSize: "9px",
                     letterSpacing: "0.15em",
                     color: "rgba(245,240,235,0.4)",
@@ -216,14 +220,15 @@ export default function FleetPage() {
                 <div
                   key={item.label}
                   className="p-6"
-                  style={{ border: "1px solid rgba(196,150,90,0.2)" }}
+                  style={{ border: "1px solid rgba(138,155,168,0.2)" }}
                 >
                   <p
                     style={{
-                      fontFamily: "var(--font-dm-mono), monospace",
+                      fontFamily: "var(--font-barlow-condensed), sans-serif",
+                      fontWeight: 500,
                       fontSize: "9px",
                       letterSpacing: "0.18em",
-                      color: "#C4965A",
+                      color: "#8A9BA8",
                       textTransform: "uppercase",
                       marginBottom: "8px",
                     }}

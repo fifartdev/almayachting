@@ -124,7 +124,7 @@ export default function Navigation() {
                       href={link.href}
                       className="nav-link"
                       style={{
-                        color: isActive ? "#C4965A" : "rgba(245,240,235,0.85)",
+                        color: isActive ? "#8A9BA8" : "rgba(245,240,235,0.85)",
                       }}
                     >
                       {link.label}
@@ -191,7 +191,7 @@ export default function Navigation() {
             background: "rgba(44, 44, 44, 0.98)",
             backdropFilter: "blur(20px)",
             transform: menuOpen ? "translateX(0)" : "translateX(100%)",
-            borderLeft: "1px solid rgba(196, 150, 90, 0.2)",
+            borderLeft: "1px solid rgba(138, 155, 168, 0.2)",
           }}
         >
           <div className="flex items-center justify-between px-6 h-[72px]">
@@ -201,7 +201,7 @@ export default function Navigation() {
                 fontWeight: 700,
                 fontSize: "14px",
                 letterSpacing: "0.2em",
-                color: "#C4965A",
+                color: "#8A9BA8",
               }}
             >
               MENU
@@ -214,7 +214,7 @@ export default function Navigation() {
             </button>
           </div>
 
-          <div className="w-[40px] h-[1px] mx-6" style={{ background: "rgba(196, 150, 90, 0.3)" }} />
+          <div className="w-[40px] h-[1px] mx-6" style={{ background: "rgba(138, 155, 168, 0.2)" }} />
 
           <nav className="flex-1 px-6 py-8">
             <ul className="space-y-1 list-none p-0 m-0">
@@ -236,7 +236,7 @@ export default function Navigation() {
                           fontWeight: 700,
                           fontSize: "22px",
                           letterSpacing: "0.05em",
-                          color: isActive ? "#C4965A" : "rgba(245,240,235,0.85)",
+                          color: isActive ? "#8A9BA8" : "rgba(245,240,235,0.85)",
                           transition: "color 0.2s ease",
                         }}
                       >
@@ -244,9 +244,10 @@ export default function Navigation() {
                       </span>
                       <span
                         style={{
-                          fontFamily: "var(--font-dm-mono), monospace",
+                          fontFamily: "var(--font-barlow-condensed), sans-serif",
+                          fontWeight: 400,
                           fontSize: "11px",
-                          color: "rgba(196,150,90,0.5)",
+                          color: "rgba(138,155,168,0.5)",
                         }}
                       >
                         0{i + 1}

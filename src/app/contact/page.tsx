@@ -18,6 +18,7 @@ export default function ContactPage() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -28,13 +29,24 @@ export default function ContactPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    setError(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Something went wrong.");
       setSubmitted(true);
-    }, 1200);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -63,10 +75,11 @@ export default function ContactPage() {
           <p
             className="mb-3"
             style={{
-              fontFamily: "var(--font-dm-mono), monospace",
+              fontFamily: "var(--font-barlow-condensed), sans-serif",
+              fontWeight: 500,
               fontSize: "10px",
               letterSpacing: "0.22em",
-              color: "#C4965A",
+              color: "#8A9BA8",
               textTransform: "uppercase",
             }}
           >
@@ -98,7 +111,7 @@ export default function ContactPage() {
                 style={{
                   width: "40px",
                   height: "1px",
-                  background: "#C4965A",
+                  background: "rgba(10,22,40,0.2)",
                   marginBottom: "28px",
                 }}
               />
@@ -136,17 +149,17 @@ export default function ContactPage() {
                 <div className="flex items-start gap-4">
                   <div
                     className="flex items-center justify-center w-10 h-10 shrink-0 mt-0.5"
-                    style={{ border: "1px solid rgba(196,150,90,0.4)" }}
+                    style={{ border: "1px solid rgba(10,22,40,0.15)" }}
                   >
-                    <MapPin size={16} style={{ color: "#C4965A" }} />
+                    <MapPin size={16} style={{ color: "#0A1628" }} />
                   </div>
                   <div>
                     <p
                       style={{
-                        fontFamily: "var(--font-dm-mono), monospace",
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
                         fontSize: "9px",
                         letterSpacing: "0.18em",
-                        color: "#C4965A",
+                        color: "#0A1628",
                         textTransform: "uppercase",
                         marginBottom: "6px",
                       }}
@@ -161,9 +174,9 @@ export default function ContactPage() {
                         lineHeight: "1.6",
                       }}
                     >
-                      Alimos Marina, Athens
+                      46 Archimidous str., 17563
                       <br />
-                      Athens, Greece 12345
+                      Paleo Faliro, Athens, Greece
                     </p>
                   </div>
                 </div>
@@ -171,17 +184,17 @@ export default function ContactPage() {
                 <div className="flex items-start gap-4">
                   <div
                     className="flex items-center justify-center w-10 h-10 shrink-0 mt-0.5"
-                    style={{ border: "1px solid rgba(196,150,90,0.4)" }}
+                    style={{ border: "1px solid rgba(10,22,40,0.15)" }}
                   >
-                    <Phone size={16} style={{ color: "#C4965A" }} />
+                    <Phone size={16} style={{ color: "#0A1628" }} />
                   </div>
                   <div>
                     <p
                       style={{
-                        fontFamily: "var(--font-dm-mono), monospace",
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
                         fontSize: "9px",
                         letterSpacing: "0.18em",
-                        color: "#C4965A",
+                        color: "#0A1628",
                         textTransform: "uppercase",
                         marginBottom: "6px",
                       }}
@@ -189,7 +202,7 @@ export default function ContactPage() {
                       Phone
                     </p>
                     <a
-                      href="tel:+302101234567"
+                      href="tel:+302103001618"
                       style={{
                         fontFamily: "var(--font-cormorant-garamond), serif",
                         fontSize: "17px",
@@ -199,14 +212,14 @@ export default function ContactPage() {
                       }}
                       onMouseEnter={(e) =>
                         ((e.currentTarget as HTMLElement).style.color =
-                          "#C4965A")
+                          "#0A1628")
                       }
                       onMouseLeave={(e) =>
                         ((e.currentTarget as HTMLElement).style.color =
                           "#2C2C2C")
                       }
                     >
-                      +30 210 123 4567
+                      +30 210 300 1618
                     </a>
                   </div>
                 </div>
@@ -214,17 +227,17 @@ export default function ContactPage() {
                 <div className="flex items-start gap-4">
                   <div
                     className="flex items-center justify-center w-10 h-10 shrink-0 mt-0.5"
-                    style={{ border: "1px solid rgba(196,150,90,0.4)" }}
+                    style={{ border: "1px solid rgba(10,22,40,0.15)" }}
                   >
-                    <Mail size={16} style={{ color: "#C4965A" }} />
+                    <Mail size={16} style={{ color: "#0A1628" }} />
                   </div>
                   <div>
                     <p
                       style={{
-                        fontFamily: "var(--font-dm-mono), monospace",
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
                         fontSize: "9px",
                         letterSpacing: "0.18em",
-                        color: "#C4965A",
+                        color: "#0A1628",
                         textTransform: "uppercase",
                         marginBottom: "6px",
                       }}
@@ -242,7 +255,7 @@ export default function ContactPage() {
                       }}
                       onMouseEnter={(e) =>
                         ((e.currentTarget as HTMLElement).style.color =
-                          "#C4965A")
+                          "#0A1628")
                       }
                       onMouseLeave={(e) =>
                         ((e.currentTarget as HTMLElement).style.color =
@@ -257,17 +270,17 @@ export default function ContactPage() {
                 <div className="flex items-start gap-4">
                   <div
                     className="flex items-center justify-center w-10 h-10 shrink-0 mt-0.5"
-                    style={{ border: "1px solid rgba(196,150,90,0.4)" }}
+                    style={{ border: "1px solid rgba(10,22,40,0.15)" }}
                   >
-                    <Clock size={16} style={{ color: "#C4965A" }} />
+                    <Clock size={16} style={{ color: "#0A1628" }} />
                   </div>
                   <div>
                     <p
                       style={{
-                        fontFamily: "var(--font-dm-mono), monospace",
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
                         fontSize: "9px",
                         letterSpacing: "0.18em",
-                        color: "#C4965A",
+                        color: "#0A1628",
                         textTransform: "uppercase",
                         marginBottom: "6px",
                       }}
@@ -322,10 +335,10 @@ export default function ContactPage() {
                       backdropFilter: "blur(8px)",
                     }}
                   >
-                    <Anchor size={14} style={{ color: "#C4965A" }} />
+                    <Anchor size={14} style={{ color: "#8A9BA8" }} />
                     <span
                       style={{
-                        fontFamily: "var(--font-dm-mono), monospace",
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
                         fontSize: "10px",
                         letterSpacing: "0.15em",
                         color: "#F5F0EB",
@@ -350,11 +363,11 @@ export default function ContactPage() {
                     <div
                       className="flex items-center justify-center w-16 h-16 mb-6"
                       style={{
-                        border: "1px solid #C4965A",
-                        background: "rgba(196,150,90,0.08)",
+                        border: "1px solid rgba(10,22,40,0.2)",
+                        background: "rgba(10,22,40,0.04)",
                       }}
                     >
-                      <Anchor size={24} style={{ color: "#C4965A" }} />
+                      <Anchor size={24} style={{ color: "#0A1628" }} />
                     </div>
                     <h3
                       className="mb-4"
@@ -387,10 +400,10 @@ export default function ContactPage() {
                     <div className="mb-8">
                       <p
                         style={{
-                          fontFamily: "var(--font-dm-mono), monospace",
+                          fontFamily: "var(--font-barlow-condensed), sans-serif",
                           fontSize: "9px",
                           letterSpacing: "0.2em",
-                          color: "#C4965A",
+                          color: "#0A1628",
                           textTransform: "uppercase",
                           marginBottom: "10px",
                         }}
@@ -421,7 +434,7 @@ export default function ContactPage() {
                             htmlFor="name"
                             style={{
                               display: "block",
-                              fontFamily: "var(--font-dm-mono), monospace",
+                              fontFamily: "var(--font-barlow-condensed), sans-serif",
                               fontSize: "9px",
                               letterSpacing: "0.18em",
                               color: "rgba(44,44,44,0.45)",
@@ -447,7 +460,7 @@ export default function ContactPage() {
                             htmlFor="email"
                             style={{
                               display: "block",
-                              fontFamily: "var(--font-dm-mono), monospace",
+                              fontFamily: "var(--font-barlow-condensed), sans-serif",
                               fontSize: "9px",
                               letterSpacing: "0.18em",
                               color: "rgba(44,44,44,0.45)",
@@ -477,7 +490,7 @@ export default function ContactPage() {
                             htmlFor="phone"
                             style={{
                               display: "block",
-                              fontFamily: "var(--font-dm-mono), monospace",
+                              fontFamily: "var(--font-barlow-condensed), sans-serif",
                               fontSize: "9px",
                               letterSpacing: "0.18em",
                               color: "rgba(44,44,44,0.45)",
@@ -502,7 +515,7 @@ export default function ContactPage() {
                             htmlFor="yacht"
                             style={{
                               display: "block",
-                              fontFamily: "var(--font-dm-mono), monospace",
+                              fontFamily: "var(--font-barlow-condensed), sans-serif",
                               fontSize: "9px",
                               letterSpacing: "0.18em",
                               color: "rgba(44,44,44,0.45)",
@@ -541,7 +554,7 @@ export default function ContactPage() {
                             htmlFor="checkIn"
                             style={{
                               display: "block",
-                              fontFamily: "var(--font-dm-mono), monospace",
+                              fontFamily: "var(--font-barlow-condensed), sans-serif",
                               fontSize: "9px",
                               letterSpacing: "0.18em",
                               color: "rgba(44,44,44,0.45)",
@@ -565,7 +578,7 @@ export default function ContactPage() {
                             htmlFor="checkOut"
                             style={{
                               display: "block",
-                              fontFamily: "var(--font-dm-mono), monospace",
+                              fontFamily: "var(--font-barlow-condensed), sans-serif",
                               fontSize: "9px",
                               letterSpacing: "0.18em",
                               color: "rgba(44,44,44,0.45)",
@@ -592,7 +605,7 @@ export default function ContactPage() {
                           htmlFor="guests"
                           style={{
                             display: "block",
-                            fontFamily: "var(--font-dm-mono), monospace",
+                            fontFamily: "var(--font-barlow-condensed), sans-serif",
                             fontSize: "9px",
                             letterSpacing: "0.18em",
                             color: "rgba(44,44,44,0.45)",
@@ -629,7 +642,7 @@ export default function ContactPage() {
                           htmlFor="message"
                           style={{
                             display: "block",
-                            fontFamily: "var(--font-dm-mono), monospace",
+                            fontFamily: "var(--font-barlow-condensed), sans-serif",
                             fontSize: "9px",
                             letterSpacing: "0.18em",
                             color: "rgba(44,44,44,0.45)",
@@ -655,7 +668,7 @@ export default function ContactPage() {
                       <div className="flex items-center justify-between pt-2">
                         <p
                           style={{
-                            fontFamily: "var(--font-dm-mono), monospace",
+                            fontFamily: "var(--font-barlow-condensed), sans-serif",
                             fontSize: "9px",
                             letterSpacing: "0.12em",
                             color: "rgba(44,44,44,0.35)",
@@ -683,6 +696,19 @@ export default function ContactPage() {
                           )}
                         </button>
                       </div>
+                      {error && (
+                        <p
+                          style={{
+                            fontFamily: "var(--font-barlow-condensed), sans-serif",
+                            fontWeight: 500,
+                            fontSize: "12px",
+                            color: "#c0392b",
+                            marginTop: "16px",
+                          }}
+                        >
+                          {error}
+                        </p>
+                      )}
                     </form>
                   </>
                 )}

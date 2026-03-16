@@ -59,7 +59,7 @@ export default function HomePage() {
                 style={{
                   width: "40px",
                   height: "1px",
-                  background: "#C4965A",
+                  background: "rgba(10,22,40,0.2)",
                   marginBottom: "32px",
                 }}
               />
@@ -80,10 +80,11 @@ export default function HomePage() {
               </blockquote>
               <p
                 style={{
-                  fontFamily: "var(--font-dm-mono), monospace",
+                  fontFamily: "var(--font-barlow-condensed), sans-serif",
+                  fontWeight: 500,
                   fontSize: "10px",
                   letterSpacing: "0.2em",
-                  color: "#C4965A",
+                  color: "rgba(10,22,40,0.5)",
                 }}
               >
                 — ALMA YACHTING, GREECE
@@ -154,7 +155,7 @@ export default function HomePage() {
                 fontSize: "12px",
                 letterSpacing: "0.14em",
                 textTransform: "uppercase",
-                color: "#C4965A",
+                color: "#0A1628",
                 whiteSpace: "nowrap",
               }}
             >
@@ -202,17 +203,18 @@ export default function HomePage() {
                 >
                   <div
                     className="mb-6 flex items-center justify-center w-12 h-12"
-                    style={{ border: "1px solid rgba(196,150,90,0.3)" }}
+                    style={{ border: "1px solid rgba(138,155,168,0.25)" }}
                   >
-                    <Icon size={20} style={{ color: "#C4965A" }} />
+                    <Icon size={20} style={{ color: "#8A9BA8" }} />
                   </div>
 
                   <span
                     className="absolute top-6 right-6"
                     style={{
-                      fontFamily: "var(--font-dm-mono), monospace",
+                      fontFamily: "var(--font-barlow-condensed), sans-serif",
+                      fontWeight: 400,
                       fontSize: "10px",
-                      color: "rgba(196,150,90,0.3)",
+                      color: "rgba(138,155,168,0.3)",
                       letterSpacing: "0.1em",
                     }}
                   >
@@ -252,7 +254,7 @@ export default function HomePage() {
                       fontSize: "11px",
                       letterSpacing: "0.14em",
                       textTransform: "uppercase",
-                      color: "#C4965A",
+                      color: "#8A9BA8",
                     }}
                   >
                     Learn More
@@ -261,7 +263,7 @@ export default function HomePage() {
 
                   <div
                     className="absolute bottom-0 left-0 right-0 h-0.5 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"
-                    style={{ background: "#C4965A" }}
+                    style={{ background: "#8A9BA8" }}
                   />
                 </Link>
               );
@@ -295,7 +297,7 @@ export default function HomePage() {
                 fontSize: "12px",
                 letterSpacing: "0.14em",
                 textTransform: "uppercase",
-                color: "#C4965A",
+                color: "#0A1628",
                 whiteSpace: "nowrap",
               }}
             >
@@ -330,10 +332,11 @@ export default function HomePage() {
                 <div
                   className="flex items-center gap-2 mb-2"
                   style={{
-                    fontFamily: "var(--font-dm-mono), monospace",
+                    fontFamily: "var(--font-barlow-condensed), sans-serif",
+                    fontWeight: 500,
                     fontSize: "10px",
                     letterSpacing: "0.15em",
-                    color: "#C4965A",
+                    color: "#8A9BA8",
                   }}
                 >
                   <MapPin size={11} />
@@ -380,10 +383,11 @@ export default function HomePage() {
                   <div className="absolute bottom-0 left-0 p-4">
                     <p
                       style={{
-                        fontFamily: "var(--font-dm-mono), monospace",
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
+                        fontWeight: 500,
                         fontSize: "9px",
                         letterSpacing: "0.15em",
-                        color: "#C4965A",
+                        color: "#8A9BA8",
                         marginBottom: "4px",
                       }}
                     >
@@ -429,16 +433,17 @@ export default function HomePage() {
         >
           <div
             className="mx-auto mb-8"
-            style={{ width: "60px", height: "1px", background: "#C4965A" }}
+            style={{ width: "60px", height: "1px", background: "rgba(138,155,168,0.4)" }}
           />
 
           <p
             className="mb-4"
             style={{
-              fontFamily: "var(--font-dm-mono), monospace",
+              fontFamily: "var(--font-barlow-condensed), sans-serif",
+              fontWeight: 500,
               fontSize: "10px",
               letterSpacing: "0.2em",
-              color: "#C4965A",
+              color: "#8A9BA8",
               textTransform: "uppercase",
             }}
           >
@@ -489,7 +494,7 @@ export default function HomePage() {
               style={{
                 width: "30px",
                 height: "1px",
-                background: "rgba(196,150,90,0.4)",
+                background: "rgba(138,155,168,0.3)",
               }}
             />
             <span
@@ -497,7 +502,7 @@ export default function HomePage() {
                 fontFamily: "var(--font-dm-mono), monospace",
                 fontSize: "10px",
                 letterSpacing: "0.18em",
-                color: "rgba(196,150,90,0.4)",
+                color: "rgba(138,155,168,0.4)",
               }}
             >
               MARINA ZEA · PIRAEUS · ATHENS
@@ -506,7 +511,7 @@ export default function HomePage() {
               style={{
                 width: "30px",
                 height: "1px",
-                background: "rgba(196,150,90,0.4)",
+                background: "rgba(138,155,168,0.3)",
               }}
             />
           </div>

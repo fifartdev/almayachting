@@ -37,10 +37,11 @@ export default function FleetCard({ yacht }: FleetCardProps) {
         >
           <span
             style={{
-              fontFamily: "var(--font-dm-mono), monospace",
+              fontFamily: "var(--font-barlow-condensed), sans-serif",
+              fontWeight: 500,
               fontSize: "10px",
               letterSpacing: "0.15em",
-              color: "#C4965A",
+              color: "#8A9BA8",
             }}
           >
             {yacht.year}
@@ -63,10 +64,11 @@ export default function FleetCard({ yacht }: FleetCardProps) {
         <p
           className="mb-2"
           style={{
-            fontFamily: "var(--font-dm-mono), monospace",
+            fontFamily: "var(--font-barlow-condensed), sans-serif",
+            fontWeight: 500,
             fontSize: "9px",
             letterSpacing: "0.18em",
-            color: "#C4965A",
+            color: "rgba(10,22,40,0.5)",
             textTransform: "uppercase",
           }}
         >
@@ -97,7 +99,8 @@ export default function FleetCard({ yacht }: FleetCardProps) {
             <Ruler size={13} style={{ color: "#8A9BA8" }} />
             <span
               style={{
-                fontFamily: "var(--font-dm-mono), monospace",
+                fontFamily: "var(--font-barlow-condensed), sans-serif",
+                fontWeight: 500,
                 fontSize: "11px",
                 color: "#8A9BA8",
               }}
@@ -109,7 +112,8 @@ export default function FleetCard({ yacht }: FleetCardProps) {
             <Users size={13} style={{ color: "#8A9BA8" }} />
             <span
               style={{
-                fontFamily: "var(--font-dm-mono), monospace",
+                fontFamily: "var(--font-barlow-condensed), sans-serif",
+                fontWeight: 500,
                 fontSize: "11px",
                 color: "#8A9BA8",
               }}
@@ -121,7 +125,8 @@ export default function FleetCard({ yacht }: FleetCardProps) {
             <Bed size={13} style={{ color: "#8A9BA8" }} />
             <span
               style={{
-                fontFamily: "var(--font-dm-mono), monospace",
+                fontFamily: "var(--font-barlow-condensed), sans-serif",
+                fontWeight: 500,
                 fontSize: "11px",
                 color: "#8A9BA8",
               }}
@@ -136,7 +141,8 @@ export default function FleetCard({ yacht }: FleetCardProps) {
           <div>
             <span
               style={{
-                fontFamily: "var(--font-dm-mono), monospace",
+                fontFamily: "var(--font-barlow-condensed), sans-serif",
+                fontWeight: 500,
                 fontSize: "10px",
                 letterSpacing: "0.1em",
                 color: "#8A9BA8",
@@ -155,7 +161,7 @@ export default function FleetCard({ yacht }: FleetCardProps) {
               €{yacht.startingPrice.toLocaleString()}
               <span
                 style={{
-                  fontFamily: "var(--font-dm-mono), monospace",
+                  fontFamily: "var(--font-barlow-condensed), sans-serif",
                   fontSize: "10px",
                   fontWeight: 400,
                   color: "#8A9BA8",
@@ -175,7 +181,7 @@ export default function FleetCard({ yacht }: FleetCardProps) {
               fontSize: "12px",
               letterSpacing: "0.12em",
               textTransform: "uppercase",
-              color: "#C4965A",
+              color: "#0A1628",
             }}
           >
             View Details
@@ -187,10 +193,10 @@ export default function FleetCard({ yacht }: FleetCardProps) {
         </div>
       </div>
 
-      {/* Gold bottom border on hover */}
+      {/* Bottom border on hover */}
       <div
         className="h-[2px] transition-all duration-500 origin-left scale-x-0 group-hover:scale-x-100"
-        style={{ background: "#C4965A" }}
+        style={{ background: "#0A1628" }}
       />
     </Link>
   );

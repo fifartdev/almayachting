@@ -38,18 +38,19 @@ export default function SectionTitle({
               style={{
                 width: "30px",
                 height: "1px",
-                background: "#C4965A",
+                background: light ? "rgba(138,155,168,0.5)" : "rgba(10,22,40,0.25)",
                 flexShrink: 0,
               }}
             />
           )}
           <span
             style={{
-              fontFamily: "var(--font-dm-mono), monospace",
+              fontFamily: "var(--font-barlow-condensed), sans-serif",
+              fontWeight: 500,
               fontSize: "10px",
               letterSpacing: "0.2em",
               textTransform: "uppercase",
-              color: "#C4965A",
+              color: light ? "#8A9BA8" : "rgba(10,22,40,0.55)",
             }}
           >
             {label}
@@ -59,7 +60,7 @@ export default function SectionTitle({
               style={{
                 width: "30px",
                 height: "1px",
-                background: "#C4965A",
+                background: light ? "rgba(138,155,168,0.5)" : "rgba(10,22,40,0.25)",
                 flexShrink: 0,
               }}
             />

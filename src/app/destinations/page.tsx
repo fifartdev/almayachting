@@ -62,10 +62,11 @@ export default function DestinationsPage() {
           <p
             className="mb-3"
             style={{
-              fontFamily: "var(--font-dm-mono), monospace",
+              fontFamily: "var(--font-barlow-condensed), sans-serif",
+              fontWeight: 500,
               fontSize: "10px",
               letterSpacing: "0.22em",
-              color: "#C4965A",
+              color: "#8A9BA8",
               textTransform: "uppercase",
             }}
           >
@@ -115,9 +116,9 @@ export default function DestinationsPage() {
                 >
                   <div
                     className="flex items-center justify-center w-10 h-10 mb-5"
-                    style={{ border: "1px solid rgba(196,150,90,0.3)" }}
+                    style={{ border: "1px solid rgba(138,155,168,0.3)" }}
                   >
-                    <Icon size={18} style={{ color: "#C4965A" }} />
+                    <Icon size={18} style={{ color: "#8A9BA8" }} />
                   </div>
                   <h3
                     className="mb-3"
@@ -148,11 +149,12 @@ export default function DestinationsPage() {
                       <span
                         key={island}
                         style={{
-                          fontFamily: "var(--font-dm-mono), monospace",
+                          fontFamily: "var(--font-barlow-condensed), sans-serif",
+                          fontWeight: 500,
                           fontSize: "9px",
                           letterSpacing: "0.12em",
-                          color: "rgba(196,150,90,0.7)",
-                          border: "1px solid rgba(196,150,90,0.2)",
+                          color: "rgba(138,155,168,0.7)",
+                          border: "1px solid rgba(138,155,168,0.2)",
                           padding: "3px 8px",
                           textTransform: "uppercase",
                         }}
@@ -209,7 +211,8 @@ export default function DestinationsPage() {
                   <div
                     className="absolute top-6 left-6"
                     style={{
-                      fontFamily: "var(--font-dm-mono), monospace",
+                      fontFamily: "var(--font-barlow-condensed), sans-serif",
+                      fontWeight: 500,
                       fontSize: "10px",
                       letterSpacing: "0.18em",
                       color: "rgba(245,240,235,0.6)",
@@ -225,13 +228,14 @@ export default function DestinationsPage() {
                 {/* Text */}
                 <div className={i % 2 === 1 ? "lg:order-1" : ""}>
                   <div className="flex items-center gap-3 mb-4">
-                    <MapPin size={13} style={{ color: "#C4965A" }} />
+                    <MapPin size={13} style={{ color: "#0A1628" }} />
                     <span
                       style={{
-                        fontFamily: "var(--font-dm-mono), monospace",
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
+                        fontWeight: 500,
                         fontSize: "10px",
                         letterSpacing: "0.18em",
-                        color: "#C4965A",
+                        color: "#0A1628",
                         textTransform: "uppercase",
                       }}
                     >
@@ -241,12 +245,13 @@ export default function DestinationsPage() {
                       style={{
                         width: "20px",
                         height: "1px",
-                        background: "rgba(196,150,90,0.4)",
+                        background: "rgba(10,22,40,0.4)",
                       }}
                     />
                     <span
                       style={{
-                        fontFamily: "var(--font-dm-mono), monospace",
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
+                        fontWeight: 500,
                         fontSize: "10px",
                         letterSpacing: "0.12em",
                         color: "rgba(44,44,44,0.4)",
@@ -293,7 +298,7 @@ export default function DestinationsPage() {
                             width: "4px",
                             height: "4px",
                             borderRadius: "50%",
-                            background: "#C4965A",
+                            background: "#0A1628",
                             marginTop: "9px",
                             flexShrink: 0,
                           }}
@@ -314,7 +319,8 @@ export default function DestinationsPage() {
                   <div
                     className="flex items-center gap-3"
                     style={{
-                      fontFamily: "var(--font-dm-mono), monospace",
+                      fontFamily: "var(--font-barlow-condensed), sans-serif",
+                      fontWeight: 500,
                       fontSize: "10px",
                       letterSpacing: "0.14em",
                       color: "rgba(44,44,44,0.4)",
@@ -322,7 +328,7 @@ export default function DestinationsPage() {
                     }}
                   >
                     <span>Best season:</span>
-                    <span style={{ color: "#C4965A" }}>{dest.bestSeason}</span>
+                    <span style={{ color: "#0A1628" }}>{dest.bestSeason}</span>
                   </div>
                 </div>
               </div>
@@ -342,15 +348,16 @@ export default function DestinationsPage() {
         >
           <div
             className="mx-auto mb-8"
-            style={{ width: "50px", height: "1px", background: "#C4965A" }}
+            style={{ width: "50px", height: "1px", background: "#8A9BA8" }}
           />
           <p
             className="mb-4"
             style={{
-              fontFamily: "var(--font-dm-mono), monospace",
+              fontFamily: "var(--font-barlow-condensed), sans-serif",
+              fontWeight: 500,
               fontSize: "10px",
               letterSpacing: "0.2em",
-              color: "#C4965A",
+              color: "#8A9BA8",
               textTransform: "uppercase",
             }}
           >

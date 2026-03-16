@@ -72,7 +72,7 @@ export default function YachtDetailClient({ yacht, related }: Props) {
             <div
               className="flex items-center gap-2"
               style={{
-                fontFamily: "var(--font-dm-mono), monospace",
+                fontFamily: "var(--font-barlow-condensed), sans-serif",
                 fontSize: "10px",
                 letterSpacing: "0.15em",
                 color: "rgba(245,240,235,0.5)",
@@ -83,7 +83,7 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                 href="/fleet"
                 style={{ color: "rgba(245,240,235,0.5)" }}
                 onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLElement).style.color = "#C4965A")
+                  ((e.currentTarget as HTMLElement).style.color = "#8A9BA8")
                 }
                 onMouseLeave={(e) =>
                   ((e.currentTarget as HTMLElement).style.color =
@@ -93,7 +93,7 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                 Fleet
               </Link>
               <ChevronRight size={12} />
-              <span style={{ color: "#C4965A" }}>{yacht.name}</span>
+              <span style={{ color: "#8A9BA8" }}>{yacht.name}</span>
             </div>
           </div>
         </div>
@@ -102,10 +102,11 @@ export default function YachtDetailClient({ yacht, related }: Props) {
           <p
             className="mb-3"
             style={{
-              fontFamily: "var(--font-dm-mono), monospace",
+              fontFamily: "var(--font-barlow-condensed), sans-serif",
+              fontWeight: 500,
               fontSize: "10px",
               letterSpacing: "0.2em",
-              color: "#C4965A",
+              color: "#8A9BA8",
             }}
           >
             {yacht.type} · {yacht.year}
@@ -135,10 +136,10 @@ export default function YachtDetailClient({ yacht, related }: Props) {
               const Icon = spec.icon;
               return (
                 <div key={spec.label} className="flex items-center gap-2">
-                  <Icon size={14} style={{ color: "#C4965A" }} />
+                  <Icon size={14} style={{ color: "#8A9BA8" }} />
                   <span
                     style={{
-                      fontFamily: "var(--font-dm-mono), monospace",
+                      fontFamily: "var(--font-barlow-condensed), sans-serif",
                       fontSize: "11px",
                       color: "rgba(245,240,235,0.75)",
                       letterSpacing: "0.05em",
@@ -165,7 +166,7 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                   style={{
                     width: "40px",
                     height: "1px",
-                    background: "#C4965A",
+                    background: "rgba(10,22,40,0.2)",
                     marginBottom: "24px",
                   }}
                 />
@@ -203,7 +204,7 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                         style={{
                           width: "16px",
                           height: "16px",
-                          border: "1px solid #C4965A",
+                          border: "1px solid rgba(10,22,40,0.25)",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
@@ -215,7 +216,7 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                           style={{
                             width: "4px",
                             height: "4px",
-                            background: "#C4965A",
+                            background: "#0A1628",
                           }}
                         />
                       </div>
@@ -309,7 +310,7 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                     >
                       <span
                         style={{
-                          fontFamily: "var(--font-dm-mono), monospace",
+                          fontFamily: "var(--font-barlow-condensed), sans-serif",
                           fontSize: "10px",
                           letterSpacing: "0.12em",
                           color: "#8A9BA8",
@@ -386,20 +387,20 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                 className="lg:sticky lg:top-28"
                 style={{
                   background: "#2C2C2C",
-                  border: "1px solid rgba(196,150,90,0.2)",
+                  border: "1px solid rgba(138,155,168,0.15)",
                 }}
               >
                 {/* Price header */}
                 <div
                   className="px-7 py-6"
-                  style={{ borderBottom: "1px solid rgba(196,150,90,0.15)" }}
+                  style={{ borderBottom: "1px solid rgba(138,155,168,0.15)" }}
                 >
                   <p
                     style={{
-                      fontFamily: "var(--font-dm-mono), monospace",
+                      fontFamily: "var(--font-barlow-condensed), sans-serif",
                       fontSize: "9px",
                       letterSpacing: "0.2em",
-                      color: "rgba(196,150,90,0.6)",
+                      color: "rgba(138,155,168,0.7)",
                       textTransform: "uppercase",
                       marginBottom: "6px",
                     }}
@@ -422,7 +423,7 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                         fontWeight: 400,
                         color: "rgba(245,240,235,0.45)",
                         marginLeft: "6px",
-                        fontFamily: "var(--font-dm-mono), monospace",
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
                       }}
                     >
                       / week
@@ -436,9 +437,9 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                     <div className="text-center py-8">
                       <div
                         className="flex items-center justify-center w-12 h-12 mx-auto mb-4"
-                        style={{ border: "1px solid #C4965A" }}
+                        style={{ border: "1px solid rgba(138,155,168,0.4)" }}
                       >
-                        <Anchor size={20} style={{ color: "#C4965A" }} />
+                        <Anchor size={20} style={{ color: "#8A9BA8" }} />
                       </div>
                       <p
                         style={{
@@ -508,10 +509,10 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                             htmlFor={`sidebar-${field.name}`}
                             style={{
                               display: "block",
-                              fontFamily: "var(--font-dm-mono), monospace",
+                              fontFamily: "var(--font-barlow-condensed), sans-serif",
                               fontSize: "9px",
                               letterSpacing: "0.15em",
-                              color: "rgba(196,150,90,0.6)",
+                              color: "rgba(138,155,168,0.7)",
                               textTransform: "uppercase",
                               marginBottom: "6px",
                             }}
@@ -535,7 +536,7 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                             className="form-input"
                             style={{
                               color: "#F5F0EB",
-                              borderBottomColor: "rgba(196,150,90,0.25)",
+                              borderBottomColor: "rgba(138,155,168,0.2)",
                             }}
                           />
                         </div>
@@ -547,10 +548,10 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                             htmlFor="sidebar-checkin"
                             style={{
                               display: "block",
-                              fontFamily: "var(--font-dm-mono), monospace",
+                              fontFamily: "var(--font-barlow-condensed), sans-serif",
                               fontSize: "9px",
                               letterSpacing: "0.15em",
-                              color: "rgba(196,150,90,0.6)",
+                              color: "rgba(138,155,168,0.7)",
                               textTransform: "uppercase",
                               marginBottom: "6px",
                             }}
@@ -571,7 +572,7 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                             className="form-input"
                             style={{
                               color: "#F5F0EB",
-                              borderBottomColor: "rgba(196,150,90,0.25)",
+                              borderBottomColor: "rgba(138,155,168,0.2)",
                               colorScheme: "dark",
                             }}
                           />
@@ -581,10 +582,10 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                             htmlFor="sidebar-checkout"
                             style={{
                               display: "block",
-                              fontFamily: "var(--font-dm-mono), monospace",
+                              fontFamily: "var(--font-barlow-condensed), sans-serif",
                               fontSize: "9px",
                               letterSpacing: "0.15em",
-                              color: "rgba(196,150,90,0.6)",
+                              color: "rgba(138,155,168,0.7)",
                               textTransform: "uppercase",
                               marginBottom: "6px",
                             }}
@@ -605,7 +606,7 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                             className="form-input"
                             style={{
                               color: "#F5F0EB",
-                              borderBottomColor: "rgba(196,150,90,0.25)",
+                              borderBottomColor: "rgba(138,155,168,0.2)",
                               colorScheme: "dark",
                             }}
                           />
@@ -617,10 +618,10 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                           htmlFor="sidebar-guests"
                           style={{
                             display: "block",
-                            fontFamily: "var(--font-dm-mono), monospace",
+                            fontFamily: "var(--font-barlow-condensed), sans-serif",
                             fontSize: "9px",
                             letterSpacing: "0.15em",
-                            color: "rgba(196,150,90,0.6)",
+                            color: "rgba(138,155,168,0.7)",
                             textTransform: "uppercase",
                             marginBottom: "6px",
                           }}
@@ -642,7 +643,7 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                             color: formData.guests
                               ? "#F5F0EB"
                               : "rgba(138,155,168,0.8)",
-                            borderBottomColor: "rgba(196,150,90,0.25)",
+                            borderBottomColor: "rgba(138,155,168,0.2)",
                           }}
                         >
                           <option value="" disabled>
@@ -664,10 +665,10 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                           htmlFor="sidebar-message"
                           style={{
                             display: "block",
-                            fontFamily: "var(--font-dm-mono), monospace",
+                            fontFamily: "var(--font-barlow-condensed), sans-serif",
                             fontSize: "9px",
                             letterSpacing: "0.15em",
-                            color: "rgba(196,150,90,0.6)",
+                            color: "rgba(138,155,168,0.7)",
                             textTransform: "uppercase",
                             marginBottom: "6px",
                           }}
@@ -688,7 +689,7 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                           className="form-input"
                           style={{
                             color: "#F5F0EB",
-                            borderBottomColor: "rgba(196,150,90,0.25)",
+                            borderBottomColor: "rgba(138,155,168,0.2)",
                             resize: "none",
                           }}
                         />
@@ -719,10 +720,10 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                 <p
                   className="mb-3"
                   style={{
-                    fontFamily: "var(--font-dm-mono), monospace",
+                    fontFamily: "var(--font-barlow-condensed), sans-serif",
                     fontSize: "10px",
                     letterSpacing: "0.2em",
-                    color: "#C4965A",
+                    color: "#0A1628",
                     textTransform: "uppercase",
                   }}
                 >
@@ -751,7 +752,7 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                   fontSize: "12px",
                   letterSpacing: "0.14em",
                   textTransform: "uppercase",
-                  color: "#C4965A",
+                  color: "#0A1628",
                 }}
               >
                 View All Fleet

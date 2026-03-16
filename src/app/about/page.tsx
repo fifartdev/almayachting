@@ -95,10 +95,11 @@ export default function AboutPage() {
           <p
             className="mb-3"
             style={{
-              fontFamily: "var(--font-dm-mono), monospace",
+              fontFamily: "var(--font-barlow-condensed), sans-serif",
+              fontWeight: 500,
               fontSize: "10px",
               letterSpacing: "0.22em",
-              color: "#C4965A",
+              color: "#8A9BA8",
               textTransform: "uppercase",
             }}
           >
@@ -144,7 +145,7 @@ export default function AboutPage() {
               {/* Stats overlay */}
               <div
                 className="absolute bottom-0 right-0 grid grid-cols-2 gap-px"
-                style={{ background: "rgba(196,150,90,0.3)" }}
+                style={{ background: "rgba(138,155,168,0.3)" }}
               >
                 {stats.map((stat) => (
                   <div
@@ -160,7 +161,7 @@ export default function AboutPage() {
                         fontFamily: "var(--font-barlow-condensed), sans-serif",
                         fontWeight: 800,
                         fontSize: "28px",
-                        color: "#C4965A",
+                        color: "#8A9BA8",
                         lineHeight: 1,
                       }}
                     >
@@ -168,7 +169,8 @@ export default function AboutPage() {
                     </span>
                     <span
                       style={{
-                        fontFamily: "var(--font-dm-mono), monospace",
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
+                        fontWeight: 500,
                         fontSize: "8px",
                         letterSpacing: "0.15em",
                         color: "rgba(245,240,235,0.5)",
@@ -270,20 +272,21 @@ export default function AboutPage() {
                 <div
                   key={value.title}
                   className="p-8"
-                  style={{ border: "1px solid rgba(196,150,90,0.15)" }}
+                  style={{ border: "1px solid rgba(138,155,168,0.15)" }}
                 >
                   <div className="flex items-center justify-between mb-6">
                     <div
                       className="flex items-center justify-center w-10 h-10"
-                      style={{ border: "1px solid rgba(196,150,90,0.3)" }}
+                      style={{ border: "1px solid rgba(138,155,168,0.3)" }}
                     >
-                      <Icon size={18} style={{ color: "#C4965A" }} />
+                      <Icon size={18} style={{ color: "#8A9BA8" }} />
                     </div>
                     <span
                       style={{
-                        fontFamily: "var(--font-dm-mono), monospace",
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
+                        fontWeight: 500,
                         fontSize: "10px",
-                        color: "rgba(196,150,90,0.3)",
+                        color: "rgba(138,155,168,0.3)",
                         letterSpacing: "0.1em",
                       }}
                     >
@@ -327,7 +330,7 @@ export default function AboutPage() {
         className="py-24"
         style={{
           background: "#2C2C2C",
-          borderTop: "1px solid rgba(196,150,90,0.15)",
+          borderTop: "1px solid rgba(138,155,168,0.15)",
         }}
       >
         <div className="container-xl text-center">
