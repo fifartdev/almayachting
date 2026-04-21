@@ -1,6 +1,6 @@
 import type { GlobalConfig } from "payload";
-import { isEditor } from "@/lib/payload-access";
-import { seoExtendedFields } from "@/lib/seo-fields";
+import { isEditor } from "../lib/payload-access.ts";
+import { seoExtendedFields } from "../lib/seo-fields.ts";
 
 export const Homepage: GlobalConfig = {
   slug: "homepage",

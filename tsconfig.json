@@ -18,6 +18,8 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
+    "allowImportingTsExtensions": true,
     "paths": {
       "@/*": ["./src/*"],
       "@payload-config": ["./payload.config.ts"]

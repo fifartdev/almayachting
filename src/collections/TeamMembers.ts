@@ -1,5 +1,5 @@
 import type { CollectionConfig } from "payload";
-import { isEditor, contentEditorCreate, contentEditorDelete } from "@/lib/payload-access";
+import { isEditor, contentEditorCreate, contentEditorDelete } from "../lib/payload-access.ts";
 
 export const TeamMembers: CollectionConfig = {
   slug: "team-members",

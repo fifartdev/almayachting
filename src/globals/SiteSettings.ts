@@ -1,5 +1,5 @@
 import type { GlobalConfig } from "payload";
-import { isEditor, isSuperadmin } from "@/lib/payload-access";
+import { isEditor, isSuperadmin } from "../lib/payload-access.ts";
 
 export const SiteSettings: GlobalConfig = {
   slug: "site-settings",

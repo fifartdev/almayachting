@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload";
-import { isEditor, contentEditorCreate, contentEditorDelete } from "@/lib/payload-access";
-import { seoExtendedFields } from "@/lib/seo-fields";
+import { isEditor, contentEditorCreate, contentEditorDelete } from "../lib/payload-access.ts";
+import { seoExtendedFields } from "../lib/seo-fields.ts";
 
 export const Destinations: CollectionConfig = {
   slug: "destinations",

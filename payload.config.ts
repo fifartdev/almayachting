@@ -6,20 +6,20 @@ import { seoPlugin } from "@payloadcms/plugin-seo";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import { Users } from "@/collections/Users";
-import { Media } from "@/collections/Media";
-import { Vessels } from "@/collections/Vessels";
-import { Destinations } from "@/collections/Destinations";
-import { Services } from "@/collections/Services";
-import { TeamMembers } from "@/collections/TeamMembers";
+import { Users } from "./src/collections/Users.ts";
+import { Media } from "./src/collections/Media.ts";
+import { Vessels } from "./src/collections/Vessels.ts";
+import { Destinations } from "./src/collections/Destinations.ts";
+import { Services } from "./src/collections/Services.ts";
+import { TeamMembers } from "./src/collections/TeamMembers.ts";
 
-import { SiteSettings } from "@/globals/SiteSettings";
-import { Homepage } from "@/globals/Homepage";
-import { AboutPage } from "@/globals/AboutPage";
-import { FleetPage } from "@/globals/FleetPage";
-import { DestinationsPage } from "@/globals/DestinationsPage";
-import { ServicesPage } from "@/globals/ServicesPage";
-import { ContactPage } from "@/globals/ContactPage";
+import { SiteSettings } from "./src/globals/SiteSettings.ts";
+import { Homepage } from "./src/globals/Homepage.ts";
+import { AboutPage } from "./src/globals/AboutPage.ts";
+import { FleetPage } from "./src/globals/FleetPage.ts";
+import { DestinationsPage } from "./src/globals/DestinationsPage.ts";
+import { ServicesPage } from "./src/globals/ServicesPage.ts";
+import { ContactPage } from "./src/globals/ContactPage.ts";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);

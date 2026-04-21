@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed": "tsx --tsconfig tsconfig.json src/seed/index.ts"
+    "seed": "tsx --tsconfig tsconfig.json src/seed/index.ts",
+    "generate:importmap": "node --import tsx/esm node_modules/payload/dist/bin/index.js generate:importmap"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
