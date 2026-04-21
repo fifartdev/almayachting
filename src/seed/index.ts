@@ -13,7 +13,7 @@ import { seedServices } from "./services";
 import { seedTeamMembers } from "./team-members";
 import { seedGlobals } from "./globals";
 
-async function main() {
+export async function runSeed() {
   console.log("🚀 ALMA Yachting — Payload CMS seed starting...\n");
 
   const payload = await getPayload();
@@ -31,10 +31,12 @@ async function main() {
   await seedGlobals(payload);
 
   console.log("✅ Seed complete. All data is now in Payload CMS.");
-  process.exit(0);
 }
 
-main().catch((err) => {
-  console.error("❌ Seed failed:", err);
-  process.exit(1);
-});
+// Allow direct CLI execution
+if (process.argv[1]?.includes("seed/index")) {
+  runSeed().then(() => process.exit(0)).catch((err) => {
+    console.error("❌ Seed failed:", err);
+    process.exit(1);
+  });
+}
