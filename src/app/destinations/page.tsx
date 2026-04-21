@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MapPin, ArrowRight, Compass, Wind, Anchor } from "lucide-react";
 import SectionTitle from "@/components/SectionTitle";
-import { destinations } from "@/lib/destinations";
+import { getDestinations } from "@/lib/destinations";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -35,7 +35,8 @@ const seas = [
   },
 ];
 
-export default function DestinationsPage() {
+export default async function DestinationsPage() {
+  const destinations = await getDestinations();
   return (
     <>
       {/* Hero */}

@@ -4,8 +4,8 @@ import { ArrowRight, Anchor, Ship, Users, Star, MapPin } from "lucide-react";
 import HeroSection from "@/components/HeroSection";
 import FleetCard from "@/components/FleetCard";
 import SectionTitle from "@/components/SectionTitle";
-import { yachts } from "@/lib/yachts";
-import { destinations } from "@/lib/destinations";
+import { getYachts } from "@/lib/yachts";
+import { getDestinations } from "@/lib/destinations";
 
 const services = [
   {
@@ -38,9 +38,10 @@ const services = [
   },
 ];
 
-const featuredDestinations = destinations.slice(0, 5);
-
-export default function HomePage() {
+export default async function HomePage() {
+  const yachts = await getYachts();
+  const destinations = await getDestinations();
+  const featuredDestinations = destinations.slice(0, 5);
   return (
     <>
       {/* 1. Hero */}
@@ -307,7 +308,7 @@ export default function HomePage() {
           </div>
 
           {/* Asymmetric grid */}
-          <div className="grid grid-cols-12 gap-4">
+          {featuredDestinations.length > 0 && <div className="grid grid-cols-12 gap-4">
             {/* Large featured card */}
             <Link
               href={`/destinations#${featuredDestinations[0].id}`}
@@ -408,7 +409,7 @@ export default function HomePage() {
                 </Link>
               ))}
             </div>
-          </div>
+          </div>}
         </div>
       </section>
 

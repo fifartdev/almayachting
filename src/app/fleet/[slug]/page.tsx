@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { yachts, getYachtBySlug, getRelatedYachts } from "@/lib/yachts";
+import { getYachts, getYachtBySlug, getRelatedYachts } from "@/lib/yachts";
 import YachtDetailClient from "./YachtDetailClient";
 
 interface PageProps {
@@ -8,41 +8,43 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  return yachts.map((yacht) => ({
-    slug: yacht.slug,
-  }));
+  try {
+    const yachts = await getYachts();
+    return yachts.map((yacht) => ({ slug: yacht.slug }));
+  } catch {
+    // Fallback: known slugs prevent build failure if DB is unreachable
+    return [
+      { slug: "lagoon-55" },
+      { slug: "lagoon-51" },
+      { slug: "lagoon-46" },
+      { slug: "fountaine-pajot-51" },
+      { slug: "fountaine-pajot-44" },
+    ];
+  }
 }
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const yacht = getYachtBySlug(slug);
+  const yacht = await getYachtBySlug(slug);
 
-  if (!yacht) {
-    return {
-      title: "Yacht Not Found",
-    };
-  }
+  if (!yacht) return { title: "Yacht Not Found" };
 
   return {
     title: yacht.name,
     description: `${yacht.name} — ${yacht.type}, ${yacht.year}. ${yacht.guests} guests, ${yacht.cabins} cabins. From €${yacht.startingPrice.toLocaleString()}/week. Based in ${yacht.basePort}.`,
     openGraph: {
-      images: [{ url: `${yacht.heroImage.split("?")[0]}` }],
+      images: yacht.heroImage ? [{ url: yacht.heroImage }] : [],
     },
   };
 }
 
 export default async function YachtDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const yacht = getYachtBySlug(slug);
+  const yacht = await getYachtBySlug(slug);
 
-  if (!yacht) {
-    notFound();
-  }
+  if (!yacht) notFound();
 
-  const related = getRelatedYachts(slug, 3);
+  const related = await getRelatedYachts(slug, 3);
 
   return <YachtDetailClient yacht={yacht} related={related} />;
 }

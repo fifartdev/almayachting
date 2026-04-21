@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import FleetCard from "@/components/FleetCard";
 import SectionTitle from "@/components/SectionTitle";
-import { yachts } from "@/lib/yachts";
+import { getYachts } from "@/lib/yachts";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,7 +12,8 @@ export const metadata: Metadata = {
     "Explore ALMA Yachting's premium fleet of five luxury catamarans available for charter in Greece. Lagoon and Fountaine Pajot vessels from 44ft to 55ft.",
 };
 
-export default function FleetPage() {
+export default async function FleetPage() {
+  const yachts = await getYachts();
   return (
     <>
       {/* Hero */}
