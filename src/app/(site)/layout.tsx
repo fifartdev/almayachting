@@ -4,7 +4,7 @@ import {
   Jost,
   DM_Mono,
 } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default function SiteLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

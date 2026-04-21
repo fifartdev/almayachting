@@ -44,13 +44,26 @@
       "Bash(grep -c \"C4965A\\\\|196,150,90\\\\|font-dm-mono\" /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/fleet/page.tsx /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/services/page.tsx /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/about/page.tsx /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/destinations/page.tsx /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/fleet/[slug]/page.tsx)",
       "Bash(npm install:*)",
       "Bash(mkdir -p /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/\\\\\\(payload\\\\\\)/admin/\\\\[\\\\[...segments\\\\]\\\\])",
-      "Bash(mkdir -p /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/\\\\\\(payload\\\\\\)/api/\\\\[...slug\\\\])"
+      "Bash(mkdir -p /Users/tasssop-macbook-pro/Desktop/almayachting/src/app/\\\\\\(payload\\\\\\)/api/\\\\[...slug\\\\])",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(DATABASE_URI=\"postgresql://neondb_owner:npg_bX1aFc4xnguV@ep-lingering-hall-al16zs08.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require\" PAYLOAD_SECRET=\"3a33b3fab86b5418c75fbd4117dd33dc58eace2431c4b50cb9cc3084621b7b34\" npx payload migrate:create --name initial)",
+      "Bash(DATABASE_URI=\"postgresql://neondb_owner:npg_bX1aFc4xnguV@ep-lingering-hall-al16zs08.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require\" PAYLOAD_SECRET=\"3a33b3fab86b5418c75fbd4117dd33dc58eace2431c4b50cb9cc3084621b7b34\" NODE_ENV=\"development\" tsx --tsconfig tsconfig.json scripts/db-push.ts)",
+      "Bash(DATABASE_URI=\"postgresql://neondb_owner:npg_bX1aFc4xnguV@ep-lingering-hall-al16zs08.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require\" PAYLOAD_SECRET=\"3a33b3fab86b5418c75fbd4117dd33dc58eace2431c4b50cb9cc3084621b7b34\" NODE_ENV=\"development\" ./node_modules/.bin/tsx --tsconfig tsconfig.json scripts/db-push.ts)",
+      "Bash(DATABASE_URI=\"postgresql://neondb_owner:npg_bX1aFc4xnguV@ep-lingering-hall-al16zs08.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require\" PAYLOAD_SECRET=\"3a33b3fab86b5418c75fbd4117dd33dc58eace2431c4b50cb9cc3084621b7b34\" NEXT_PUBLIC_SITE_URL=\"https://almayachting.com\" npm run seed)",
+      "Bash(DATABASE_URI=\"postgresql://neondb_owner:npg_bX1aFc4xnguV@ep-lingering-hall-al16zs08.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require\" PAYLOAD_SECRET=\"3a33b3fab86b5418c75fbd4117dd33dc58eace2431c4b50cb9cc3084621b7b34\" npm run build)",
+      "Bash(DATABASE_URI=\"postgresql://neondb_owner:npg_bX1aFc4xnguV@ep-lingering-hall-al16zs08.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require\" PAYLOAD_SECRET=\"3a33b3fab86b5418c75fbd4117dd33dc58eace2431c4b50cb9cc3084621b7b34\" ./node_modules/.bin/payload generate:importmap)",
+      "Bash(git mv *)",
+      "Bash(rmdir src/app/about src/app/api/contact src/app/api src/app/contact src/app/destinations src/app/fleet/\\\\[slug\\\\] src/app/fleet src/app/privacy src/app/services src/app/terms)",
+      "Bash(git rm *)"
     ],
     "additionalDirectories": [
       "/Users/tasssop-macbook-pro/Desktop/almayachting/src/app/fleet",
       "/Users/tasssop-macbook-pro/Desktop/almayachting/src/app/fleet/[slug]",
       "/Users/tasssop-macbook-pro/.claude/projects/-Users-tasssop-macbook-pro-Desktop-almayachting",
-      "/Users/tasssop-macbook-pro/Desktop/almayachting/.claude"
+      "/Users/tasssop-macbook-pro/Desktop/almayachting/.claude",
+      "/Users/tasssop-macbook-pro/Desktop/almayachting/src/app/(site)/fleet"
     ]
   }
 }
