@@ -1,6 +1,7 @@
 import type { CollectionConfig } from "payload";
 import { isEditor, contentEditorCreate, contentEditorDelete } from "../lib/payload-access.ts";
 import { seoExtendedFields } from "../lib/seo-fields.ts";
+import { revalidateVessel, revalidateVesselDelete } from "./hooks/revalidateVessel.ts";
 
 export const Vessels: CollectionConfig = {
   slug: "vessels",
@@ -14,6 +15,10 @@ export const Vessels: CollectionConfig = {
     create: contentEditorCreate,
     update: isEditor,
     delete: contentEditorDelete,
+  },
+  hooks: {
+    afterChange: [revalidateVessel],
+    afterDelete: [revalidateVesselDelete],
   },
   fields: [
     {

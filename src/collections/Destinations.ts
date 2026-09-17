@@ -1,6 +1,7 @@
 import type { CollectionConfig } from "payload";
 import { isEditor, contentEditorCreate, contentEditorDelete } from "../lib/payload-access.ts";
 import { seoExtendedFields } from "../lib/seo-fields.ts";
+import { revalidateDestination, revalidateDestinationDelete } from "./hooks/revalidateDestination.ts";
 
 export const Destinations: CollectionConfig = {
   slug: "destinations",
@@ -14,6 +15,10 @@ export const Destinations: CollectionConfig = {
     create: contentEditorCreate,
     update: isEditor,
     delete: contentEditorDelete,
+  },
+  hooks: {
+    afterChange: [revalidateDestination],
+    afterDelete: [revalidateDestinationDelete],
   },
   fields: [
     {
