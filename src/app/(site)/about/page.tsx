@@ -1,8 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Heart, Shield, Compass, Leaf } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import SectionTitle from "@/components/SectionTitle";
 import type { Metadata } from "next";
+import { getAboutPage } from "@/lib/globals";
+import { richTextToParagraphs } from "@/lib/richtext";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -10,39 +13,7 @@ export const metadata: Metadata = {
     "The story of ALMA Yachting — born in Greece, built on a passion for the sea. Learn about our team, values, and commitment to extraordinary sailing experiences.",
 };
 
-const stats = [
-  { value: "5", label: "Premium Yachts" },
-  { value: "10+", label: "Years Experience" },
-  { value: "300+", label: "Happy Guests" },
-  { value: "50+", label: "Destinations" },
-];
-
-const values = [
-  {
-    icon: Heart,
-    title: "Passion",
-    description:
-      "We are sailors first and a company second. Every decision we make is filtered through one question: does this make our guests' time on the water better?",
-  },
-  {
-    icon: Shield,
-    title: "Integrity",
-    description:
-      "Transparent pricing, honest advice, and no hidden surprises. We tell you exactly what to expect, because the last thing we want is for reality to fall short of the promise.",
-  },
-  {
-    icon: Compass,
-    title: "Expertise",
-    description:
-      "Decades of combined sailing experience across the Aegean and Ionian seas. We know these waters not just professionally, but intimately — as sailors who love them.",
-  },
-  {
-    icon: Leaf,
-    title: "Sustainability",
-    description:
-      "The sea we sail is the sea we cherish. We minimise our environmental footprint through modern vessel technology, responsible anchoring practices, and partnerships with local conservation initiatives.",
-  },
-];
+const valueIcons: LucideIcon[] = [Heart, Shield, Compass, Leaf];
 
 const team = [
   {
@@ -68,7 +39,9 @@ const team = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const aboutPage = await getAboutPage();
+  const storyParagraphs = richTextToParagraphs(aboutPage.storyText);
   return (
     <>
       {/* Hero */}
@@ -103,7 +76,7 @@ export default function AboutPage() {
               textTransform: "uppercase",
             }}
           >
-            06 / About
+            {aboutPage.pageLabel}
           </p>
           <h1
             className="leading-none"
@@ -116,7 +89,7 @@ export default function AboutPage() {
               letterSpacing: "-0.01em",
             }}
           >
-            Our Story
+            {aboutPage.pageHeading}
           </h1>
         </div>
       </div>
@@ -147,7 +120,7 @@ export default function AboutPage() {
                 className="absolute bottom-0 right-0 grid grid-cols-2 gap-px"
                 style={{ background: "rgba(138,155,168,0.3)" }}
               >
-                {stats.map((stat) => (
+                {aboutPage.stats.map((stat) => (
                   <div
                     key={stat.label}
                     className="flex flex-col items-center justify-center p-5"
@@ -190,55 +163,30 @@ export default function AboutPage() {
             <div>
               <SectionTitle
                 label="Our Story"
-                heading="Born in Athens,<br/>Made for the Sea"
+                heading={aboutPage.storyHeading}
               />
 
               <div className="mt-8 space-y-5">
-                <p
-                  style={{
-                    fontFamily: "var(--font-cormorant-garamond), serif",
-                    fontSize: "18px",
-                    color: "rgba(44,44,44,0.8)",
-                    lineHeight: "1.8",
-                  }}
-                >
-                  ALMA Yachting was born from a simple conviction: that the
-                  Greek islands — among the most beautiful places on Earth — are
-                  best experienced not from a hotel terrace, but from the deck
-                  of a yacht, with the freedom to go wherever the wind and your
-                  curiosity lead you.
-                </p>
-                <p
-                  style={{
-                    fontFamily: "var(--font-cormorant-garamond), serif",
-                    fontSize: "17px",
-                    color: "rgba(44,44,44,0.7)",
-                    lineHeight: "1.8",
-                  }}
-                >
-                  Founded in Athens in 2014 by competitive sailor Alexandros
-                  Papadopoulos, ALMA started as a single-vessel charter
-                  operation in the Saronic Gulf. Within three years, growing
-                  demand from discerning international guests had led to the
-                  development of our current fleet of five premium catamarans —
-                  each chosen for the quality of their design, performance, and
-                  onboard experience.
-                </p>
-                <p
-                  style={{
-                    fontFamily: "var(--font-cormorant-garamond), serif",
-                    fontSize: "17px",
-                    color: "rgba(44,44,44,0.7)",
-                    lineHeight: "1.8",
-                  }}
-                >
-                  Today, ALMA Yachting serves guests from more than 30
-                  countries, offering not just yacht charter but a full suite of
-                  maritime services: fleet management, crewing, and a concierge
-                  programme designed to make every moment on the Greek islands
-                  unforgettable. We are, in every sense, a company built by
-                  sailors, for those who love the sea.
-                </p>
+                {(storyParagraphs.length
+                  ? storyParagraphs
+                  : [
+                      "ALMA Yachting was born from a simple conviction: that the Greek islands — among the most beautiful places on Earth — are best experienced not from a hotel terrace, but from the deck of a yacht, with the freedom to go wherever the wind and your curiosity lead you.",
+                      "Founded in Athens in 2014 by competitive sailor Alexandros Papadopoulos, ALMA started as a single-vessel charter operation in the Saronic Gulf. Within three years, growing demand from discerning international guests had led to the development of our current fleet of five premium catamarans — each chosen for the quality of their design, performance, and onboard experience.",
+                      "Today, ALMA Yachting serves guests from more than 30 countries, offering not just yacht charter but a full suite of maritime services: fleet management, crewing, and a concierge programme designed to make every moment on the Greek islands unforgettable. We are, in every sense, a company built by sailors, for those who love the sea.",
+                    ]
+                ).map((paragraph, i) => (
+                  <p
+                    key={i}
+                    style={{
+                      fontFamily: "var(--font-cormorant-garamond), serif",
+                      fontSize: i === 0 ? "18px" : "17px",
+                      color: i === 0 ? "rgba(44,44,44,0.8)" : "rgba(44,44,44,0.7)",
+                      lineHeight: "1.8",
+                    }}
+                  >
+                    {paragraph}
+                  </p>
+                ))}
               </div>
 
               <div className="mt-10">
@@ -266,8 +214,8 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, i) => {
-              const Icon = value.icon;
+            {aboutPage.values.map((value, i) => {
+              const Icon = valueIcons[i % valueIcons.length];
               return (
                 <div
                   key={value.title}
@@ -346,7 +294,7 @@ export default function AboutPage() {
               lineHeight: 1,
             }}
           >
-            Sail with ALMA
+            {aboutPage.ctaHeading}
           </h2>
           <p
             className="mb-8 mx-auto max-w-lg"
@@ -358,8 +306,7 @@ export default function AboutPage() {
               lineHeight: "1.65",
             }}
           >
-            Join the hundreds of guests who have experienced the Greek islands
-            through our eyes — and our fleet.
+            {aboutPage.ctaBodyText}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link href="/fleet" className="btn-primary">

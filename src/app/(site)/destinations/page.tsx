@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, ArrowRight, Compass, Wind, Anchor } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import SectionTitle from "@/components/SectionTitle";
 import { getDestinations } from "@/lib/destinations";
+import { getDestinationsPage } from "@/lib/globals";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,32 +13,13 @@ export const metadata: Metadata = {
     "Explore the finest Greek island destinations with ALMA Yachting. From Mykonos and Santorini to Corfu and Hydra — discover the Aegean and Ionian seas.",
 };
 
-const seas = [
-  {
-    name: "Aegean Sea",
-    icon: Compass,
-    description:
-      "The birthplace of Western civilisation, dotted with iconic Cycladic islands and historic Dodecanese outposts.",
-    islands: ["Mykonos", "Santorini", "Paros", "Rhodes"],
-  },
-  {
-    name: "Ionian Sea",
-    icon: Wind,
-    description:
-      "Calmer, verdant, and extraordinarily beautiful — the Ionian offers gentler sailing and lush green islands.",
-    islands: ["Corfu", "Zakynthos", "Kefalonia", "Ithaca"],
-  },
-  {
-    name: "Saronic Gulf",
-    icon: Anchor,
-    description:
-      "Athens' backyard archipelago — easily accessible, deeply beautiful, and far less crowded than the Cyclades.",
-    islands: ["Hydra", "Spetses", "Aegina", "Poros"],
-  },
-];
+const seaIcons: LucideIcon[] = [Compass, Wind, Anchor];
 
 export default async function DestinationsPage() {
-  const destinations = await getDestinations();
+  const [destinations, destinationsPage] = await Promise.all([
+    getDestinations(),
+    getDestinationsPage(),
+  ]);
   return (
     <>
       {/* Hero */}
@@ -71,7 +54,7 @@ export default async function DestinationsPage() {
               textTransform: "uppercase",
             }}
           >
-            04 / Destinations
+            {destinationsPage.pageLabel}
           </p>
           <h1
             className="leading-none mb-4"
@@ -84,7 +67,7 @@ export default async function DestinationsPage() {
               letterSpacing: "-0.01em",
             }}
           >
-            Greek Islands
+            {destinationsPage.pageHeading}
           </h1>
           <p
             style={{
@@ -95,7 +78,7 @@ export default async function DestinationsPage() {
               fontWeight: 300,
             }}
           >
-            The Aegean, Ionian and Saronic seas await.
+            {destinationsPage.pageSubheading}
           </p>
         </div>
       </div>
@@ -107,8 +90,9 @@ export default async function DestinationsPage() {
             className="grid grid-cols-1 md:grid-cols-3 gap-px"
             style={{ background: "rgba(255,255,255,0.06)" }}
           >
-            {seas.map((sea) => {
-              const Icon = sea.icon;
+            {destinationsPage.seas.map((sea, i) => {
+              const Icon = seaIcons[i % seaIcons.length];
+              const islands = sea.islands.split(",").map((s) => s.trim()).filter(Boolean);
               return (
                 <div
                   key={sea.name}
@@ -146,7 +130,7 @@ export default async function DestinationsPage() {
                     {sea.description}
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    {sea.islands.map((island) => (
+                    {islands.map((island) => (
                       <span
                         key={island}
                         style={{
@@ -177,7 +161,7 @@ export default async function DestinationsPage() {
           <div className="mb-14">
             <SectionTitle
               label="All Destinations"
-              heading="Where Will You<br/>Sail?"
+              heading={destinationsPage.destinationsGridHeading}
               subtitle="Eight of the finest destinations in the Greek islands, each with its own character and magic."
             />
           </div>
@@ -375,7 +359,7 @@ export default async function DestinationsPage() {
               letterSpacing: "-0.01em",
             }}
           >
-            Create Your Custom Route
+            {destinationsPage.customRouteCta.heading}
           </h2>
           <p
             className="mb-10 mx-auto max-w-xl"
@@ -388,8 +372,7 @@ export default async function DestinationsPage() {
               lineHeight: "1.65",
             }}
           >
-            Tell us your dream islands and we&apos;ll craft the perfect
-            itinerary — from a weekend Saronic hop to a two-week Aegean odyssey.
+            {destinationsPage.customRouteCta.bodyText}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link href="/contact" className="btn-primary">

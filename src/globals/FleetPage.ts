@@ -1,6 +1,7 @@
 import type { GlobalConfig } from "payload";
 import { isEditor } from "../lib/payload-access.ts";
 import { seoExtendedFields } from "../lib/seo-fields.ts";
+import { createRevalidateGlobalHook } from "./hooks/revalidateGlobal.ts";
 
 export const FleetPage: GlobalConfig = {
   slug: "fleet-page",
@@ -11,6 +12,9 @@ export const FleetPage: GlobalConfig = {
   access: {
     read: () => true,
     update: isEditor,
+  },
+  hooks: {
+    afterChange: [createRevalidateGlobalHook(["/fleet"])],
   },
   fields: [
     {

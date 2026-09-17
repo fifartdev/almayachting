@@ -4,12 +4,15 @@ import { useState } from "react";
 import Image from "next/image";
 import { MapPin, Phone, Mail, Clock, Send, Anchor } from "lucide-react";
 import type { Yacht } from "@/lib/yachts";
+import type { ContactPageContent, SiteSettingsContent } from "@/lib/globals";
 
 interface Props {
   yachts: Pick<Yacht, "id" | "slug" | "name" | "length" | "guests">[];
+  contactPage: ContactPageContent;
+  siteSettings: SiteSettingsContent;
 }
 
-export default function ContactClient({ yachts }: Props) {
+export default function ContactClient({ yachts, contactPage, siteSettings }: Props) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -85,7 +88,7 @@ export default function ContactClient({ yachts }: Props) {
               textTransform: "uppercase",
             }}
           >
-            07 / Contact
+            {contactPage.pageLabel}
           </p>
           <h1
             className="leading-none"
@@ -98,7 +101,7 @@ export default function ContactClient({ yachts }: Props) {
               letterSpacing: "-0.01em",
             }}
           >
-            Get in Touch
+            {contactPage.pageHeading}
           </h1>
         </div>
       </div>
@@ -129,9 +132,7 @@ export default function ContactClient({ yachts }: Props) {
                   lineHeight: 1,
                 }}
               >
-                Begin Your
-                <br />
-                Journey
+                {contactPage.subheading}
               </h2>
               <p
                 className="mb-10"
@@ -142,9 +143,7 @@ export default function ContactClient({ yachts }: Props) {
                   lineHeight: "1.8",
                 }}
               >
-                Whether you have a specific voyage in mind or simply want to
-                explore the possibilities, our team is here to help. We respond
-                to all enquiries within 24 hours.
+                {contactPage.introText}
               </p>
 
               <div className="space-y-7">
@@ -159,10 +158,8 @@ export default function ContactClient({ yachts }: Props) {
                     <p style={{ fontFamily: "var(--font-barlow-condensed), sans-serif", fontSize: "9px", letterSpacing: "0.18em", color: "#0A1628", textTransform: "uppercase", marginBottom: "6px" }}>
                       Office Address
                     </p>
-                    <p style={{ fontFamily: "var(--font-cormorant-garamond), serif", fontSize: "16px", color: "#2C2C2C", lineHeight: "1.6" }}>
-                      46 Archimidous str., 17563
-                      <br />
-                      Paleo Faliro, Athens, Greece
+                    <p style={{ fontFamily: "var(--font-cormorant-garamond), serif", fontSize: "16px", color: "#2C2C2C", lineHeight: "1.6", whiteSpace: "pre-line" }}>
+                      {siteSettings.address}
                     </p>
                   </div>
                 </div>
@@ -175,8 +172,8 @@ export default function ContactClient({ yachts }: Props) {
                     <p style={{ fontFamily: "var(--font-barlow-condensed), sans-serif", fontSize: "9px", letterSpacing: "0.18em", color: "#0A1628", textTransform: "uppercase", marginBottom: "6px" }}>
                       Phone
                     </p>
-                    <a href="tel:+302103001618" style={{ fontFamily: "var(--font-cormorant-garamond), serif", fontSize: "17px", color: "#2C2C2C", textDecoration: "none" }}>
-                      +30 210 300 1618
+                    <a href={`tel:${siteSettings.phone.replace(/\s+/g, "")}`} style={{ fontFamily: "var(--font-cormorant-garamond), serif", fontSize: "17px", color: "#2C2C2C", textDecoration: "none" }}>
+                      {siteSettings.phone}
                     </a>
                   </div>
                 </div>
@@ -189,8 +186,8 @@ export default function ContactClient({ yachts }: Props) {
                     <p style={{ fontFamily: "var(--font-barlow-condensed), sans-serif", fontSize: "9px", letterSpacing: "0.18em", color: "#0A1628", textTransform: "uppercase", marginBottom: "6px" }}>
                       Email
                     </p>
-                    <a href="mailto:info@almayachting.com" style={{ fontFamily: "var(--font-cormorant-garamond), serif", fontSize: "17px", color: "#2C2C2C", textDecoration: "none" }}>
-                      info@almayachting.com
+                    <a href={`mailto:${siteSettings.email}`} style={{ fontFamily: "var(--font-cormorant-garamond), serif", fontSize: "17px", color: "#2C2C2C", textDecoration: "none" }}>
+                      {siteSettings.email}
                     </a>
                   </div>
                 </div>
@@ -203,12 +200,8 @@ export default function ContactClient({ yachts }: Props) {
                     <p style={{ fontFamily: "var(--font-barlow-condensed), sans-serif", fontSize: "9px", letterSpacing: "0.18em", color: "#0A1628", textTransform: "uppercase", marginBottom: "6px" }}>
                       Office Hours
                     </p>
-                    <p style={{ fontFamily: "var(--font-cormorant-garamond), serif", fontSize: "16px", color: "#2C2C2C", lineHeight: "1.6" }}>
-                      Monday – Friday: 9:00 – 18:00
-                      <br />
-                      Saturday: 10:00 – 14:00
-                      <br />
-                      <span style={{ color: "rgba(44,44,44,0.5)", fontSize: "14px" }}>(EET / UTC+2)</span>
+                    <p style={{ fontFamily: "var(--font-cormorant-garamond), serif", fontSize: "16px", color: "#2C2C2C", lineHeight: "1.6", whiteSpace: "pre-line" }}>
+                      {siteSettings.officeHours}
                     </p>
                   </div>
                 </div>
@@ -221,7 +214,7 @@ export default function ContactClient({ yachts }: Props) {
                   <div className="flex items-center gap-2 px-4 py-2" style={{ background: "rgba(44,44,44,0.85)", backdropFilter: "blur(8px)" }}>
                     <Anchor size={14} style={{ color: "#8A9BA8" }} />
                     <span style={{ fontFamily: "var(--font-barlow-condensed), sans-serif", fontSize: "10px", letterSpacing: "0.15em", color: "#F5F0EB", textTransform: "uppercase" }}>
-                      Alimos Marina, Athens
+                      {contactPage.mapLabel}
                     </span>
                   </div>
                 </div>
@@ -310,7 +303,7 @@ export default function ContactClient({ yachts }: Props) {
 
                       <div className="flex items-center justify-between pt-2">
                         <p style={{ fontFamily: "var(--font-barlow-condensed), sans-serif", fontSize: "9px", letterSpacing: "0.12em", color: "rgba(44,44,44,0.35)", textTransform: "uppercase" }}>
-                          We reply within 24 hours
+                          {contactPage.responseGuarantee}
                         </p>
                         <button type="submit" disabled={loading} className="btn-primary" style={{ opacity: loading ? 0.7 : 1, cursor: loading ? "not-allowed" : "pointer" }}>
                           {loading ? "Sending..." : <><Send size={13} /> Send Enquiry</>}

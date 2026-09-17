@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import FleetCard from "@/components/FleetCard";
 import SectionTitle from "@/components/SectionTitle";
 import { getYachts } from "@/lib/yachts";
+import { getFleetPage } from "@/lib/globals";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function FleetPage() {
-  const yachts = await getYachts();
+  const [yachts, fleetPage] = await Promise.all([getYachts(), getFleetPage()]);
   return (
     <>
       {/* Hero */}
@@ -48,7 +49,7 @@ export default async function FleetPage() {
               textTransform: "uppercase",
             }}
           >
-            02 / Fleet
+            {fleetPage.pageLabel}
           </p>
           <h1
             className="leading-none"
@@ -61,7 +62,7 @@ export default async function FleetPage() {
               letterSpacing: "-0.01em",
             }}
           >
-            Our Fleet
+            {fleetPage.pageHeading}
           </h1>
         </div>
       </div>
@@ -84,96 +85,47 @@ export default async function FleetPage() {
                 color: "rgba(245,240,235,0.6)",
               }}
             >
-              Five premium catamarans. All based in Athens. All available for
-              crewed or bareboat charter.
+              {fleetPage.introText}
             </p>
             <div className="flex items-center gap-6">
-              <div>
-                <span
-                  style={{
-                    fontFamily: "var(--font-barlow-condensed), sans-serif",
-                    fontWeight: 700,
-                    fontSize: "22px",
-                    color: "#8A9BA8",
-                  }}
-                >
-                  5
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-barlow-condensed), sans-serif",
-                    fontWeight: 500,
-                    fontSize: "9px",
-                    letterSpacing: "0.15em",
-                    color: "rgba(245,240,235,0.4)",
-                    display: "block",
-                  }}
-                >
-                  VESSELS
-                </span>
-              </div>
-              <div
-                style={{
-                  width: "1px",
-                  height: "32px",
-                  background: "rgba(138,155,168,0.2)",
-                }}
-              />
-              <div>
-                <span
-                  style={{
-                    fontFamily: "var(--font-barlow-condensed), sans-serif",
-                    fontWeight: 700,
-                    fontSize: "22px",
-                    color: "#8A9BA8",
-                  }}
-                >
-                  44–55ft
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-barlow-condensed), sans-serif",
-                    fontWeight: 500,
-                    fontSize: "9px",
-                    letterSpacing: "0.15em",
-                    color: "rgba(245,240,235,0.4)",
-                    display: "block",
-                  }}
-                >
-                  LENGTH RANGE
-                </span>
-              </div>
-              <div
-                style={{
-                  width: "1px",
-                  height: "32px",
-                  background: "rgba(138,155,168,0.2)",
-                }}
-              />
-              <div>
-                <span
-                  style={{
-                    fontFamily: "var(--font-barlow-condensed), sans-serif",
-                    fontWeight: 700,
-                    fontSize: "22px",
-                    color: "#8A9BA8",
-                  }}
-                >
-                  6–8
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-barlow-condensed), sans-serif",
-                    fontWeight: 500,
-                    fontSize: "9px",
-                    letterSpacing: "0.15em",
-                    color: "rgba(245,240,235,0.4)",
-                    display: "block",
-                  }}
-                >
-                  GUESTS
-                </span>
-              </div>
+              {fleetPage.stats.map((stat, i) => (
+                <div key={stat.label} className="flex items-center gap-6">
+                  {i > 0 && (
+                    <div
+                      style={{
+                        width: "1px",
+                        height: "32px",
+                        background: "rgba(138,155,168,0.2)",
+                      }}
+                    />
+                  )}
+                  <div>
+                    <span
+                      style={{
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
+                        fontWeight: 700,
+                        fontSize: "22px",
+                        color: "#8A9BA8",
+                      }}
+                    >
+                      {stat.value}
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
+                        fontWeight: 500,
+                        fontSize: "9px",
+                        letterSpacing: "0.15em",
+                        color: "rgba(245,240,235,0.4)",
+                        display: "block",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {stat.label}
+                    </span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -200,8 +152,8 @@ export default async function FleetPage() {
             <div>
               <SectionTitle
                 label="Bespoke Charters"
-                heading="Can't find your<br/>perfect match?"
-                subtitle="Tell us your dream voyage and we'll find the ideal vessel from our extended network of premium yachts across Greece."
+                heading={fleetPage.bespokeSection.heading}
+                subtitle={fleetPage.bespokeSection.subtitle}
                 light
               />
               <div className="mt-10 flex flex-wrap gap-4">
@@ -212,12 +164,7 @@ export default async function FleetPage() {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              {[
-                { label: "Charter Types", value: "Bareboat & Crewed" },
-                { label: "Base Port", value: "Athens, Greece" },
-                { label: "Season", value: "April – November" },
-                { label: "Response Time", value: "Within 24 Hours" },
-              ].map((item) => (
+              {fleetPage.bespokeSection.details.map((item) => (
                 <div
                   key={item.label}
                   className="p-6"

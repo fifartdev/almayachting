@@ -1,8 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Ship, Anchor, Users, Star, ArrowRight, Check } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import SectionTitle from "@/components/SectionTitle";
 import type { Metadata } from "next";
+import { getServices } from "@/lib/services";
+import { getServicesPage } from "@/lib/globals";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -10,113 +13,16 @@ export const metadata: Metadata = {
     "ALMA Yachting provides luxury yacht charter, fleet management, crewing services, and bespoke concierge experiences across Greece.",
 };
 
-const services = [
-  {
-    id: "charter",
-    icon: Ship,
-    number: "01",
-    title: "Yacht Charter",
-    subtitle: "Tailor-made sailing experiences",
-    description:
-      "Every ALMA charter is built around you. Whether you're seeking a bareboat adventure with just the wind for company, or a fully crewed experience where every detail is handled by professionals, our team will craft an itinerary that transforms your time in Greece into something truly extraordinary.",
-    longDescription:
-      "We operate two charter models: bareboat, where qualified sailors take the helm themselves with complete freedom to explore at their own pace; and crewed, where an experienced captain and optional chef take care of everything while you simply enjoy the journey. Both models draw on our intimate knowledge of the Greek waters — from the iconic anchorages to the hidden coves that no guidebook will ever reveal.",
-    features: [
-      "Bareboat and fully crewed charter options",
-      "Customisable itineraries across all Greek waters",
-      "Flexible departure from Athens (Piraeus) or Corfu",
-      "Provisioning and victualling services",
-      "Airport transfers and logistics coordination",
-      "24/7 shore support throughout your voyage",
-    ],
-    image: "/images/services/yacht-charter.jpg",
-  },
-  {
-    id: "management",
-    icon: Anchor,
-    number: "02",
-    title: "Fleet Management",
-    subtitle: "Professional care for your vessel",
-    description:
-      "Owning a yacht in Greece is a privilege — maintaining her to the standard she deserves is a full-time commitment. ALMA Yachting's fleet management service means your vessel is always ready to sail, whether you're stepping aboard next weekend or in three months' time.",
-    longDescription:
-      "Our team of experienced marine engineers and naval architects oversee every aspect of vessel care: scheduled maintenance, antifouling, engine servicing, rigging inspection, and cosmetic upkeep. We manage mooring arrangements at the finest marinas in Greece, handle the administrative requirements of vessel ownership, and can generate charter revenue from your yacht when you're not using it — helping offset the cost of ownership.",
-    features: [
-      "Comprehensive technical maintenance programme",
-      "Annual haul-out and antifouling management",
-      "Marina and berthing arrangements",
-      "Insurance and documentation handling",
-      "Revenue generation through managed charter",
-      "Monthly condition reports and photography",
-    ],
-    image: "/images/services/fleet-management.jpg",
-  },
-  {
-    id: "crewing",
-    icon: Users,
-    number: "03",
-    title: "Crewing Services",
-    subtitle: "Experienced Greek maritime professionals",
-    description:
-      "There is no substitute for local knowledge. Our captains have spent their careers navigating these specific waters — they know where the meltemi blows hardest, which bays offer perfect shelter in a southerly, and which taverna on which island will give you the meal of your life.",
-    longDescription:
-      "Every ALMA crew member is rigorously vetted, fully licensed, and deeply passionate about sharing the best of Greece with their guests. Our skippers hold internationally recognised qualifications; our onboard chefs are trained in Greek and Mediterranean cuisine. We match crew to guest preferences carefully — a young, active couple planning to sail hard will receive a different crew recommendation than a multigenerational family looking for a relaxed, food-focused voyage.",
-    features: [
-      "RYA/MCA certified captains and first mates",
-      "Professional onboard chefs on request",
-      "Crew trained in first aid and safety procedures",
-      "Local guides and dive instructors available",
-      "Multilingual crew options (English, Greek, French, German)",
-      "Careful crew-to-guest personality matching",
-    ],
-    image: "/images/services/crewing-services.jpg",
-  },
-  {
-    id: "concierge",
-    icon: Star,
-    number: "04",
-    title: "Concierge & Extras",
-    subtitle: "Curated island experiences",
-    description:
-      "The yacht is your floating home. The Greek islands are your playground. Our concierge team exists to ensure that everything beyond the water — and much of what happens on it — meets the same standard of excellence that defines the ALMA experience.",
-    longDescription:
-      "From the moment you land at Athens airport to the moment you depart, ALMA's concierge service manages every logistical detail. We handle restaurant reservations at sought-after island tables, organise private wine tastings at Santorini's finest estates, arrange helicopter transfers for those who want to maximise their time afloat, and source water sports equipment, dive charters, and private guides for shore excursions. Nothing is too complex; everything is handled with discretion and care.",
-    features: [
-      "Priority restaurant reservations across the islands",
-      "Private wine tours and archaeological site visits",
-      "Helicopter and seaplane transfers",
-      "Water sports and diving equipment",
-      "Private chefs and event catering on board",
-      "Bespoke wedding and celebration packages",
-    ],
-    image: "/images/services/concierge-extras.jpg",
-  },
+const serviceIcons: LucideIcon[] = [Ship, Anchor, Users, Star];
+const fallbackImages = [
+  "/images/services/yacht-charter.jpg",
+  "/images/services/fleet-management.jpg",
+  "/images/services/crewing-services.jpg",
+  "/images/services/concierge-extras.jpg",
 ];
 
-const whyAlma = [
-  {
-    stat: "10+",
-    label: "Years in the Aegean",
-    description: "Over a decade of navigating these waters",
-  },
-  {
-    stat: "300+",
-    label: "Happy Guests",
-    description: "Guests who return season after season",
-  },
-  {
-    stat: "5",
-    label: "Premium Vessels",
-    description: "Maintained to the highest standard",
-  },
-  {
-    stat: "24h",
-    label: "Response Time",
-    description: "We're always reachable when you need us",
-  },
-];
-
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const [services, servicesPage] = await Promise.all([getServices(), getServicesPage()]);
   return (
     <>
       {/* Hero */}
@@ -151,7 +57,7 @@ export default function ServicesPage() {
               textTransform: "uppercase",
             }}
           >
-            03 / Services
+            {servicesPage.pageLabel}
           </p>
           <h1
             className="leading-none mb-4"
@@ -164,7 +70,7 @@ export default function ServicesPage() {
               letterSpacing: "-0.01em",
             }}
           >
-            What We Offer
+            {servicesPage.pageHeading}
           </h1>
           <p
             style={{
@@ -175,7 +81,7 @@ export default function ServicesPage() {
               fontWeight: 300,
             }}
           >
-            A complete suite of maritime services, delivered with Greek warmth.
+            {servicesPage.pageSubheading}
           </p>
         </div>
       </div>
@@ -183,7 +89,8 @@ export default function ServicesPage() {
       {/* Services — alternating layout */}
       <div style={{ background: "#F5F0EB" }}>
         {services.map((service, i) => {
-          const Icon = service.icon;
+          const Icon = serviceIcons[i % serviceIcons.length];
+          const image = service.image || fallbackImages[i % fallbackImages.length];
           const isReverse = i % 2 === 1;
           return (
             <section
@@ -206,7 +113,7 @@ export default function ServicesPage() {
                     style={{ aspectRatio: "4/3" }}
                   >
                     <Image
-                      src={service.image}
+                      src={image}
                       alt={service.title}
                       fill
                       className="object-cover"
@@ -226,7 +133,7 @@ export default function ServicesPage() {
                           color: "#fff",
                         }}
                       >
-                        {service.number}
+                        {String(i + 1).padStart(2, "0")}
                       </span>
                     </div>
                   </div>
@@ -337,9 +244,9 @@ export default function ServicesPage() {
         <div className="container-xl">
           <div className="text-center mb-16">
             <SectionTitle
-              label="Why ALMA"
-              heading="The ALMA Difference"
-              subtitle="We're not a booking platform. We're a team of passionate sailors who happen to run a company."
+              label={servicesPage.whyAlmaLabel}
+              heading={servicesPage.whyAlmaHeading}
+              subtitle={servicesPage.whyAlmaSubtitle}
               align="center"
               light
             />
@@ -349,7 +256,7 @@ export default function ServicesPage() {
             className="grid grid-cols-2 lg:grid-cols-4 gap-px"
             style={{ background: "rgba(255,255,255,0.06)" }}
           >
-            {whyAlma.map((item) => (
+            {servicesPage.whyAlmaStats.map((item) => (
               <div
                 key={item.stat}
                 className="p-8 text-center"

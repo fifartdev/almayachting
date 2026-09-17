@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getYachts } from "@/lib/yachts";
+import { getContactPage, getSiteSettings } from "@/lib/globals";
 import ContactClient from "./ContactClient";
 
 export const metadata: Metadata = {
@@ -9,7 +10,11 @@ export const metadata: Metadata = {
 };
 
 export default async function ContactPage() {
-  const yachts = await getYachts();
+  const [yachts, contactPage, siteSettings] = await Promise.all([
+    getYachts(),
+    getContactPage(),
+    getSiteSettings(),
+  ]);
 
   const vesselList = yachts.map((y) => ({
     id: y.id,
@@ -19,5 +24,5 @@ export default async function ContactPage() {
     guests: y.guests,
   }));
 
-  return <ContactClient yachts={vesselList} />;
+  return <ContactClient yachts={vesselList} contactPage={contactPage} siteSettings={siteSettings} />;
 }

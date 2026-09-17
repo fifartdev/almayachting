@@ -7,6 +7,7 @@ import {
 import "../globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { getSiteSettings } from "@/lib/globals";
 
 const barlowCondensed = Barlow_Condensed({
   variable: "--font-barlow-condensed",
@@ -73,11 +74,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function SiteLayout({
+export default async function SiteLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteSettings = await getSiteSettings();
   return (
     <html lang="en">
       <body
@@ -86,7 +88,7 @@ export default function SiteLayout({
       >
         <Navigation />
         <main>{children}</main>
-        <Footer />
+        <Footer settings={siteSettings} />
       </body>
     </html>
   );

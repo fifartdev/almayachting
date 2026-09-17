@@ -1,5 +1,6 @@
 import type { GlobalConfig } from "payload";
 import { isEditor, isSuperadmin } from "../lib/payload-access.ts";
+import { createRevalidateLayoutHook } from "./hooks/revalidateGlobal.ts";
 
 export const SiteSettings: GlobalConfig = {
   slug: "site-settings",
@@ -10,6 +11,9 @@ export const SiteSettings: GlobalConfig = {
   access: {
     read: () => true,
     update: isEditor,
+  },
+  hooks: {
+    afterChange: [createRevalidateLayoutHook("/")],
   },
   fields: [
     {

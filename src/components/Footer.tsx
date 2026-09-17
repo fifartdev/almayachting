@@ -3,6 +3,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Anchor, MapPin, Phone, Mail, Instagram, Facebook } from "lucide-react";
+import type { SiteSettingsContent } from "@/lib/globals";
+
+interface FooterProps {
+  settings: SiteSettingsContent;
+}
 
 const companyLinks = [
   { href: "/about", label: "Our Story" },
@@ -27,7 +32,7 @@ const destinationLinks = [
   { href: "/destinations#hydra", label: "Hydra" },
 ];
 
-export default function Footer() {
+export default function Footer({ settings }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -55,8 +60,7 @@ export default function Footer() {
                 color: "rgba(245,240,235,0.55)",
               }}
             >
-              Bespoke luxury yacht charter and fleet management services across
-              the Greek islands. Sail the Aegean with ALMA.
+              {settings.tagline}
             </p>
 
             <div className="flex items-center gap-2 mb-8">
@@ -77,7 +81,7 @@ export default function Footer() {
             {/* Social links */}
             <div className="flex items-center gap-4">
               <a
-                href="https://instagram.com"
+                href={settings.instagramUrl || "https://instagram.com"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center w-9 h-9 border transition-all duration-300 hover:border-gold"
@@ -100,7 +104,7 @@ export default function Footer() {
                 <Instagram size={15} />
               </a>
               <a
-                href="https://facebook.com"
+                href={settings.facebookUrl || "https://facebook.com"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center w-9 h-9 border transition-all duration-300"
@@ -282,11 +286,10 @@ export default function Footer() {
                     fontSize: "15px",
                     color: "rgba(245,240,235,0.55)",
                     lineHeight: "1.6",
+                    whiteSpace: "pre-line",
                   }}
                 >
-                  46 Archimidous str., 17563
-                  <br />
-                  Paleo Faliro, Athens, Greece
+                  {settings.address}
                 </span>
               </li>
               <li className="flex items-center gap-3">
@@ -296,7 +299,7 @@ export default function Footer() {
                   style={{ color: "#C4965A" }}
                 />
                 <a
-                  href="tel:+302103001618"
+                  href={`tel:${settings.phone.replace(/\s+/g, "")}`}
                   style={{
                     fontFamily: "var(--font-cormorant-garamond), serif",
                     fontSize: "15px",
@@ -310,7 +313,7 @@ export default function Footer() {
                       "rgba(245,240,235,0.55)";
                   }}
                 >
-                  +30 210 300 1618
+                  {settings.phone}
                 </a>
               </li>
               <li className="flex items-center gap-3">
@@ -320,7 +323,7 @@ export default function Footer() {
                   style={{ color: "#C4965A" }}
                 />
                 <a
-                  href="mailto:info@almayachting.com"
+                  href={`mailto:${settings.email}`}
                   style={{
                     fontFamily: "var(--font-cormorant-garamond), serif",
                     fontSize: "15px",
@@ -334,7 +337,7 @@ export default function Footer() {
                       "rgba(245,240,235,0.55)";
                   }}
                 >
-                  info@almayachting.com
+                  {settings.email}
                 </a>
               </li>
             </ul>
@@ -354,7 +357,7 @@ export default function Footer() {
                 color: "rgba(245,240,235,0.3)",
               }}
             >
-              &copy; {currentYear} ALMA YACHTING. ALL RIGHTS RESERVED.
+              &copy; {currentYear} {settings.companyName.toUpperCase()}. ALL RIGHTS RESERVED.
             </p>
             <p
               style={{

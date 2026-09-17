@@ -1,6 +1,7 @@
 import type { CollectionConfig } from "payload";
 import { isEditor, contentEditorCreate, contentEditorDelete } from "../lib/payload-access.ts";
 import { seoExtendedFields } from "../lib/seo-fields.ts";
+import { revalidateService, revalidateServiceDelete } from "./hooks/revalidateService.ts";
 
 export const Services: CollectionConfig = {
   slug: "services",
@@ -14,6 +15,10 @@ export const Services: CollectionConfig = {
     create: contentEditorCreate,
     update: isEditor,
     delete: contentEditorDelete,
+  },
+  hooks: {
+    afterChange: [revalidateService],
+    afterDelete: [revalidateServiceDelete],
   },
   fields: [
     {

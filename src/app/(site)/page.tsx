@@ -1,51 +1,39 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Anchor, Ship, Users, Star, MapPin } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import HeroSection from "@/components/HeroSection";
 import FleetCard from "@/components/FleetCard";
 import SectionTitle from "@/components/SectionTitle";
 import { getYachts } from "@/lib/yachts";
 import { getDestinations } from "@/lib/destinations";
+import { getServices } from "@/lib/services";
+import { getHomepage, getSiteSettings } from "@/lib/globals";
+import { richTextToParagraphs } from "@/lib/richtext";
 
-const services = [
-  {
-    icon: Ship,
-    title: "Yacht Charter",
-    description:
-      "Tailor-made sailing experiences across the Greek islands. Choose your vessel, your crew, and your itinerary — we handle every detail.",
-    href: "/services#charter",
-  },
-  {
-    icon: Anchor,
-    title: "Fleet Management",
-    description:
-      "Professional care and maintenance for your vessel. From technical oversight to mooring arrangements, your yacht is in expert hands.",
-    href: "/services#management",
-  },
-  {
-    icon: Users,
-    title: "Crewing Services",
-    description:
-      "Experienced Greek captains and crews with deep knowledge of local waters, hidden anchorages, and island culture.",
-    href: "/services#crewing",
-  },
-  {
-    icon: Star,
-    title: "Concierge & Extras",
-    description:
-      "Private chefs, curated island experiences, restaurant reservations, helicopter transfers — your perfect voyage, curated by us.",
-    href: "/services#concierge",
-  },
-];
+const serviceIcons: LucideIcon[] = [Ship, Anchor, Users, Star];
 
 export default async function HomePage() {
-  const yachts = await getYachts();
-  const destinations = await getDestinations();
+  const [yachts, destinations, services, homepage, siteSettings] = await Promise.all([
+    getYachts(),
+    getDestinations(),
+    getServices(),
+    getHomepage(),
+    getSiteSettings(),
+  ]);
   const featuredDestinations = destinations.slice(0, 5);
+  const aboutParagraphs = richTextToParagraphs(homepage.aboutIntro.bodyText);
   return (
     <>
       {/* 1. Hero */}
-      <HeroSection />
+      <HeroSection
+        label={homepage.hero.label}
+        headline={homepage.hero.headline}
+        subheadline={homepage.hero.subheadline}
+        ctaPrimaryText={homepage.hero.ctaPrimaryText}
+        ctaSecondaryText={homepage.hero.ctaSecondaryText}
+        stats={homepage.hero.stats}
+      />
 
       {/* 2. About Intro */}
       <section
@@ -75,9 +63,7 @@ export default async function HomePage() {
                   marginBottom: "32px",
                 }}
               >
-                &ldquo;Where the Aegean
-                <br />
-                meets luxury.&rdquo;
+                &ldquo;{homepage.aboutIntro.quoteText}&rdquo;
               </blockquote>
               <p
                 style={{
@@ -88,44 +74,36 @@ export default async function HomePage() {
                   color: "rgba(10,22,40,0.5)",
                 }}
               >
-                — ALMA YACHTING, GREECE
+                {homepage.aboutIntro.quoteAttribution}
               </p>
             </div>
 
             {/* Right: Brand text */}
             <div>
               <SectionTitle
-                label="01 / Our Story"
-                heading="Born from a<br/>love of the sea"
+                label={homepage.aboutIntro.sectionLabel}
+                heading={homepage.aboutIntro.sectionHeading}
               />
               <div className="mt-6 space-y-4">
-                <p
-                  style={{
-                    fontFamily: "var(--font-cormorant-garamond), serif",
-                    fontSize: "17px",
-                    color: "rgba(44,44,44,0.75)",
-                    lineHeight: "1.8",
-                  }}
-                >
-                  ALMA Yachting was founded on a singular belief: that the Greek
-                  islands deserve to be experienced from the water, on your own
-                  terms, with the freedom to discover hidden coves inaccessible
-                  to any other traveller.
-                </p>
-                <p
-                  style={{
-                    fontFamily: "var(--font-cormorant-garamond), serif",
-                    fontSize: "17px",
-                    color: "rgba(44,44,44,0.75)",
-                    lineHeight: "1.8",
-                  }}
-                >
-                  Based in Athens and operating across the Aegean and Ionian
-                  seas, our fleet of premium catamarans represents the finest
-                  vessels available for charter in Greece — each one maintained
-                  to the highest standard and crewed by professionals who know
-                  these waters intimately.
-                </p>
+                {(aboutParagraphs.length
+                  ? aboutParagraphs
+                  : [
+                      "ALMA Yachting was founded on a singular belief: that the Greek islands deserve to be experienced from the water, on your own terms, with the freedom to discover hidden coves inaccessible to any other traveller.",
+                      "Based in Athens and operating across the Aegean and Ionian seas, our fleet of premium catamarans represents the finest vessels available for charter in Greece — each one maintained to the highest standard and crewed by professionals who know these waters intimately.",
+                    ]
+                ).map((paragraph, i) => (
+                  <p
+                    key={i}
+                    style={{
+                      fontFamily: "var(--font-cormorant-garamond), serif",
+                      fontSize: "17px",
+                      color: "rgba(44,44,44,0.75)",
+                      lineHeight: "1.8",
+                    }}
+                  >
+                    {paragraph}
+                  </p>
+                ))}
               </div>
               <div className="mt-8">
                 <Link href="/about" className="btn-dark">
@@ -143,9 +121,9 @@ export default async function HomePage() {
         <div className="container-xl">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
             <SectionTitle
-              label="02 / Fleet"
-              heading="Our Premium<br/>Vessels"
-              subtitle="Five exceptional catamarans, each a floating sanctuary for the discerning traveller."
+              label={homepage.fleetPreview.label}
+              heading={homepage.fleetPreview.heading}
+              subtitle={homepage.fleetPreview.subtitle}
             />
             <Link
               href="/fleet"
@@ -181,9 +159,9 @@ export default async function HomePage() {
         <div className="container-xl">
           <div className="text-center mb-14">
             <SectionTitle
-              label="03 / Services"
-              heading="What We Offer"
-              subtitle="A complete suite of maritime services, delivered with Greek warmth and world-class precision."
+              label={homepage.servicesSection.label}
+              heading={homepage.servicesSection.heading}
+              subtitle={homepage.servicesSection.subtitle}
               align="center"
               light
             />
@@ -194,11 +172,11 @@ export default async function HomePage() {
             style={{ background: "rgba(255,255,255,0.05)" }}
           >
             {services.map((service, i) => {
-              const Icon = service.icon;
+              const Icon = serviceIcons[i % serviceIcons.length];
               return (
                 <Link
-                  key={service.title}
-                  href={service.href}
+                  key={service.slug}
+                  href={`/services#${service.slug}`}
                   className="group relative p-8 lg:p-10 transition-all duration-300"
                   style={{ background: "rgba(10,22,40,0.95)" }}
                 >
@@ -244,7 +222,7 @@ export default async function HomePage() {
                       lineHeight: "1.7",
                     }}
                   >
-                    {service.description}
+                    {service.shortDescription}
                   </p>
 
                   <div
@@ -285,9 +263,9 @@ export default async function HomePage() {
         <div className="container-xl">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
             <SectionTitle
-              label="04 / Destinations"
-              heading="Greek Island<br/>Paradise"
-              subtitle="From the glamour of Mykonos to the serenity of Hydra — discover Greece as only a yacht can show you."
+              label={homepage.destinationsSection.label}
+              heading={homepage.destinationsSection.heading}
+              subtitle={homepage.destinationsSection.subtitle}
             />
             <Link
               href="/destinations"
@@ -448,7 +426,7 @@ export default async function HomePage() {
               textTransform: "uppercase",
             }}
           >
-            05 / Begin Your Journey
+            {homepage.ctaSection.label}
           </p>
 
           <h2
@@ -462,7 +440,7 @@ export default async function HomePage() {
               letterSpacing: "-0.01em",
             }}
           >
-            Ready to Set Sail?
+            {homepage.ctaSection.heading}
           </h2>
 
           <p
@@ -476,17 +454,16 @@ export default async function HomePage() {
               lineHeight: "1.65",
             }}
           >
-            Contact our team to begin crafting your perfect Greek sailing
-            experience. We respond within 24 hours.
+            {homepage.ctaSection.bodyText}
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link href="/contact" className="btn-primary">
-              Plan Your Charter
+              {homepage.ctaSection.ctaPrimaryText}
               <ArrowRight size={14} />
             </Link>
             <Link href="/fleet" className="btn-outline">
-              Browse Our Fleet
+              {homepage.ctaSection.ctaSecondaryText}
             </Link>
           </div>
 
@@ -506,7 +483,7 @@ export default async function HomePage() {
                 color: "rgba(138,155,168,0.4)",
               }}
             >
-              MARINA ZEA · PIRAEUS · ATHENS
+              {siteSettings.basePort.toUpperCase()}
             </span>
             <div
               style={{

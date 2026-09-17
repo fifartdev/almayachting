@@ -1,6 +1,7 @@
 import type { GlobalConfig } from "payload";
 import { isEditor } from "../lib/payload-access.ts";
 import { seoExtendedFields } from "../lib/seo-fields.ts";
+import { createRevalidateGlobalHook } from "./hooks/revalidateGlobal.ts";
 
 export const AboutPage: GlobalConfig = {
   slug: "about-page",
@@ -11,6 +12,9 @@ export const AboutPage: GlobalConfig = {
   access: {
     read: () => true,
     update: isEditor,
+  },
+  hooks: {
+    afterChange: [createRevalidateGlobalHook(["/about"])],
   },
   fields: [
     {

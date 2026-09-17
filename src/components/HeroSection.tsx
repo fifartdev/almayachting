@@ -6,10 +6,30 @@ import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowDown, ArrowRight } from "lucide-react";
+import type { StatItem } from "@/lib/globals";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function HeroSection() {
+interface HeroSectionProps {
+  label: string;
+  headline: string;
+  subheadline: string;
+  ctaPrimaryText: string;
+  ctaSecondaryText: string;
+  stats: StatItem[];
+}
+
+export default function HeroSection({
+  label,
+  headline,
+  subheadline,
+  ctaPrimaryText,
+  ctaSecondaryText,
+  stats,
+}: HeroSectionProps) {
+  const headlineWords = headline.trim().split(" ");
+  const headlineLastWord = headlineWords.pop() ?? "";
+  const headlineLead = headlineWords.join(" ");
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
@@ -138,7 +158,7 @@ export default function HeroSection() {
                 textTransform: "uppercase",
               }}
             >
-              Greece · Mediterranean · Aegean
+              {label}
             </span>
           </div>
 
@@ -155,9 +175,13 @@ export default function HeroSection() {
               textTransform: "uppercase",
             }}
           >
-            Sail the
-            <br />
-            <span style={{ color: "#8A9BA8" }}>Mediterranean</span>
+            {headlineLead && (
+              <>
+                {headlineLead}
+                <br />
+              </>
+            )}
+            <span style={{ color: "#8A9BA8" }}>{headlineLastWord}</span>
           </h1>
 
           {/* Subtitle */}
@@ -173,18 +197,17 @@ export default function HeroSection() {
               lineHeight: "1.6",
             }}
           >
-            Bespoke yacht charters across the Greek islands. Where the Aegean
-            meets luxury.
+            {subheadline}
           </p>
 
           {/* CTA Buttons */}
           <div ref={ctaRef} className="flex flex-wrap items-center gap-4">
             <Link href="/fleet" className="btn-primary">
-              Explore Our Fleet
+              {ctaPrimaryText}
               <ArrowRight size={14} />
             </Link>
             <Link href="/contact" className="btn-outline">
-              Plan Your Journey
+              {ctaSecondaryText}
             </Link>
           </div>
         </div>
@@ -198,12 +221,7 @@ export default function HeroSection() {
         >
           <div className="container-xl">
             <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
-              {[
-                { value: "5", label: "Premium Yachts" },
-                { value: "8+", label: "Destinations" },
-                { value: "300+", label: "Happy Guests" },
-                { value: "10+", label: "Years Experience" },
-              ].map((stat) => (
+              {stats.map((stat) => (
                 <div key={stat.label} className="px-6 py-5 text-center">
                   <div
                     style={{
