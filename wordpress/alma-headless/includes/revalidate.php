@@ -13,30 +13,54 @@ namespace Alma;
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Queues a webhook; all queued webhooks are sent once WordPress has finished
+ * responding to the editor (see send_queued_notifications), so saving stays fast.
+ */
 function notify_frontend( array $payload ): void {
-	static $sent = array();
+	static $hooked = false;
 
 	if ( ! defined( 'ALMA_REVALIDATE_URL' ) || ! defined( 'ALMA_REVALIDATE_SECRET' ) ) {
 		return;
 	}
-	$body = wp_json_encode( $payload );
-	if ( isset( $sent[ $body ] ) ) {
+	$GLOBALS['alma_revalidate_queue'][ wp_json_encode( $payload ) ] = true;
+
+	if ( ! $hooked ) {
+		$hooked = true;
+		add_action( 'shutdown', __NAMESPACE__ . '\send_queued_notifications' );
+	}
+}
+
+/**
+ * Sends queued webhooks as normal (blocking) requests. Non-blocking HTTPS requests are
+ * often dropped by PHP before they leave the server, so the response to the browser is
+ * flushed first where PHP-FPM allows it.
+ */
+function send_queued_notifications(): void {
+	$queue = array_keys( $GLOBALS['alma_revalidate_queue'] ?? array() );
+	if ( ! $queue ) {
 		return;
 	}
-	$sent[ $body ] = true;
-
-	wp_remote_post(
-		ALMA_REVALIDATE_URL,
-		array(
-			'blocking' => false,
-			'timeout'  => 3,
-			'headers'  => array(
-				'Content-Type'   => 'application/json',
-				'x-alma-secret'  => ALMA_REVALIDATE_SECRET,
-			),
-			'body'     => $body,
-		)
-	);
+	if ( function_exists( 'fastcgi_finish_request' ) ) {
+		fastcgi_finish_request();
+	}
+	foreach ( $queue as $body ) {
+		$response = wp_remote_post(
+			ALMA_REVALIDATE_URL,
+			array(
+				'timeout' => 10,
+				'headers' => array(
+					'Content-Type'  => 'application/json',
+					'x-alma-secret' => ALMA_REVALIDATE_SECRET,
+				),
+				'body'    => $body,
+			)
+		);
+		$code = is_wp_error( $response ) ? $response->get_error_message() : wp_remote_retrieve_response_code( $response );
+		if ( 200 !== $code ) {
+			error_log( 'ALMA Headless: revalidation webhook failed (' . $code . ') for ' . $body ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+		}
+	}
 }
 
 function revalidate_type( string $post_type ): ?string {
