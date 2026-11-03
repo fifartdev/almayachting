@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ALMA Headless
  * Description: Content model and REST API for the ALMA Yachting Next.js frontend — custom post types, page settings, menus and on-demand revalidation. Uses WordPress core only (no third-party plugins).
- * Version:     0.1.0
+ * Version:     0.2.0
  * Requires at least: 6.4
  * Requires PHP: 7.4
  * Author:      ALMA Yachting
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'ALMA_HEADLESS_VERSION', '0.1.0' );
+define( 'ALMA_HEADLESS_VERSION', '0.2.0' );
 define( 'ALMA_HEADLESS_DIR', plugin_dir_path( __FILE__ ) );
 define( 'ALMA_HEADLESS_URL', plugin_dir_url( __FILE__ ) );
 
