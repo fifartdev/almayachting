@@ -29,6 +29,7 @@ define( 'ALMA_REVALIDATE_SECRET', 'long-random-string' );                // same
 | **Fleet** | Vessels: details, specs, highlights, hero image (featured image), gallery | `/fleet`, `/fleet/{slug}` |
 | **Destinations** / **Services** / **Team** | One entry each; order = "Order" in Page Attributes | Their sections |
 | **Pages** | Free pages: title, featured image (hero), block content, optional CTA band | `/{slug}` (standard template) |
+| **Enquiries** | Every form submission (Contact page and vessel pages): status New / Contacted / Booked / Closed, internal notes, email delivery, reply button. Count of new ones in the menu. Tools → Export/Erase Personal Data covers them (GDPR). | Read-only, never public |
 | **Appearance → Menus** | "Main navigation" and "Footer navigation" | Header / footer |
 
 Every entry and page screen also has an **SEO & GEO** panel: meta title/description, key phrases,

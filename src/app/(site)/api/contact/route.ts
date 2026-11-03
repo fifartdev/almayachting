@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { markEnquiryDelivery, recordEnquiry } from "@/lib/enquiries";
 
 /** Visitor input is untrusted: escape it before it goes into the email HTML. */
 function escapeHtml(value: unknown): string {
@@ -14,13 +15,32 @@ function escapeHtml(value: unknown): string {
 const EMAIL_PATTERN = /^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/;
 
 export async function POST(req: NextRequest) {
-  const resend = new Resend(process.env.RESEND_API_KEY);
   const body = await req.json();
   const raw = body as Record<string, unknown>;
 
-  if (!raw.name || !raw.email || !raw.message || !EMAIL_PATTERN.test(String(raw.email))) {
-    return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
+  // Honeypot: a hidden field real visitors never fill in. Pretend success so bots move on.
+  if (raw.website) {
+    return NextResponse.json({ success: true });
   }
+
+  if (!raw.name || !raw.email || !EMAIL_PATTERN.test(String(raw.email))) {
+    return NextResponse.json({ error: "Please enter your name and a valid email address." }, { status: 400 });
+  }
+
+  const text = (v: unknown, max = 200) => (typeof v === "string" || typeof v === "number" ? String(v).slice(0, max) : "");
+
+  // Record first, so the enquiry is kept in WordPress even if the email fails.
+  const enquiryId = await recordEnquiry({
+    name: text(raw.name),
+    email: text(raw.email),
+    phone: text(raw.phone),
+    yacht: text(raw.yacht),
+    checkIn: text(raw.checkIn),
+    checkOut: text(raw.checkOut),
+    guests: text(raw.guests),
+    message: text(raw.message, 5000),
+    source: text(raw.source),
+  });
 
   const [name, email, phone, yacht, checkIn, checkOut, guests, message] = [
     raw.name,
@@ -33,7 +53,12 @@ export async function POST(req: NextRequest) {
     raw.message,
   ].map((v) => (v ? escapeHtml(v) : ""));
 
-  const { error } = await resend.emails.send({
+  // Created here, not up front: a missing key must not stop the enquiry being recorded.
+  const sendEmail = (payload: Parameters<Resend["emails"]["send"]>[0]) =>
+    new Resend(process.env.RESEND_API_KEY).emails.send(payload);
+
+  const { error } = await Promise.resolve()
+    .then(() => sendEmail({
     from: "ALMA Yachting <enquiries@almayachting.com>",
     to: ["info@almayachting.com"],
     replyTo: String(raw.email),
@@ -93,10 +118,18 @@ export async function POST(req: NextRequest) {
         </div>
       </div>
     `,
-  });
+  }))
+    .catch((err: unknown) => ({ data: null, error: { message: String(err) } }));
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) console.error("Enquiry email failed:", error.message);
+  if (enquiryId) await markEnquiryDelivery(enquiryId, error ? "failed" : "sent");
+
+  // Success as long as the enquiry reached the office one way or the other.
+  if (error && !enquiryId) {
+    return NextResponse.json(
+      { error: "Sorry, your enquiry could not be sent. Please email or call us directly." },
+      { status: 500 },
+    );
   }
 
   return NextResponse.json({ success: true });

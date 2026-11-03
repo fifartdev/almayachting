@@ -26,6 +26,7 @@ export default function ContactClient({ yachts, contactPage, siteSettings }: Pro
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [website, setWebsite] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -42,7 +43,7 @@ export default function ContactClient({ yachts, contactPage, siteSettings }: Pro
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, source: "/contact", website }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong.");
@@ -247,7 +248,18 @@ export default function ContactClient({ yachts, contactPage, siteSettings }: Pro
                       </h2>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-7">
+                    <form onSubmit={handleSubmit} className="space-y-7 relative">
+                      {/* Spam trap: hidden from people, filled in by bots. */}
+                      <input
+                        type="text"
+                        name="website"
+                        value={website}
+                        onChange={(e) => setWebsite(e.target.value)}
+                        tabIndex={-1}
+                        autoComplete="off"
+                        aria-hidden="true"
+                        style={{ position: "absolute", left: "-10000px", width: "1px", height: "1px", opacity: 0 }}
+                      />
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
                         <div>
                           <label htmlFor="name" style={{ display: "block", fontFamily: "var(--font-barlow-condensed), sans-serif", fontSize: "9px", letterSpacing: "0.18em", color: "rgba(44,44,44,0.45)", textTransform: "uppercase", marginBottom: "8px" }}>Full Name *</label>
