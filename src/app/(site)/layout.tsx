@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import {
   Barlow_Condensed,
   Jost,
@@ -7,7 +7,12 @@ import {
 import "../globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import JsonLd from "@/components/JsonLd";
 import { getSiteSettings } from "@/lib/globals";
+import { getSeoSettings, pageMetadata, siteJsonLd, siteMetadata } from "@/lib/seo";
+import { getMenu, defaultFooterLinks, defaultPrimaryLinks } from "@/lib/menus";
+import { getYachts } from "@/lib/yachts";
+import { getDestinations } from "@/lib/destinations";
 
 const barlowCondensed = Barlow_Condensed({
   variable: "--font-barlow-condensed",
@@ -30,65 +35,45 @@ const dmMono = DM_Mono({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "ALMA Yachting | Luxury Yacht Charter & Management in Greece",
-    template: "%s | ALMA Yachting",
-  },
-  description:
-    "ALMA Yachting offers bespoke luxury yacht charter and fleet management services in Greece. Sail the Aegean and Ionian seas aboard our premium fleet of catamarans.",
-  keywords: [
-    "yacht charter Greece",
-    "luxury sailing Greece",
-    "catamaran charter",
-    "Aegean yacht",
-    "Greek islands sailing",
-    "ALMA Yachting",
-    "fleet management Greece",
-  ],
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://almayachting.com",
-    siteName: "ALMA Yachting",
-    title: "ALMA Yachting | Luxury Yacht Charter & Management in Greece",
-    description:
-      "Bespoke luxury yacht charter and fleet management in Greece. Sail the Aegean aboard our premium catamaran fleet.",
-    images: [
-      {
-        url: "/images/various/hero-b.jpg",
-        width: 1200,
-        height: 630,
-        alt: "ALMA Yachting - Luxury Yacht Charter in Greece",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "ALMA Yachting | Luxury Yacht Charter in Greece",
-    description: "Bespoke luxury yacht charter and fleet management in Greece.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const [defaults, site] = await Promise.all([pageMetadata({ seo: null, path: "/" }), siteMetadata()]);
+  // Every page sets its own canonical; a site-wide one would mislabel 404s as the homepage.
+  return { ...defaults, ...site, alternates: undefined };
+}
+
+export async function generateViewport(): Promise<Viewport> {
+  const site = await getSeoSettings();
+  return { themeColor: site.general.themeColor || "#0A1628" };
+}
 
 export default async function SiteLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const siteSettings = await getSiteSettings();
+  const [siteSettings, site, primaryLinks, footerLinks, yachts, destinations] = await Promise.all([
+    getSiteSettings(),
+    getSeoSettings(),
+    getMenu("primary", defaultPrimaryLinks),
+    getMenu("footer", defaultFooterLinks),
+    getYachts(),
+    getDestinations(),
+  ]);
   return (
-    <html lang="en">
+    <html lang={site.general.locale.split("_")[0] || "en"}>
       <body
         className={`${barlowCondensed.variable} ${jost.variable} ${dmMono.variable} antialiased`}
         style={{ fontFamily: "var(--font-cormorant-garamond), sans-serif" }}
       >
-        <Navigation />
+        <JsonLd data={siteJsonLd(site)} />
+        <Navigation links={primaryLinks} />
         <main>{children}</main>
-        <Footer settings={siteSettings} />
+        <Footer
+          settings={siteSettings}
+          companyLinks={footerLinks}
+          fleetLinks={yachts.map((y) => ({ href: `/fleet/${y.slug}`, label: y.name }))}
+          destinationLinks={destinations.slice(0, 5).map((d) => ({ href: `/destinations#${d.id}`, label: d.name }))}
+        />
       </body>
     </html>
   );

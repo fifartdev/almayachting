@@ -16,18 +16,265 @@ defined( 'ABSPATH' ) || exit;
 /** Slugs owned by built-in frontend routes; pages cannot use them. */
 const RESERVED_PAGE_SLUGS = array( 'fleet', 'destinations', 'services', 'about', 'contact', 'privacy', 'terms', 'api', 'admin' );
 
+/**
+ * Per-entry SEO & GEO panel, attached to every post type, page and page-settings screen.
+ * "GEO" covers both Generative Engine Optimization (AI search) and geographic targeting.
+ */
 function seo_group(): array {
 	return array(
 		'name'   => 'seo',
 		'type'   => 'group',
-		'label'  => 'SEO',
+		'label'  => 'SEO & GEO',
 		'fields' => array(
-			array( 'name' => 'title', 'type' => 'text', 'label' => 'Meta title', 'description' => 'Leave blank to use the default title.' ),
-			array( 'name' => 'description', 'type' => 'textarea', 'label' => 'Meta description' ),
-			array( 'name' => 'image', 'type' => 'image', 'label' => 'Social share image' ),
-			array( 'name' => 'focusKeyphrase', 'type' => 'text', 'label' => 'Focus key phrase' ),
-			array( 'name' => 'contentSummary', 'type' => 'textarea', 'label' => 'Content summary (AI search)', 'description' => '2–3 factual sentences that summarise this page.' ),
-			array( 'name' => 'canonicalUrl', 'type' => 'url', 'label' => 'Canonical URL', 'description' => 'Leave blank to use the default URL.' ),
+			array( 'name' => 'title', 'type' => 'text', 'label' => 'Meta title', 'description' => 'Leave blank to use the default title. Aim for 50–60 characters.' ),
+			array( 'name' => 'description', 'type' => 'textarea', 'label' => 'Meta description', 'description' => 'Aim for 120–160 characters.' ),
+			array( 'name' => 'focusKeyphrase', 'type' => 'text', 'label' => 'Focus key phrase', 'description' => "e.g. 'Lagoon 55 charter Greece'." ),
+			array( 'name' => 'secondaryKeyphrases', 'type' => 'lines', 'label' => 'Secondary key phrases', 'description' => 'One per line. Output as meta keywords.' ),
+			array( 'name' => 'canonicalUrl', 'type' => 'url', 'label' => 'Canonical URL', 'description' => 'Leave blank to use this page’s own URL.' ),
+			array(
+				'name'   => 'robots',
+				'type'   => 'group',
+				'label'  => 'Indexing',
+				'fields' => array(
+					array( 'name' => 'noindex', 'type' => 'checkbox', 'label' => 'Hide from search engines (noindex)' ),
+					array( 'name' => 'nofollow', 'type' => 'checkbox', 'label' => 'Do not follow links (nofollow)' ),
+					array( 'name' => 'noarchive', 'type' => 'checkbox', 'label' => 'No cached copy (noarchive)' ),
+					array( 'name' => 'nosnippet', 'type' => 'checkbox', 'label' => 'No text snippet (nosnippet)' ),
+					array( 'name' => 'noimageindex', 'type' => 'checkbox', 'label' => 'Do not index images (noimageindex)' ),
+					array(
+						'name'    => 'maxImagePreview',
+						'type'    => 'select',
+						'label'   => 'Max image preview',
+						'default' => 'large',
+						'options' => array( 'large' => 'Large', 'standard' => 'Standard', 'none' => 'None' ),
+					),
+					array( 'name' => 'maxSnippet', 'type' => 'number', 'label' => 'Max snippet length', 'description' => 'Characters. Leave blank for no limit.' ),
+					array( 'name' => 'excludeFromSitemap', 'type' => 'checkbox', 'label' => 'Exclude from sitemap.xml' ),
+					array(
+						'name'    => 'sitemapPriority',
+						'type'    => 'select',
+						'label'   => 'Sitemap priority',
+						'options' => array( '' => 'Automatic', '1.0' => '1.0', '0.9' => '0.9', '0.8' => '0.8', '0.7' => '0.7', '0.6' => '0.6', '0.5' => '0.5', '0.4' => '0.4', '0.3' => '0.3', '0.2' => '0.2', '0.1' => '0.1' ),
+					),
+					array(
+						'name'    => 'sitemapChangeFrequency',
+						'type'    => 'select',
+						'label'   => 'Sitemap change frequency',
+						'options' => array( '' => 'Automatic', 'always' => 'Always', 'hourly' => 'Hourly', 'daily' => 'Daily', 'weekly' => 'Weekly', 'monthly' => 'Monthly', 'yearly' => 'Yearly', 'never' => 'Never' ),
+					),
+				),
+			),
+			array(
+				'name'   => 'openGraph',
+				'type'   => 'group',
+				'label'  => 'Social sharing (Facebook, LinkedIn, WhatsApp)',
+				'fields' => array(
+					array( 'name' => 'title', 'type' => 'text', 'label' => 'Title', 'description' => 'Defaults to the meta title.' ),
+					array( 'name' => 'description', 'type' => 'textarea', 'label' => 'Description', 'description' => 'Defaults to the meta description.' ),
+					array( 'name' => 'image', 'type' => 'image', 'label' => 'Image', 'description' => '1200 × 630 px recommended. Defaults to the main image, then the site default.' ),
+					array(
+						'name'    => 'type',
+						'type'    => 'select',
+						'label'   => 'Type',
+						'default' => 'website',
+						'options' => array( 'website' => 'Website', 'article' => 'Article' ),
+					),
+				),
+			),
+			array(
+				'name'   => 'twitter',
+				'type'   => 'group',
+				'label'  => 'X / Twitter',
+				'fields' => array(
+					array( 'name' => 'title', 'type' => 'text', 'label' => 'Title', 'description' => 'Defaults to the social sharing title.' ),
+					array( 'name' => 'description', 'type' => 'textarea', 'label' => 'Description' ),
+					array( 'name' => 'image', 'type' => 'image', 'label' => 'Image' ),
+					array(
+						'name'    => 'card',
+						'type'    => 'select',
+						'label'   => 'Card type',
+						'default' => 'summary_large_image',
+						'options' => array( 'summary_large_image' => 'Large image', 'summary' => 'Summary' ),
+					),
+				),
+			),
+			array(
+				'name'   => 'ai',
+				'type'   => 'group',
+				'label'  => 'AI search (GEO)',
+				'fields' => array(
+					array( 'name' => 'contentSummary', 'type' => 'textarea', 'label' => 'Content summary', 'description' => '2–3 factual sentences answering “what is this page about?”. Used in structured data and llms.txt for ChatGPT, Perplexity, Gemini and Google AI Overviews.' ),
+					array( 'name' => 'keyFacts', 'type' => 'lines', 'label' => 'Key facts', 'description' => 'One short, citable fact per line (e.g. “Based in Marina Zea, Piraeus”).' ),
+					array(
+						'name'   => 'faq',
+						'type'   => 'repeater',
+						'label'  => 'FAQ',
+						'button' => 'Add question',
+						'fields' => array(
+							array( 'name' => 'question', 'type' => 'text', 'label' => 'Question' ),
+							array( 'name' => 'answer', 'type' => 'textarea', 'label' => 'Answer' ),
+						),
+					),
+					array( 'name' => 'showFaq', 'type' => 'checkbox', 'label' => 'Also show the FAQ on the page', 'description' => 'Google only uses FAQ structured data for questions visible on the page.' ),
+					array(
+						'name'    => 'schemaType',
+						'type'    => 'select',
+						'label'   => 'Page type (structured data)',
+						'options' => array(
+							''                   => 'Automatic',
+							'WebPage'            => 'Web page',
+							'AboutPage'          => 'About page',
+							'ContactPage'        => 'Contact page',
+							'CollectionPage'     => 'Collection / listing page',
+							'FAQPage'            => 'FAQ page',
+							'Article'            => 'Article',
+							'Service'            => 'Service',
+							'Product'            => 'Product',
+							'TouristDestination' => 'Tourist destination',
+							'TouristTrip'        => 'Tourist trip / itinerary',
+						),
+					),
+					array( 'name' => 'breadcrumbTitle', 'type' => 'text', 'label' => 'Breadcrumb title', 'description' => 'Short name for breadcrumbs. Defaults to the title.' ),
+				),
+			),
+			array(
+				'name'   => 'location',
+				'type'   => 'group',
+				'label'  => 'Geographic targeting',
+				'fields' => array(
+					array( 'name' => 'placeName', 'type' => 'text', 'label' => 'Place name', 'description' => 'e.g. Hydra, Saronic Gulf. Leave blank to use the site default.' ),
+					array( 'name' => 'region', 'type' => 'text', 'label' => 'Region code', 'description' => 'ISO 3166-2, e.g. GR-I (Attica), GR-J (Peloponnese), GR-L (South Aegean).' ),
+					array( 'name' => 'latitude', 'type' => 'number', 'label' => 'Latitude' ),
+					array( 'name' => 'longitude', 'type' => 'number', 'label' => 'Longitude' ),
+				),
+			),
+		),
+	);
+}
+
+/** Site-wide SEO & GEO defaults, verification, structured data and crawler rules. */
+function seo_settings_fields(): array {
+	return array(
+		array(
+			'name'   => 'general',
+			'type'   => 'group',
+			'label'  => 'Defaults',
+			'fields' => array(
+				array( 'name' => 'siteUrl', 'type' => 'url', 'label' => 'Website URL', 'description' => 'Canonical base, e.g. https://www.almayachting.com' ),
+				array( 'name' => 'siteName', 'type' => 'text', 'label' => 'Site name' ),
+				array( 'name' => 'titleTemplate', 'type' => 'text', 'label' => 'Title template', 'description' => '%s is replaced by the page title, e.g. “%s | ALMA Yachting”.' ),
+				array( 'name' => 'defaultTitle', 'type' => 'text', 'label' => 'Default title', 'description' => 'Homepage and pages without their own title.' ),
+				array( 'name' => 'defaultDescription', 'type' => 'textarea', 'label' => 'Default meta description' ),
+				array( 'name' => 'defaultKeywords', 'type' => 'lines', 'label' => 'Default keywords', 'description' => 'One per line.' ),
+				array( 'name' => 'defaultShareImage', 'type' => 'image', 'label' => 'Default social share image', 'description' => '1200 × 630 px.' ),
+				array( 'name' => 'locale', 'type' => 'text', 'label' => 'Locale', 'description' => 'e.g. en_US' ),
+				array(
+					'name'   => 'alternateLanguages',
+					'type'   => 'repeater',
+					'label'  => 'Alternate language sites (hreflang)',
+					'button' => 'Add language',
+					'fields' => array(
+						array( 'name' => 'hreflang', 'type' => 'text', 'label' => 'Language code', 'description' => 'e.g. el, de, x-default' ),
+						array( 'name' => 'url', 'type' => 'url', 'label' => 'Site URL' ),
+					),
+				),
+				array( 'name' => 'themeColor', 'type' => 'text', 'label' => 'Browser theme colour', 'description' => 'e.g. #0A1628' ),
+			),
+		),
+		array(
+			'name'   => 'verification',
+			'type'   => 'group',
+			'label'  => 'Search engine verification',
+			'fields' => array(
+				array( 'name' => 'google', 'type' => 'text', 'label' => 'Google Search Console', 'description' => 'Only the content="…" code.' ),
+				array( 'name' => 'bing', 'type' => 'text', 'label' => 'Bing Webmaster Tools' ),
+				array( 'name' => 'yandex', 'type' => 'text', 'label' => 'Yandex' ),
+				array( 'name' => 'baidu', 'type' => 'text', 'label' => 'Baidu' ),
+				array( 'name' => 'pinterest', 'type' => 'text', 'label' => 'Pinterest' ),
+				array( 'name' => 'facebook', 'type' => 'text', 'label' => 'Facebook domain verification' ),
+			),
+		),
+		array(
+			'name'   => 'social',
+			'type'   => 'group',
+			'label'  => 'Social profiles',
+			'fields' => array(
+				array( 'name' => 'twitterSite', 'type' => 'text', 'label' => 'X / Twitter handle', 'description' => 'e.g. @almayachting' ),
+				array( 'name' => 'facebookAppId', 'type' => 'text', 'label' => 'Facebook App ID' ),
+				array( 'name' => 'sameAs', 'type' => 'lines', 'label' => 'Profile URLs', 'description' => 'One per line: Instagram, Facebook, LinkedIn, YouTube, TripAdvisor, Google Business Profile… Tells search and AI engines these profiles belong to you.' ),
+			),
+		),
+		array(
+			'name'   => 'organization',
+			'type'   => 'group',
+			'label'  => 'Business (structured data / local SEO)',
+			'fields' => array(
+				array(
+					'name'    => 'type',
+					'type'    => 'select',
+					'label'   => 'Business type',
+					'default' => 'TravelAgency',
+					'options' => array( 'TravelAgency' => 'Travel agency', 'LocalBusiness' => 'Local business', 'Organization' => 'Organization', 'TouristInformationCenter' => 'Tourist information centre' ),
+				),
+				array( 'name' => 'name', 'type' => 'text', 'label' => 'Business name' ),
+				array( 'name' => 'legalName', 'type' => 'text', 'label' => 'Legal name' ),
+				array( 'name' => 'alternateName', 'type' => 'text', 'label' => 'Alternate name' ),
+				array( 'name' => 'description', 'type' => 'textarea', 'label' => 'Description' ),
+				array( 'name' => 'logo', 'type' => 'image', 'label' => 'Logo', 'description' => 'Square or wide PNG, at least 112 × 112 px.' ),
+				array( 'name' => 'image', 'type' => 'image', 'label' => 'Representative photo' ),
+				array( 'name' => 'phone', 'type' => 'text', 'label' => 'Phone (international format)' ),
+				array( 'name' => 'email', 'type' => 'email', 'label' => 'Email' ),
+				array( 'name' => 'streetAddress', 'type' => 'text', 'label' => 'Street address' ),
+				array( 'name' => 'locality', 'type' => 'text', 'label' => 'City' ),
+				array( 'name' => 'region', 'type' => 'text', 'label' => 'Region' ),
+				array( 'name' => 'postalCode', 'type' => 'text', 'label' => 'Postal code' ),
+				array( 'name' => 'country', 'type' => 'text', 'label' => 'Country code', 'description' => 'ISO 3166-1, e.g. GR' ),
+				array( 'name' => 'latitude', 'type' => 'number', 'label' => 'Latitude' ),
+				array( 'name' => 'longitude', 'type' => 'number', 'label' => 'Longitude' ),
+				array( 'name' => 'mapUrl', 'type' => 'url', 'label' => 'Google Maps / Business Profile URL' ),
+				array( 'name' => 'priceRange', 'type' => 'text', 'label' => 'Price range', 'description' => 'e.g. €€€ or “€5,000–€25,000 per week”.' ),
+				array( 'name' => 'currency', 'type' => 'text', 'label' => 'Currency', 'description' => 'ISO 4217, e.g. EUR' ),
+				array( 'name' => 'areaServed', 'type' => 'lines', 'label' => 'Areas served', 'description' => 'One per line, e.g. Cyclades, Saronic Gulf, Ionian Islands.' ),
+				array( 'name' => 'knowsLanguage', 'type' => 'lines', 'label' => 'Languages spoken', 'description' => 'One per line, e.g. English, Greek.' ),
+				array( 'name' => 'foundingDate', 'type' => 'text', 'label' => 'Founding year', 'description' => 'e.g. 2014' ),
+				array( 'name' => 'vatId', 'type' => 'text', 'label' => 'VAT number' ),
+				array(
+					'name'   => 'openingHours',
+					'type'   => 'repeater',
+					'label'  => 'Opening hours',
+					'button' => 'Add hours',
+					'fields' => array(
+						array( 'name' => 'days', 'type' => 'lines', 'label' => 'Days', 'description' => 'One per line: Monday … Sunday.' ),
+						array( 'name' => 'opens', 'type' => 'text', 'label' => 'Opens', 'description' => 'HH:MM, e.g. 09:00' ),
+						array( 'name' => 'closes', 'type' => 'text', 'label' => 'Closes', 'description' => 'HH:MM, e.g. 18:00' ),
+					),
+				),
+			),
+		),
+		array(
+			'name'   => 'location',
+			'type'   => 'group',
+			'label'  => 'Geographic targeting (site default)',
+			'fields' => array(
+				array( 'name' => 'placeName', 'type' => 'text', 'label' => 'Place name', 'description' => 'e.g. Piraeus, Athens' ),
+				array( 'name' => 'region', 'type' => 'text', 'label' => 'Region code', 'description' => 'ISO 3166-2, e.g. GR-I' ),
+				array( 'name' => 'latitude', 'type' => 'number', 'label' => 'Latitude' ),
+				array( 'name' => 'longitude', 'type' => 'number', 'label' => 'Longitude' ),
+			),
+		),
+		array(
+			'name'   => 'crawlers',
+			'type'   => 'group',
+			'label'  => 'Crawlers, robots.txt & llms.txt',
+			'fields' => array(
+				array( 'name' => 'indexSite', 'type' => 'checkbox', 'label' => 'Allow search engines to index the website', 'default' => true, 'description' => 'Untick only for a staging site; it hides the whole site.' ),
+				array( 'name' => 'allowAiSearch', 'type' => 'checkbox', 'label' => 'Allow AI search engines (OAI-SearchBot, ChatGPT-User, PerplexityBot, Claude-SearchBot…)', 'default' => true ),
+				array( 'name' => 'allowAiTraining', 'type' => 'checkbox', 'label' => 'Allow AI model training (GPTBot, ClaudeBot, Google-Extended, CCBot…)', 'default' => true ),
+				array( 'name' => 'blockedBots', 'type' => 'lines', 'label' => 'Other blocked crawlers', 'description' => 'One user agent per line.' ),
+				array( 'name' => 'disallowPaths', 'type' => 'lines', 'label' => 'Disallowed paths', 'description' => 'One per line, e.g. /private' ),
+				array( 'name' => 'sitemapExclude', 'type' => 'lines', 'label' => 'Paths excluded from sitemap.xml', 'description' => 'One per line.' ),
+				array( 'name' => 'llmsIntro', 'type' => 'textarea', 'label' => 'llms.txt introduction', 'description' => 'Plain-language summary of the business for AI assistants. The page list is generated automatically.' ),
+			),
 		),
 	);
 }
@@ -121,6 +368,8 @@ function post_types(): array {
 				array( 'name' => 'highlights', 'type' => 'lines', 'label' => 'Highlights', 'max' => 6, 'description' => 'One per line, up to 6.' ),
 				array( 'name' => 'bestSeason', 'type' => 'text', 'label' => 'Best season', 'description' => 'e.g. May – October' ),
 				array( 'name' => 'distance', 'type' => 'text', 'label' => 'Distance', 'description' => 'e.g. 55 nautical miles from Athens' ),
+				array( 'name' => 'latitude', 'type' => 'number', 'label' => 'Latitude', 'description' => 'For maps and structured data, e.g. 37.3497' ),
+				array( 'name' => 'longitude', 'type' => 'number', 'label' => 'Longitude', 'description' => 'e.g. 23.4644' ),
 			),
 		),
 		'alma_service'     => array(
@@ -215,6 +464,10 @@ function settings_pages(): array {
 				array( 'name' => 'instagramUrl', 'type' => 'url', 'label' => 'Instagram URL' ),
 				array( 'name' => 'facebookUrl', 'type' => 'url', 'label' => 'Facebook URL' ),
 			),
+		),
+		'seo'               => array(
+			'title'  => 'SEO & GEO',
+			'fields' => seo_settings_fields(),
 		),
 		'homepage'          => array(
 			'title'  => 'Homepage',

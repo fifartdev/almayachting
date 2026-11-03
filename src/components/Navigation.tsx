@@ -6,16 +6,9 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import { Menu, X, Anchor } from "lucide-react";
+import type { NavLink } from "@/lib/menus";
 
-const navLinks = [
-  { href: "/fleet", label: "Fleet" },
-  { href: "/destinations", label: "Destinations" },
-  { href: "/services", label: "Services" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
-];
-
-export default function Navigation() {
+export default function Navigation({ links: navLinks }: { links: NavLink[] }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);

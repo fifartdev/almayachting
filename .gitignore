@@ -40,3 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 /CLAUDE.md 
+
+# WordPress migration cache
+/scripts/.wp-media-map.json

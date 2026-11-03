@@ -4,35 +4,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { Anchor, MapPin, Phone, Mail, Instagram, Facebook } from "lucide-react";
 import type { SiteSettingsContent } from "@/lib/globals";
+import type { NavLink } from "@/lib/menus";
 
 interface FooterProps {
   settings: SiteSettingsContent;
+  companyLinks: NavLink[];
+  fleetLinks: NavLink[];
+  destinationLinks: NavLink[];
 }
 
-const companyLinks = [
-  { href: "/about", label: "Our Story" },
-  { href: "/services", label: "Services" },
-  { href: "/destinations", label: "Destinations" },
-  { href: "/contact", label: "Contact Us" },
-];
-
-const fleetLinks = [
-  { href: "/fleet/lagoon-55", label: "Lagoon 55" },
-  { href: "/fleet/lagoon-51", label: "Lagoon 51" },
-  { href: "/fleet/lagoon-46", label: "Lagoon 46" },
-  { href: "/fleet/fountaine-pajot-51", label: "Fountaine Pajot 51" },
-  { href: "/fleet/fountaine-pajot-44", label: "Fountaine Pajot 44" },
-];
-
-const destinationLinks = [
-  { href: "/destinations#mykonos", label: "Mykonos" },
-  { href: "/destinations#santorini", label: "Santorini" },
-  { href: "/destinations#corfu", label: "Corfu" },
-  { href: "/destinations#rhodes", label: "Rhodes" },
-  { href: "/destinations#hydra", label: "Hydra" },
-];
-
-export default function Footer({ settings }: FooterProps) {
+export default function Footer({ settings, companyLinks, fleetLinks, destinationLinks }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   return (

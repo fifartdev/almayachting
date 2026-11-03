@@ -1,16 +1,43 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, EffectFade } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/effect-fade";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import type { StatItem } from "@/lib/globals";
+import type { WpImage, WpVideo } from "@/lib/wordpress";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const FALLBACK_IMAGE = {
+  url: "/images/various/hero-b.jpg",
+  alt: "Luxury catamaran sailing the Aegean Sea",
+};
+
+const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
+
+function subscribeReducedMotion(onChange: () => void) {
+  const query = window.matchMedia(REDUCED_MOTION);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
+
+function getReducedMotion() {
+  return window.matchMedia(REDUCED_MOTION).matches;
+}
+
 interface HeroSectionProps {
+  /** "slider": 1–6 images (one image = static); "video": a single looping video, no sliding. */
+  mode: "slider" | "video";
+  slides: WpImage[];
+  video: WpVideo | null;
+  videoPoster: WpImage | null;
   label: string;
   headline: string;
   subheadline: string;
@@ -20,6 +47,10 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({
+  mode,
+  slides,
+  video,
+  videoPoster,
   label,
   headline,
   subheadline,
@@ -37,6 +68,10 @@ export default function HeroSection({
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const reducedMotion = useSyncExternalStore(subscribeReducedMotion, getReducedMotion, () => false);
+
+  const showVideo = mode === "video" && video !== null;
+  const images = slides.length ? slides : [FALLBACK_IMAGE];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -97,20 +132,49 @@ export default function HeroSection({
       className="relative w-full overflow-hidden"
       style={{ height: "100svh", minHeight: "600px" }}
     >
-      {/* Background Image with Parallax */}
+      {/* Background (image slider or video) with parallax */}
       <div
         ref={imageRef}
         className="absolute inset-0"
         style={{ top: "-20%", bottom: "-20%", height: "140%" }}
       >
-        <Image
-          src="/images/various/hero-b.jpg"
-          alt="Luxury catamaran sailing the Aegean Sea"
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-        />
+        {showVideo ? (
+          reducedMotion && videoPoster ? (
+            <Image src={videoPoster.url} alt={videoPoster.alt} fill priority className="object-cover" sizes="100vw" />
+          ) : (
+            <video
+              className="absolute inset-0 h-full w-full object-cover"
+              autoPlay={!reducedMotion}
+              muted
+              loop
+              playsInline
+              preload="auto"
+              poster={videoPoster?.url}
+              aria-hidden
+            >
+              <source src={video.url} type={video.mimeType || "video/mp4"} />
+            </video>
+          )
+        ) : images.length === 1 ? (
+          <Image src={images[0].url} alt={images[0].alt} fill priority className="object-cover" sizes="100vw" />
+        ) : (
+          <Swiper
+            modules={[Autoplay, EffectFade]}
+            effect="fade"
+            fadeEffect={{ crossFade: true }}
+            loop
+            speed={1500}
+            autoplay={reducedMotion ? false : { delay: 6000, disableOnInteraction: false }}
+            allowTouchMove={false}
+            className="h-full w-full"
+          >
+            {images.map((image, i) => (
+              <SwiperSlide key={image.url} className="relative h-full w-full">
+                <Image src={image.url} alt={image.alt} fill priority={i === 0} className="object-cover" sizes="100vw" />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
       </div>
 
       {/* Dark gradient overlay */}

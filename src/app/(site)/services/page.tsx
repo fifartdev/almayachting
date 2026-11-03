@@ -4,14 +4,22 @@ import { Ship, Anchor, Users, Star, ArrowRight, Check } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import SectionTitle from "@/components/SectionTitle";
 import type { Metadata } from "next";
+import { getSeoSettings, pageJsonLd, pageMetadata, serviceJsonLd } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
+import FaqSection from "@/components/FaqSection";
 import { getServices } from "@/lib/services";
 import { getServicesPage } from "@/lib/globals";
 
-export const metadata: Metadata = {
-  title: "Services",
-  description:
-    "ALMA Yachting provides luxury yacht charter, fleet management, crewing services, and bespoke concierge experiences across Greece.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getServicesPage();
+  return pageMetadata({
+    seo,
+    path: "/services",
+    title: "Services",
+    description:
+      "ALMA Yachting provides luxury yacht charter, fleet management, crewing services, and bespoke concierge experiences across Greece.",
+  });
+}
 
 const serviceIcons: LucideIcon[] = [Ship, Anchor, Users, Star];
 const fallbackImages = [
@@ -23,8 +31,18 @@ const fallbackImages = [
 
 export default async function ServicesPage() {
   const [services, servicesPage] = await Promise.all([getServices(), getServicesPage()]);
+  const site = await getSeoSettings();
   return (
     <>
+      <JsonLd
+        data={pageJsonLd(site, {
+          seo: servicesPage.seo,
+          path: "/services",
+          title: "Services",
+          defaultType: "CollectionPage",
+        entities: services.map((s) => serviceJsonLd(site, s)),
+        })}
+      />
       {/* Hero */}
       <div
         className="relative flex items-end overflow-hidden"
@@ -309,6 +327,7 @@ export default async function ServicesPage() {
           </div>
         </div>
       </section>
+      <FaqSection seo={servicesPage.seo} />
     </>
   );
 }

@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description: "Privacy Policy for ALMA Yachting — how we collect, use, and protect your personal data.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata({
+    seo: null,
+    path: "/privacy",
+    title: "Privacy Policy",
+    description: "Privacy Policy for ALMA Yachting — how we collect, use, and protect your personal data.",
+  });
+}
 
 const sections = [
   {

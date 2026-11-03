@@ -1,20 +1,43 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
+/** Visitor input is untrusted: escape it before it goes into the email HTML. */
+function escapeHtml(value: unknown): string {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+const EMAIL_PATTERN = /^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/;
+
 export async function POST(req: NextRequest) {
   const resend = new Resend(process.env.RESEND_API_KEY);
   const body = await req.json();
-  const { name, email, phone, yacht, checkIn, checkOut, guests, message } = body;
+  const raw = body as Record<string, unknown>;
 
-  if (!name || !email || !message) {
+  if (!raw.name || !raw.email || !raw.message || !EMAIL_PATTERN.test(String(raw.email))) {
     return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
   }
+
+  const [name, email, phone, yacht, checkIn, checkOut, guests, message] = [
+    raw.name,
+    raw.email,
+    raw.phone,
+    raw.yacht,
+    raw.checkIn,
+    raw.checkOut,
+    raw.guests,
+    raw.message,
+  ].map((v) => (v ? escapeHtml(v) : ""));
 
   const { error } = await resend.emails.send({
     from: "ALMA Yachting <enquiries@almayachting.com>",
     to: ["info@almayachting.com"],
-    replyTo: email,
-    subject: `Charter Enquiry from ${name}`,
+    replyTo: String(raw.email),
+    subject: `Charter Enquiry from ${String(raw.name).replace(/[\r\n]+/g, " ").slice(0, 120)}`,
     html: `
       <div style="font-family: Georgia, serif; max-width: 640px; margin: 0 auto; color: #2C2C2C;">
         <div style="background: #2C2C2C; padding: 32px 40px;">

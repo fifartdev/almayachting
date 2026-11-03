@@ -6,17 +6,35 @@ import SectionTitle from "@/components/SectionTitle";
 import { getYachts } from "@/lib/yachts";
 import { getFleetPage } from "@/lib/globals";
 import type { Metadata } from "next";
+import { getSeoSettings, pageJsonLd, pageMetadata, fleetListJsonLd } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
+import FaqSection from "@/components/FaqSection";
 
-export const metadata: Metadata = {
-  title: "Our Fleet",
-  description:
-    "Explore ALMA Yachting's premium fleet of five luxury catamarans available for charter in Greece. Lagoon and Fountaine Pajot vessels from 44ft to 55ft.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getFleetPage();
+  return pageMetadata({
+    seo,
+    path: "/fleet",
+    title: "Our Fleet",
+    description:
+      "Explore ALMA Yachting's premium fleet of five luxury catamarans available for charter in Greece. Lagoon and Fountaine Pajot vessels from 44ft to 55ft.",
+  });
+}
 
 export default async function FleetPage() {
   const [yachts, fleetPage] = await Promise.all([getYachts(), getFleetPage()]);
+  const site = await getSeoSettings();
   return (
     <>
+      <JsonLd
+        data={pageJsonLd(site, {
+          seo: fleetPage.seo,
+          path: "/fleet",
+          title: "Our Fleet",
+          defaultType: "CollectionPage",
+        entities: [fleetListJsonLd(site, yachts)],
+        })}
+      />
       {/* Hero */}
       <div
         className="relative flex items-end overflow-hidden"
@@ -199,6 +217,7 @@ export default async function FleetPage() {
           </div>
         </div>
       </section>
+      <FaqSection seo={fleetPage.seo} />
     </>
   );
 }

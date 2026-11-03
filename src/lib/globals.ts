@@ -1,9 +1,39 @@
 /**
- * Data layer for singleton page content (Payload globals).
- * Falls back to the same defaults defined on each global's schema if the
- * DB is unreachable, so pages never render blank.
+ * Data layer for singleton page content (WordPress "ALMA Site" screens).
+ * Empty fields fall back to the defaults below, and the defaults are used
+ * entirely if WordPress is unreachable, so pages never render blank.
  */
-import { getPayload } from "@/lib/payload";
+import { wpFetch, WP_TAGS, type WpImage, type WpSeo, type WpVideo } from "@/lib/wordpress";
+
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+/** Deep-merges CMS data over defaults; empty strings and empty lists keep the default. */
+function withDefaults<T>(defaults: T, data: unknown): T {
+  if (Array.isArray(defaults)) {
+    return (Array.isArray(data) && data.length ? data : defaults) as T;
+  }
+  if (isPlainObject(defaults)) {
+    const source = isPlainObject(data) ? data : {};
+    const merged: Record<string, unknown> = { ...source };
+    for (const key of Object.keys(defaults)) merged[key] = withDefaults(defaults[key], source[key]);
+    return merged as T;
+  }
+  if (typeof defaults === "string") {
+    return (typeof data === "string" && data.trim() ? data : defaults) as T;
+  }
+  return (data ?? defaults) as T;
+}
+
+export async function getSettings<T>(key: string, defaults: T): Promise<T> {
+  try {
+    const data = await wpFetch<unknown>(`/alma/v1/settings/${key}`, [WP_TAGS.settings(key)]);
+    return withDefaults(defaults, data);
+  } catch {
+    return defaults;
+  }
+}
 
 export interface StatItem {
   value: string;
@@ -12,6 +42,11 @@ export interface StatItem {
 
 export interface HomepageContent {
   hero: {
+    /** "slider": 1–6 images; "video": one video, no sliding. */
+    mode: "slider" | "video";
+    slides: WpImage[];
+    video: WpVideo | null;
+    videoPoster: WpImage | null;
     label: string;
     headline: string;
     subheadline: string;
@@ -24,7 +59,8 @@ export interface HomepageContent {
     quoteAttribution: string;
     sectionLabel: string;
     sectionHeading: string;
-    bodyText: unknown;
+    /** HTML */
+    bodyText: string;
   };
   fleetPreview: {
     label: string;
@@ -47,11 +83,17 @@ export interface HomepageContent {
     bodyText: string;
     ctaPrimaryText: string;
     ctaSecondaryText: string;
+    backgroundImage: WpImage | null;
   };
+  seo: WpSeo | null;
 }
 
 const homepageDefaults: HomepageContent = {
   hero: {
+    mode: "slider",
+    slides: [],
+    video: null,
+    videoPoster: null,
     label: "Greece · Mediterranean · Aegean",
     headline: "Sail the Mediterranean",
     subheadline:
@@ -70,7 +112,7 @@ const homepageDefaults: HomepageContent = {
     quoteAttribution: "— ALMA YACHTING, GREECE",
     sectionLabel: "01 / Our Story",
     sectionHeading: "Born from a love of the sea",
-    bodyText: null,
+    bodyText: "",
   },
   fleetPreview: {
     label: "02 / Fleet",
@@ -97,42 +139,33 @@ const homepageDefaults: HomepageContent = {
       "Contact our team to begin crafting your perfect Greek sailing experience. We respond within 24 hours.",
     ctaPrimaryText: "Plan Your Charter",
     ctaSecondaryText: "Browse Our Fleet",
+    backgroundImage: null,
   },
+  seo: null,
 };
 
-export async function getHomepage(): Promise<HomepageContent> {
-  try {
-    const payload = await getPayload();
-    const doc = await payload.findGlobal({ slug: "homepage" });
-    return {
-      hero: { ...homepageDefaults.hero, ...(doc.hero as object) },
-      aboutIntro: { ...homepageDefaults.aboutIntro, ...(doc.aboutIntro as object) },
-      fleetPreview: { ...homepageDefaults.fleetPreview, ...(doc.fleetPreview as object) },
-      servicesSection: { ...homepageDefaults.servicesSection, ...(doc.servicesSection as object) },
-      destinationsSection: { ...homepageDefaults.destinationsSection, ...(doc.destinationsSection as object) },
-      ctaSection: { ...homepageDefaults.ctaSection, ...(doc.ctaSection as object) },
-    };
-  } catch {
-    return homepageDefaults;
-  }
+export function getHomepage(): Promise<HomepageContent> {
+  return getSettings("homepage", homepageDefaults);
 }
 
 export interface AboutPageContent {
   pageLabel: string;
   pageHeading: string;
   storyHeading: string;
-  storyText: unknown;
+  /** HTML */
+  storyText: string;
   stats: StatItem[];
   values: Array<{ title: string; description: string }>;
   ctaHeading: string;
   ctaBodyText: string;
+  seo: WpSeo | null;
 }
 
 const aboutPageDefaults: AboutPageContent = {
   pageLabel: "06 / About",
   pageHeading: "Our Story",
   storyHeading: "Born in Athens, Made for the Sea",
-  storyText: null,
+  storyText: "",
   stats: [
     { value: "5", label: "Premium Yachts" },
     { value: "10+", label: "Years Experience" },
@@ -164,27 +197,11 @@ const aboutPageDefaults: AboutPageContent = {
   ctaHeading: "Sail with ALMA",
   ctaBodyText:
     "Join the hundreds of guests who have experienced the Greek islands through our eyes — and our fleet.",
+  seo: null,
 };
 
-export async function getAboutPage(): Promise<AboutPageContent> {
-  try {
-    const payload = await getPayload();
-    const doc = await payload.findGlobal({ slug: "about-page" });
-    return {
-      pageLabel: (doc.pageLabel as string) ?? aboutPageDefaults.pageLabel,
-      pageHeading: (doc.pageHeading as string) ?? aboutPageDefaults.pageHeading,
-      storyHeading: (doc.storyHeading as string) ?? aboutPageDefaults.storyHeading,
-      storyText: doc.storyText ?? null,
-      stats: (doc.stats as StatItem[])?.length ? (doc.stats as StatItem[]) : aboutPageDefaults.stats,
-      values: (doc.values as AboutPageContent["values"])?.length
-        ? (doc.values as AboutPageContent["values"])
-        : aboutPageDefaults.values,
-      ctaHeading: (doc.ctaHeading as string) ?? aboutPageDefaults.ctaHeading,
-      ctaBodyText: (doc.ctaBodyText as string) ?? aboutPageDefaults.ctaBodyText,
-    };
-  } catch {
-    return aboutPageDefaults;
-  }
+export function getAboutPage(): Promise<AboutPageContent> {
+  return getSettings("about-page", aboutPageDefaults);
 }
 
 export interface ContactPageContent {
@@ -194,6 +211,7 @@ export interface ContactPageContent {
   introText: string;
   mapLabel: string;
   responseGuarantee: string;
+  seo: WpSeo | null;
 }
 
 const contactPageDefaults: ContactPageContent = {
@@ -204,23 +222,11 @@ const contactPageDefaults: ContactPageContent = {
     "Whether you have a specific voyage in mind or simply want to explore the possibilities, our team is here to help. We respond to all enquiries within 24 hours.",
   mapLabel: "Alimos Marina, Athens",
   responseGuarantee: "We reply within 24 hours",
+  seo: null,
 };
 
-export async function getContactPage(): Promise<ContactPageContent> {
-  try {
-    const payload = await getPayload();
-    const doc = await payload.findGlobal({ slug: "contact-page" });
-    return {
-      pageLabel: (doc.pageLabel as string) ?? contactPageDefaults.pageLabel,
-      pageHeading: (doc.pageHeading as string) ?? contactPageDefaults.pageHeading,
-      subheading: (doc.subheading as string) ?? contactPageDefaults.subheading,
-      introText: (doc.introText as string) ?? contactPageDefaults.introText,
-      mapLabel: (doc.mapLabel as string) ?? contactPageDefaults.mapLabel,
-      responseGuarantee: (doc.responseGuarantee as string) ?? contactPageDefaults.responseGuarantee,
-    };
-  } catch {
-    return contactPageDefaults;
-  }
+export function getContactPage(): Promise<ContactPageContent> {
+  return getSettings("contact-page", contactPageDefaults);
 }
 
 export interface SeaRegion {
@@ -236,6 +242,7 @@ export interface DestinationsPageContent {
   seas: SeaRegion[];
   destinationsGridHeading: string;
   customRouteCta: { heading: string; bodyText: string };
+  seo: WpSeo | null;
 }
 
 const destinationsPageDefaults: DestinationsPageContent = {
@@ -268,27 +275,11 @@ const destinationsPageDefaults: DestinationsPageContent = {
     bodyText:
       "Tell us your dream islands and we'll craft the perfect itinerary — from a weekend Saronic hop to a two-week Aegean odyssey.",
   },
+  seo: null,
 };
 
-export async function getDestinationsPage(): Promise<DestinationsPageContent> {
-  try {
-    const payload = await getPayload();
-    const doc = await payload.findGlobal({ slug: "destinations-page" });
-    return {
-      pageLabel: (doc.pageLabel as string) ?? destinationsPageDefaults.pageLabel,
-      pageHeading: (doc.pageHeading as string) ?? destinationsPageDefaults.pageHeading,
-      pageSubheading: (doc.pageSubheading as string) ?? destinationsPageDefaults.pageSubheading,
-      seas: (doc.seas as SeaRegion[])?.length ? (doc.seas as SeaRegion[]) : destinationsPageDefaults.seas,
-      destinationsGridHeading:
-        (doc.destinationsGridHeading as string) ?? destinationsPageDefaults.destinationsGridHeading,
-      customRouteCta: {
-        ...destinationsPageDefaults.customRouteCta,
-        ...(doc.customRouteCta as object),
-      },
-    };
-  } catch {
-    return destinationsPageDefaults;
-  }
+export function getDestinationsPage(): Promise<DestinationsPageContent> {
+  return getSettings("destinations-page", destinationsPageDefaults);
 }
 
 export interface FleetPageContent {
@@ -301,6 +292,7 @@ export interface FleetPageContent {
     subtitle: string;
     details: Array<{ label: string; value: string }>;
   };
+  seo: WpSeo | null;
 }
 
 const fleetPageDefaults: FleetPageContent = {
@@ -324,29 +316,11 @@ const fleetPageDefaults: FleetPageContent = {
       { label: "Response Time", value: "Within 24 Hours" },
     ],
   },
+  seo: null,
 };
 
-export async function getFleetPage(): Promise<FleetPageContent> {
-  try {
-    const payload = await getPayload();
-    const doc = await payload.findGlobal({ slug: "fleet-page" });
-    const bespoke = (doc.bespokeSection as Record<string, unknown>) ?? {};
-    return {
-      pageLabel: (doc.pageLabel as string) ?? fleetPageDefaults.pageLabel,
-      pageHeading: (doc.pageHeading as string) ?? fleetPageDefaults.pageHeading,
-      introText: (doc.introText as string) ?? fleetPageDefaults.introText,
-      stats: (doc.stats as StatItem[])?.length ? (doc.stats as StatItem[]) : fleetPageDefaults.stats,
-      bespokeSection: {
-        heading: (bespoke.heading as string) ?? fleetPageDefaults.bespokeSection.heading,
-        subtitle: (bespoke.subtitle as string) ?? fleetPageDefaults.bespokeSection.subtitle,
-        details: (bespoke.details as FleetPageContent["bespokeSection"]["details"])?.length
-          ? (bespoke.details as FleetPageContent["bespokeSection"]["details"])
-          : fleetPageDefaults.bespokeSection.details,
-      },
-    };
-  } catch {
-    return fleetPageDefaults;
-  }
+export function getFleetPage(): Promise<FleetPageContent> {
+  return getSettings("fleet-page", fleetPageDefaults);
 }
 
 export interface WhyAlmaStat {
@@ -363,6 +337,7 @@ export interface ServicesPageContent {
   whyAlmaHeading: string;
   whyAlmaSubtitle: string;
   whyAlmaStats: WhyAlmaStat[];
+  seo: WpSeo | null;
 }
 
 const servicesPageDefaults: ServicesPageContent = {
@@ -379,26 +354,11 @@ const servicesPageDefaults: ServicesPageContent = {
     { stat: "5", label: "Premium Vessels", description: "Maintained to the highest standard" },
     { stat: "24h", label: "Response Time", description: "We're always reachable when you need us" },
   ],
+  seo: null,
 };
 
-export async function getServicesPage(): Promise<ServicesPageContent> {
-  try {
-    const payload = await getPayload();
-    const doc = await payload.findGlobal({ slug: "services-page" });
-    return {
-      pageLabel: (doc.pageLabel as string) ?? servicesPageDefaults.pageLabel,
-      pageHeading: (doc.pageHeading as string) ?? servicesPageDefaults.pageHeading,
-      pageSubheading: (doc.pageSubheading as string) ?? servicesPageDefaults.pageSubheading,
-      whyAlmaLabel: (doc.whyAlmaLabel as string) ?? servicesPageDefaults.whyAlmaLabel,
-      whyAlmaHeading: (doc.whyAlmaHeading as string) ?? servicesPageDefaults.whyAlmaHeading,
-      whyAlmaSubtitle: (doc.whyAlmaSubtitle as string) ?? servicesPageDefaults.whyAlmaSubtitle,
-      whyAlmaStats: (doc.whyAlmaStats as WhyAlmaStat[])?.length
-        ? (doc.whyAlmaStats as WhyAlmaStat[])
-        : servicesPageDefaults.whyAlmaStats,
-    };
-  } catch {
-    return servicesPageDefaults;
-  }
+export function getServicesPage(): Promise<ServicesPageContent> {
+  return getSettings("services-page", servicesPageDefaults);
 }
 
 export interface SiteSettingsContent {
@@ -424,22 +384,6 @@ const siteSettingsDefaults: SiteSettingsContent = {
   basePort: "Marina Zea · Piraeus · Athens",
 };
 
-export async function getSiteSettings(): Promise<SiteSettingsContent> {
-  try {
-    const payload = await getPayload();
-    const doc = await payload.findGlobal({ slug: "site-settings" });
-    return {
-      companyName: (doc.companyName as string) ?? siteSettingsDefaults.companyName,
-      tagline: (doc.tagline as string) ?? siteSettingsDefaults.tagline,
-      phone: (doc.phone as string) ?? siteSettingsDefaults.phone,
-      email: (doc.email as string) ?? siteSettingsDefaults.email,
-      address: (doc.address as string) ?? siteSettingsDefaults.address,
-      officeHours: (doc.officeHours as string) ?? siteSettingsDefaults.officeHours,
-      basePort: (doc.basePort as string) ?? siteSettingsDefaults.basePort,
-      instagramUrl: (doc.instagramUrl as string) || undefined,
-      facebookUrl: (doc.facebookUrl as string) || undefined,
-    };
-  } catch {
-    return siteSettingsDefaults;
-  }
+export function getSiteSettings(): Promise<SiteSettingsContent> {
+  return getSettings("site-settings", siteSettingsDefaults);
 }

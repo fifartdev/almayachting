@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Terms & Conditions",
-  description: "Terms and Conditions for ALMA Yachting charter and fleet management services.",
-};
+export function generateMetadata(): Promise<Metadata> {
+  return pageMetadata({
+    seo: null,
+    path: "/terms",
+    title: "Terms & Conditions",
+    description: "Terms and Conditions for ALMA Yachting charter and fleet management services.",
+  });
+}
 
 const sections = [
   {

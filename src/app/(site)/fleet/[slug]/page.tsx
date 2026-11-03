@@ -1,6 +1,9 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getYachts, getYachtBySlug, getRelatedYachts } from "@/lib/yachts";
+import { getSeoSettings, pageJsonLd, pageMetadata, yachtJsonLd } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
+import FaqSection from "@/components/FaqSection";
 import YachtDetailClient from "./YachtDetailClient";
 
 interface PageProps {
@@ -12,7 +15,7 @@ export async function generateStaticParams() {
     const yachts = await getYachts();
     return yachts.map((yacht) => ({ slug: yacht.slug }));
   } catch {
-    // Fallback: known slugs prevent build failure if DB is unreachable
+    // Fallback: known slugs prevent build failure if WordPress is unreachable
     return [
       { slug: "lagoon-55" },
       { slug: "lagoon-51" },
@@ -29,13 +32,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!yacht) return { title: "Yacht Not Found" };
 
-  return {
+  return pageMetadata({
+    seo: yacht.seo,
+    path: `/fleet/${yacht.slug}`,
     title: yacht.name,
-    description: `${yacht.name} — ${yacht.type}, ${yacht.year}. ${yacht.guests} guests, ${yacht.cabins} cabins. From €${yacht.startingPrice.toLocaleString()}/week. Based in ${yacht.basePort}.`,
-    openGraph: {
-      images: yacht.heroImage ? [{ url: yacht.heroImage }] : [],
-    },
-  };
+    description: `${yacht.name} — ${yacht.type}, ${yacht.year}. ${yacht.guests} guests, ${yacht.cabins} cabins. From €${yacht.startingPrice.toLocaleString("en-US")}/week. Based in ${yacht.basePort}.`,
+    image: yacht.heroImage || null,
+  });
 }
 
 export default async function YachtDetailPage({ params }: PageProps) {
@@ -44,7 +47,23 @@ export default async function YachtDetailPage({ params }: PageProps) {
 
   if (!yacht) notFound();
 
-  const related = await getRelatedYachts(slug, 3);
+  const [related, site] = await Promise.all([getRelatedYachts(slug, 3), getSeoSettings()]);
 
-  return <YachtDetailClient yacht={yacht} related={related} />;
+  return (
+    <>
+      <JsonLd
+        data={pageJsonLd(site, {
+          seo: yacht.seo,
+          path: `/fleet/${yacht.slug}`,
+          title: yacht.name,
+          description: yacht.description,
+          image: yacht.heroImage || null,
+          parents: [{ name: "Fleet", path: "/fleet" }],
+          entities: [yachtJsonLd(site, yacht)],
+        })}
+      />
+      <YachtDetailClient yacht={yacht} related={related} />
+      <FaqSection seo={yacht.seo} />
+    </>
+  );
 }

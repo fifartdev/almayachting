@@ -17,17 +17,25 @@ define( 'ALMA_REVALIDATE_URL', 'https://www.almayachting.com/api/revalidate' );
 define( 'ALMA_REVALIDATE_SECRET', 'long-random-string' );                // same as REVALIDATE_SECRET on Vercel
 ```
 
-5. For hero videos, make sure PHP allows large enough uploads (`upload_max_filesize` / `post_max_size` ≥ 32M).
+5. On Vercel, set `WP_URL` (https://cms.almayachting.com) and `REVALIDATE_SECRET` (same value as in wp-config.php).
+6. For hero videos, make sure PHP allows large enough uploads (`upload_max_filesize` / `post_max_size` ≥ 32M).
 
 ## What the client edits
 
 | Admin menu | Content | Frontend |
 |---|---|---|
+| **ALMA Site → SEO & GEO** | Site-wide SEO defaults, search-engine verification, social profiles, business details (structured data / local SEO), geographic targeting, robots.txt, AI crawler rules, llms.txt | Every page, `/sitemap.xml`, `/robots.txt`, `/llms.txt` |
 | **ALMA Site** | Site Settings, Homepage, About, Fleet, Destinations, Services, Contact page texts | Built-in pages |
 | **Fleet** | Vessels: details, specs, highlights, hero image (featured image), gallery | `/fleet`, `/fleet/{slug}` |
 | **Destinations** / **Services** / **Team** | One entry each; order = "Order" in Page Attributes | Their sections |
 | **Pages** | Free pages: title, featured image (hero), block content, optional CTA band | `/{slug}` (standard template) |
 | **Appearance → Menus** | "Main navigation" and "Footer navigation" | Header / footer |
+
+Every entry and page screen also has an **SEO & GEO** panel: meta title/description, key phrases,
+canonical URL, indexing (noindex, nofollow, noarchive, nosnippet, noimageindex, max image preview,
+max snippet, sitemap inclusion/priority/frequency), social sharing and X/Twitter cards, AI search
+(content summary, key facts, FAQ, structured-data page type, breadcrumb title) and geographic
+targeting (place, ISO region, coordinates).
 
 Homepage hero: **Image slider** (1–6 images) **or** **Single video** (one file, no slider).
 Choosing video removes the slider images on save; this is enforced on the server too.

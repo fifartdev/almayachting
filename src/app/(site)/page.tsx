@@ -10,23 +10,38 @@ import { getDestinations } from "@/lib/destinations";
 import { getServices } from "@/lib/services";
 import { getHomepage, getSiteSettings } from "@/lib/globals";
 import { richTextToParagraphs } from "@/lib/richtext";
+import { getSeoSettings, pageJsonLd, pageMetadata } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
+import FaqSection from "@/components/FaqSection";
+import type { Metadata } from "next";
 
 const serviceIcons: LucideIcon[] = [Ship, Anchor, Users, Star];
 
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getHomepage();
+  return pageMetadata({ seo, path: "/" });
+}
+
 export default async function HomePage() {
-  const [yachts, destinations, services, homepage, siteSettings] = await Promise.all([
+  const [yachts, destinations, services, homepage, siteSettings, site] = await Promise.all([
     getYachts(),
     getDestinations(),
     getServices(),
     getHomepage(),
     getSiteSettings(),
+    getSeoSettings(),
   ]);
   const featuredDestinations = destinations.slice(0, 5);
   const aboutParagraphs = richTextToParagraphs(homepage.aboutIntro.bodyText);
   return (
     <>
+      <JsonLd data={pageJsonLd(site, { seo: homepage.seo, path: "/", title: site.general.defaultTitle })} />
       {/* 1. Hero */}
       <HeroSection
+        mode={homepage.hero.mode}
+        slides={homepage.hero.slides}
+        video={homepage.hero.video}
+        videoPoster={homepage.hero.videoPoster}
         label={homepage.hero.label}
         headline={homepage.hero.headline}
         subheadline={homepage.hero.subheadline}
@@ -398,8 +413,11 @@ export default async function HomePage() {
       >
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80"
-            alt="Greek island from the sea"
+            src={
+              homepage.ctaSection.backgroundImage?.url ??
+              "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80"
+            }
+            alt={homepage.ctaSection.backgroundImage?.alt || "Greek island from the sea"}
             fill
             className="object-cover opacity-20"
             sizes="100vw"
@@ -495,6 +513,7 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      <FaqSection seo={homepage.seo} />
     </>
   );
 }

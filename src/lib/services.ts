@@ -1,9 +1,9 @@
 /**
  * Data layer for the Services collection.
- * Fetches from Payload CMS.
+ * Fetches from WordPress.
  */
-import { getPayload } from "@/lib/payload";
-import { richTextToPlainText } from "@/lib/richtext";
+import { wpCollection, WP_TAGS, type WpPost, type WpSeo } from "@/lib/wordpress";
+import { decodeEntities, richTextToPlainText } from "@/lib/richtext";
 
 export interface Service {
   id: string;
@@ -16,41 +16,40 @@ export interface Service {
   longDescription: string;
   features: string[];
   image: string;
+  seo: WpSeo | null;
+  modified?: string;
 }
 
-function resolveImageUrl(image: unknown): string {
-  if (!image) return "";
-  if (typeof image === "string") return image;
-  const img = image as Record<string, unknown>;
-  return (img.url as string) || "";
+interface ServiceFields {
+  subtitle: string;
+  shortDescription: string;
+  longDescription: string;
+  features: string[];
 }
 
-function mapDocToService(doc: Record<string, unknown>): Service {
-  const features = (doc.features as Array<{ text: string }> | undefined) ?? [];
-  const description = richTextToPlainText(doc.description);
+function mapPostToService(post: WpPost<ServiceFields>): Service {
+  const f = post.fields;
+  const description = richTextToPlainText(post.content?.rendered);
   return {
-    id: (doc.slug as string) || (doc.id as string),
-    slug: doc.slug as string,
-    order: (doc.order as number) ?? 99,
-    title: doc.title as string,
-    subtitle: (doc.subtitle as string) ?? "",
-    shortDescription: (doc.shortDescription as string) || description,
+    id: post.slug,
+    slug: post.slug,
+    order: post.menu_order ?? 99,
+    title: decodeEntities(post.title.rendered),
+    subtitle: f.subtitle,
+    shortDescription: f.shortDescription || description,
     description,
-    longDescription: richTextToPlainText(doc.longDescription),
-    features: features.map((f) => f.text),
-    image: resolveImageUrl(doc.image),
+    longDescription: richTextToPlainText(f.longDescription),
+    features: f.features,
+    image: post.featuredImage?.url ?? "",
+    seo: post.fields.seo ?? null,
+    modified: post.modified_gmt,
   };
 }
 
 export async function getServices(): Promise<Service[]> {
   try {
-    const payload = await getPayload();
-    const result = await payload.find({
-      collection: "services",
-      limit: 100,
-      sort: "order",
-    });
-    return result.docs.map((doc) => mapDocToService(doc as unknown as Record<string, unknown>));
+    const posts = await wpCollection<ServiceFields>("services", WP_TAGS.services);
+    return posts.map(mapPostToService);
   } catch {
     return [];
   }

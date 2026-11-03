@@ -120,6 +120,14 @@ function render_control( array $field, string $name, $value ): void {
 			echo '</fieldset>';
 			break;
 
+		case 'select':
+			printf( '<select id="%s" name="%s">', esc_attr( $id ), esc_attr( $name ) );
+			foreach ( $field['options'] as $option => $label ) {
+				printf( '<option value="%s"%s>%s</option>', esc_attr( $option ), selected( (string) $value, (string) $option, false ), esc_html( $label ) );
+			}
+			echo '</select>';
+			break;
+
 		case 'checkbox':
 			printf(
 				'<input type="hidden" name="%1$s" value="0"><input type="checkbox" id="%2$s" name="%1$s" value="1"%3$s>',
@@ -245,6 +253,7 @@ function sanitize_field( array $field, $raw ) {
 			$value = ! empty( $raw ) && '0' !== $raw;
 			break;
 		case 'radio':
+		case 'select':
 			$value = is_scalar( $raw ) && isset( $field['options'][ (string) $raw ] )
 				? (string) $raw
 				: ( $field['default'] ?? array_key_first( $field['options'] ) );
