@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { requirePage } from "@/lib/builtin-pages";
 import { getYachts } from "@/lib/yachts";
 import { getContactPage, getSiteSettings } from "@/lib/globals";
 import { getSeoSettings, pageJsonLd, pageMetadata } from "@/lib/seo";
@@ -7,6 +8,7 @@ import FaqSection from "@/components/FaqSection";
 import ContactClient from "./ContactClient";
 
 export async function generateMetadata(): Promise<Metadata> {
+  await requirePage("contact");
   const { seo } = await getContactPage();
   return pageMetadata({
     seo,
@@ -18,6 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ContactPage() {
+  await requirePage("contact");
   const [yachts, contactPage, siteSettings, site] = await Promise.all([
     getYachts(),
     getContactPage(),

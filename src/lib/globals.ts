@@ -361,6 +361,9 @@ export function getServicesPage(): Promise<ServicesPageContent> {
   return getSettings("services-page", servicesPageDefaults);
 }
 
+export type BuiltInPage = "fleet" | "destinations" | "services" | "about" | "contact" | "privacy" | "terms";
+export type PageSwitches = Record<BuiltInPage, boolean>;
+
 export interface SiteSettingsContent {
   companyName: string;
   tagline: string;
@@ -371,6 +374,8 @@ export interface SiteSettingsContent {
   basePort: string;
   instagramUrl?: string;
   facebookUrl?: string;
+  /** Built-in pages the client can switch off. */
+  pages: PageSwitches;
 }
 
 const siteSettingsDefaults: SiteSettingsContent = {
@@ -382,6 +387,15 @@ const siteSettingsDefaults: SiteSettingsContent = {
   address: "46 Archimidous str., 17563 Paleo Faliro, Athens, Greece",
   officeHours: "Monday – Friday: 9:00 – 18:00\nSaturday: 10:00 – 14:00 (EET / UTC+2)",
   basePort: "Marina Zea · Piraeus · Athens",
+  pages: {
+    fleet: true,
+    destinations: true,
+    services: true,
+    about: true,
+    contact: true,
+    privacy: true,
+    terms: true,
+  },
 };
 
 export function getSiteSettings(): Promise<SiteSettingsContent> {

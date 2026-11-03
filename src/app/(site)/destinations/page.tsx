@@ -6,11 +6,13 @@ import SectionTitle from "@/components/SectionTitle";
 import { getDestinations } from "@/lib/destinations";
 import { getDestinationsPage } from "@/lib/globals";
 import type { Metadata } from "next";
+import { requirePage } from "@/lib/builtin-pages";
 import { getSeoSettings, pageJsonLd, pageMetadata, destinationJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 import FaqSection from "@/components/FaqSection";
 
 export async function generateMetadata(): Promise<Metadata> {
+  await requirePage("destinations");
   const { seo } = await getDestinationsPage();
   return pageMetadata({
     seo,
@@ -24,6 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
 const seaIcons: LucideIcon[] = [Compass, Wind, Anchor];
 
 export default async function DestinationsPage() {
+  await requirePage("destinations");
   const [destinations, destinationsPage] = await Promise.all([
     getDestinations(),
     getDestinationsPage(),

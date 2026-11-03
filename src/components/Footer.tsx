@@ -11,9 +11,18 @@ interface FooterProps {
   companyLinks: NavLink[];
   fleetLinks: NavLink[];
   destinationLinks: NavLink[];
+  showPrivacy: boolean;
+  showTerms: boolean;
 }
 
-export default function Footer({ settings, companyLinks, fleetLinks, destinationLinks }: FooterProps) {
+export default function Footer({
+  settings,
+  companyLinks,
+  fleetLinks,
+  destinationLinks,
+  showPrivacy,
+  showTerms,
+}: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -153,6 +162,8 @@ export default function Footer({ settings, companyLinks, fleetLinks, destination
 
           {/* Fleet */}
           <div>
+            {fleetLinks.length > 0 && (
+              <>
             <h4
               className="mb-5"
               style={{
@@ -199,7 +210,11 @@ export default function Footer({ settings, companyLinks, fleetLinks, destination
                 background: "rgba(138,155,168,0.3)",
               }}
             />
+              </>
+            )}
 
+            {destinationLinks.length > 0 && (
+              <>
             <h4
               className="mt-6 mb-5"
               style={{
@@ -237,6 +252,8 @@ export default function Footer({ settings, companyLinks, fleetLinks, destination
                 </li>
               ))}
             </ul>
+              </>
+            )}
           </div>
 
           {/* Contact */}
@@ -352,6 +369,8 @@ export default function Footer({ settings, companyLinks, fleetLinks, destination
               Designed for the Mediterranean
             </p>
             <div className="flex items-center gap-5">
+              {showPrivacy && (
+              <>
               <Link
                 href="/privacy"
                 style={{
@@ -371,6 +390,10 @@ export default function Footer({ settings, companyLinks, fleetLinks, destination
               >
                 PRIVACY
               </Link>
+              </>
+              )}
+              {showTerms && (
+              <>
               <Link
                 href="/terms"
                 style={{
@@ -390,6 +413,8 @@ export default function Footer({ settings, companyLinks, fleetLinks, destination
               >
                 TERMS
               </Link>
+              </>
+              )}
             </div>
           </div>
         </div>

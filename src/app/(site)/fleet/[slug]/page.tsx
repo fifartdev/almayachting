@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { requirePage } from "@/lib/builtin-pages";
 import { getYachts, getYachtBySlug, getRelatedYachts } from "@/lib/yachts";
 import { getSeoSettings, pageJsonLd, pageMetadata, yachtJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
@@ -27,6 +28,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  await requirePage("fleet");
   const { slug } = await params;
   const yacht = await getYachtBySlug(slug);
 
@@ -42,6 +44,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function YachtDetailPage({ params }: PageProps) {
+  await requirePage("fleet");
   const { slug } = await params;
   const yacht = await getYachtBySlug(slug);
 

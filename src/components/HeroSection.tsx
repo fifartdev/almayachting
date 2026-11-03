@@ -44,6 +44,8 @@ interface HeroSectionProps {
   ctaPrimaryText: string;
   ctaSecondaryText: string;
   stats: StatItem[];
+  showFleetCta: boolean;
+  showContactCta: boolean;
 }
 
 export default function HeroSection({
@@ -57,6 +59,8 @@ export default function HeroSection({
   ctaPrimaryText,
   ctaSecondaryText,
   stats,
+  showFleetCta,
+  showContactCta,
 }: HeroSectionProps) {
   const headlineWords = headline.trim().split(" ");
   const headlineLastWord = headlineWords.pop() ?? "";
@@ -266,13 +270,21 @@ export default function HeroSection({
 
           {/* CTA Buttons */}
           <div ref={ctaRef} className="flex flex-wrap items-center gap-4">
+            {showFleetCta && (
+            <>
             <Link href="/fleet" className="btn-primary">
               {ctaPrimaryText}
               <ArrowRight size={14} />
             </Link>
+            </>
+            )}
+            {showContactCta && (
+            <>
             <Link href="/contact" className="btn-outline">
               {ctaSecondaryText}
             </Link>
+            </>
+            )}
           </div>
         </div>
 

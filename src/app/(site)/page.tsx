@@ -14,6 +14,7 @@ import { getSeoSettings, pageJsonLd, pageMetadata } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 import FaqSection from "@/components/FaqSection";
 import type { Metadata } from "next";
+import { getPageSwitches } from "@/lib/builtin-pages";
 
 const serviceIcons: LucideIcon[] = [Ship, Anchor, Users, Star];
 
@@ -23,13 +24,14 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [yachts, destinations, services, homepage, siteSettings, site] = await Promise.all([
+  const [yachts, destinations, services, homepage, siteSettings, site, pages] = await Promise.all([
     getYachts(),
     getDestinations(),
     getServices(),
     getHomepage(),
     getSiteSettings(),
     getSeoSettings(),
+    getPageSwitches(),
   ]);
   const featuredDestinations = destinations.slice(0, 5);
   const aboutParagraphs = richTextToParagraphs(homepage.aboutIntro.bodyText);
@@ -48,6 +50,8 @@ export default async function HomePage() {
         ctaPrimaryText={homepage.hero.ctaPrimaryText}
         ctaSecondaryText={homepage.hero.ctaSecondaryText}
         stats={homepage.hero.stats}
+        showFleetCta={pages.fleet}
+        showContactCta={pages.contact}
       />
 
       {/* 2. About Intro */}
@@ -121,16 +125,20 @@ export default async function HomePage() {
                 ))}
               </div>
               <div className="mt-8">
-                <Link href="/about" className="btn-dark">
-                  Our Story
-                  <ArrowRight size={14} />
-                </Link>
+                {pages.about && (
+                  <Link href="/about" className="btn-dark">
+                    Our Story
+                    <ArrowRight size={14} />
+                  </Link>
+                )}
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      {pages.fleet && (
+        <>
       {/* 3. Fleet Preview */}
       <section className="section-pad" style={{ background: "#fff" }}>
         <div className="container-xl">
@@ -165,7 +173,11 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+        </>
+      )}
 
+      {pages.services && (
+        <>
       {/* 4. Services */}
       <section
         className="section-pad grain-overlay"
@@ -272,7 +284,11 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+        </>
+      )}
 
+      {pages.destinations && (
+        <>
       {/* 5. Destinations */}
       <section className="section-pad" style={{ background: "#F5F0EB" }}>
         <div className="container-xl">
@@ -405,6 +421,8 @@ export default async function HomePage() {
           </div>}
         </div>
       </section>
+        </>
+      )}
 
       {/* 6. Contact CTA */}
       <section
@@ -476,13 +494,21 @@ export default async function HomePage() {
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
+            {pages.contact && (
+            <>
             <Link href="/contact" className="btn-primary">
               {homepage.ctaSection.ctaPrimaryText}
               <ArrowRight size={14} />
             </Link>
+            </>
+            )}
+            {pages.fleet && (
+            <>
             <Link href="/fleet" className="btn-outline">
               {homepage.ctaSection.ctaSecondaryText}
             </Link>
+            </>
+            )}
           </div>
 
           <div className="mt-16 flex items-center justify-center gap-3">

@@ -33,7 +33,9 @@ function frontend_link( string $url ): string {
 	if ( ! in_array( $parts['host'], $hosts, true ) ) {
 		return $url;
 	}
-	$path = '/' . ltrim( untrailingslashit( $parts['path'] ?? '' ), '/' );
+	// Drop "PATHINFO" permalink prefixes (/index.php/slug/) used on servers without URL rewriting.
+	$path = preg_replace( '#^/index\.php(?=/|$)#', '', $parts['path'] ?? '' );
+	$path = '/' . ltrim( untrailingslashit( $path ), '/' );
 	return $path
 		. ( isset( $parts['query'] ) ? '?' . $parts['query'] : '' )
 		. ( isset( $parts['fragment'] ) ? '#' . $parts['fragment'] : '' );
@@ -51,6 +53,9 @@ function menu_tree( string $location ): array {
 
 	$nodes = array();
 	foreach ( $items as $item ) {
+		if ( 'post_type' === $item->type && 'publish' !== get_post_status( (int) $item->object_id ) ) {
+			continue; // Linked page is a draft, private or in the trash.
+		}
 		$nodes[ $item->ID ] = array(
 			'id'       => (int) $item->ID,
 			'parent'   => (int) $item->menu_item_parent,

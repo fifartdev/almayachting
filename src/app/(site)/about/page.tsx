@@ -4,6 +4,7 @@ import { ArrowRight, Heart, Shield, Compass, Leaf } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import SectionTitle from "@/components/SectionTitle";
 import type { Metadata } from "next";
+import { requirePage } from "@/lib/builtin-pages";
 import { getSeoSettings, pageJsonLd, pageMetadata } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 import FaqSection from "@/components/FaqSection";
@@ -11,6 +12,7 @@ import { getAboutPage } from "@/lib/globals";
 import { richTextToParagraphs } from "@/lib/richtext";
 
 export async function generateMetadata(): Promise<Metadata> {
+  await requirePage("about");
   const { seo } = await getAboutPage();
   return pageMetadata({
     seo,
@@ -48,6 +50,7 @@ const team = [
 ];
 
 export default async function AboutPage() {
+  await requirePage("about");
   const aboutPage = await getAboutPage();
   const storyParagraphs = richTextToParagraphs(aboutPage.storyText);
   const site = await getSeoSettings();

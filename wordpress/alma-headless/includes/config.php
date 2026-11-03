@@ -463,6 +463,21 @@ function settings_pages(): array {
 				array( 'name' => 'basePort', 'type' => 'text', 'label' => 'Base port' ),
 				array( 'name' => 'instagramUrl', 'type' => 'url', 'label' => 'Instagram URL' ),
 				array( 'name' => 'facebookUrl', 'type' => 'url', 'label' => 'Facebook URL' ),
+				array(
+					'name'        => 'pages',
+					'type'        => 'group',
+					'label'       => 'Built-in pages',
+					'description' => 'Untick to switch a page off: it disappears from the website, menus, sitemap and llms.txt (visitors get “page not found”). Your own pages are managed under Pages: Draft or Private switches one off, Trash removes it.',
+					'fields'      => array(
+						array( 'name' => 'fleet', 'type' => 'checkbox', 'label' => 'Fleet (and every vessel page)', 'default' => true ),
+						array( 'name' => 'destinations', 'type' => 'checkbox', 'label' => 'Destinations', 'default' => true ),
+						array( 'name' => 'services', 'type' => 'checkbox', 'label' => 'Services', 'default' => true ),
+						array( 'name' => 'about', 'type' => 'checkbox', 'label' => 'About', 'default' => true ),
+						array( 'name' => 'contact', 'type' => 'checkbox', 'label' => 'Contact', 'default' => true, 'description' => 'Also hides the enquiry buttons that link to it.' ),
+						array( 'name' => 'privacy', 'type' => 'checkbox', 'label' => 'Privacy Policy', 'default' => true ),
+						array( 'name' => 'terms', 'type' => 'checkbox', 'label' => 'Terms & Conditions', 'default' => true ),
+					),
+				),
 			),
 		),
 		'seo'               => array(

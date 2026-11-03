@@ -19,6 +19,7 @@ add_action(
 			return;
 		}
 		$path = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '/';
+		$path = preg_replace( '#^/index\.php(?=/|$)#', '', $path ); // "PATHINFO" permalinks.
 		wp_redirect( untrailingslashit( ALMA_FRONTEND_URL ) . '/' . ltrim( $path, '/' ), 301 ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- external frontend.
 		exit;
 	}

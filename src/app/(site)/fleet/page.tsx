@@ -6,11 +6,13 @@ import SectionTitle from "@/components/SectionTitle";
 import { getYachts } from "@/lib/yachts";
 import { getFleetPage } from "@/lib/globals";
 import type { Metadata } from "next";
+import { requirePage } from "@/lib/builtin-pages";
 import { getSeoSettings, pageJsonLd, pageMetadata, fleetListJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 import FaqSection from "@/components/FaqSection";
 
 export async function generateMetadata(): Promise<Metadata> {
+  await requirePage("fleet");
   const { seo } = await getFleetPage();
   return pageMetadata({
     seo,
@@ -22,6 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function FleetPage() {
+  await requirePage("fleet");
   const [yachts, fleetPage] = await Promise.all([getYachts(), getFleetPage()]);
   const site = await getSeoSettings();
   return (

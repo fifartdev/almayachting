@@ -4,6 +4,7 @@ import { Ship, Anchor, Users, Star, ArrowRight, Check } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import SectionTitle from "@/components/SectionTitle";
 import type { Metadata } from "next";
+import { requirePage } from "@/lib/builtin-pages";
 import { getSeoSettings, pageJsonLd, pageMetadata, serviceJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 import FaqSection from "@/components/FaqSection";
@@ -11,6 +12,7 @@ import { getServices } from "@/lib/services";
 import { getServicesPage } from "@/lib/globals";
 
 export async function generateMetadata(): Promise<Metadata> {
+  await requirePage("services");
   const { seo } = await getServicesPage();
   return pageMetadata({
     seo,
@@ -30,6 +32,7 @@ const fallbackImages = [
 ];
 
 export default async function ServicesPage() {
+  await requirePage("services");
   const [services, servicesPage] = await Promise.all([getServices(), getServicesPage()]);
   const site = await getSeoSettings();
   return (

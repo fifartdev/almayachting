@@ -250,7 +250,9 @@ function sanitize_field( array $field, $raw ) {
 			$value = is_numeric( $raw ) ? $raw + 0 : null;
 			break;
 		case 'checkbox':
-			$value = ! empty( $raw ) && '0' !== $raw;
+			// The admin form always submits a value (hidden "0"), so a missing value means
+			// "not provided" (e.g. a partial REST update) and keeps the default.
+			$value = null === $raw ? (bool) ( $field['default'] ?? false ) : ( ! empty( $raw ) && '0' !== $raw );
 			break;
 		case 'radio':
 		case 'select':

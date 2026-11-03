@@ -33,7 +33,8 @@ export interface SitePage {
 }
 
 function pathFromLink(link: string): string {
-  const path = new URL(link).pathname.replace(/\/+$/, "");
+  // "PATHINFO" permalinks (/index.php/slug/) are used on servers without URL rewriting.
+  const path = new URL(link).pathname.replace(/^\/index\.php(?=\/|$)/, "").replace(/\/+$/, "");
   return path || "/";
 }
 

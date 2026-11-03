@@ -35,6 +35,7 @@ export async function GET() {
   }
 
   const url = (path: string) => absoluteUrl(site, path);
+  const on = settings.pages;
   const o = site.organization;
   const out: string[] = [];
 
@@ -53,19 +54,18 @@ export async function GET() {
   ].filter(Boolean) as string[];
   if (facts.length) out.push("## Key facts", ...facts.map((f) => `- ${f}`), "");
 
-  out.push(
-    "## Main pages",
-    line("Fleet", url("/fleet"), "All yachts available for charter"),
-    line("Destinations", url("/destinations"), "Greek island sailing destinations"),
-    line("Services", url("/services"), "Charter, management and concierge services"),
-    line("About", url("/about"), "Company story and values"),
-    line("Contact", url("/contact"), "Charter enquiries"),
-    "",
-  );
+  const mainPages = [
+    on.fleet && line("Fleet", url("/fleet"), "All yachts available for charter"),
+    on.destinations && line("Destinations", url("/destinations"), "Greek island sailing destinations"),
+    on.services && line("Services", url("/services"), "Charter, management and concierge services"),
+    on.about && line("About", url("/about"), "Company story and values"),
+    on.contact && line("Contact", url("/contact"), "Charter enquiries"),
+  ].filter(Boolean) as string[];
+  if (mainPages.length) out.push("## Main pages", ...mainPages, "");
 
   const visible = <T extends { seo: WpSeo | null }>(items: T[]) => items.filter((i) => !i.seo?.robots.noindex);
 
-  const fleet = visible(yachts);
+  const fleet = on.fleet ? visible(yachts) : [];
   if (fleet.length) {
     out.push("## Fleet");
     for (const y of fleet) {
@@ -75,12 +75,12 @@ export async function GET() {
     out.push("");
   }
 
-  const serviceList = visible(services);
+  const serviceList = on.services ? visible(services) : [];
   if (serviceList.length) {
     out.push("## Services", ...serviceList.map((s) => line(s.title, url(`/services#${s.slug}`), summaryOf(s.seo, s.shortDescription))), "");
   }
 
-  const destinationList = visible(destinations);
+  const destinationList = on.destinations ? visible(destinations) : [];
   if (destinationList.length) {
     out.push(
       "## Destinations",

@@ -4,7 +4,7 @@
  * (/api/revalidate) can refresh exactly what changed.
  */
 
-const WP_URL = (process.env.WP_URL ?? "").replace(/\/+$/, "");
+const WP_URL = (process.env.WP_URL || "https://cms.almayachting.com").replace(/\/+$/, "");
 
 /** Safety net in case a webhook is missed. */
 const REVALIDATE_SECONDS = 3600;

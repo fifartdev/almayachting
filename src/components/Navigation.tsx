@@ -8,7 +8,7 @@ import { gsap } from "gsap";
 import { Menu, X, Anchor } from "lucide-react";
 import type { NavLink } from "@/lib/menus";
 
-export default function Navigation({ links: navLinks }: { links: NavLink[] }) {
+export default function Navigation({ links: navLinks, showContact }: { links: NavLink[]; showContact: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
@@ -129,6 +129,8 @@ export default function Navigation({ links: navLinks }: { links: NavLink[] }) {
 
             {/* CTA + Mobile Toggle */}
             <div className="flex items-center gap-4">
+              {showContact && (
+              <>
               <Link
                 href="/contact"
                 className="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 text-[11px] font-bold tracking-[0.14em] uppercase transition-all duration-300"
@@ -146,6 +148,8 @@ export default function Navigation({ links: navLinks }: { links: NavLink[] }) {
               >
                 Enquire Now
               </Link>
+              </>
+              )}
 
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
@@ -253,6 +257,8 @@ export default function Navigation({ links: navLinks }: { links: NavLink[] }) {
           </nav>
 
           <div className="px-6 pb-10">
+            {showContact && (
+            <>
             <Link
               href="/contact"
               onClick={() => setMenuOpen(false)}
@@ -261,6 +267,8 @@ export default function Navigation({ links: navLinks }: { links: NavLink[] }) {
               <Anchor size={14} />
               Enquire Now
             </Link>
+            </>
+            )}
             <p
               className="mt-6 text-center"
               style={{

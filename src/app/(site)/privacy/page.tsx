@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/seo";
+import { requirePage } from "@/lib/builtin-pages";
 
-export function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
+  await requirePage("privacy");
   return pageMetadata({
     seo: null,
     path: "/privacy",
@@ -50,7 +52,8 @@ const sections = [
   },
 ];
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  await requirePage("privacy");
   return (
     <div style={{ background: "#F5F0EB", minHeight: "100vh" }}>
       {/* Header */}

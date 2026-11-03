@@ -11,6 +11,7 @@ import JsonLd from "@/components/JsonLd";
 import { getSiteSettings } from "@/lib/globals";
 import { getSeoSettings, pageMetadata, siteJsonLd, siteMetadata } from "@/lib/seo";
 import { getMenu, defaultFooterLinks, defaultPrimaryLinks } from "@/lib/menus";
+import { filterLinks } from "@/lib/builtin-pages";
 import { getYachts } from "@/lib/yachts";
 import { getDestinations } from "@/lib/destinations";
 
@@ -59,6 +60,7 @@ export default async function SiteLayout({
     getYachts(),
     getDestinations(),
   ]);
+  const pages = siteSettings.pages;
   return (
     <html lang={site.general.locale.split("_")[0] || "en"}>
       <body
@@ -66,13 +68,17 @@ export default async function SiteLayout({
         style={{ fontFamily: "var(--font-cormorant-garamond), sans-serif" }}
       >
         <JsonLd data={siteJsonLd(site)} />
-        <Navigation links={primaryLinks} />
+        <Navigation links={filterLinks(primaryLinks, pages)} showContact={pages.contact} />
         <main>{children}</main>
         <Footer
           settings={siteSettings}
-          companyLinks={footerLinks}
-          fleetLinks={yachts.map((y) => ({ href: `/fleet/${y.slug}`, label: y.name }))}
-          destinationLinks={destinations.slice(0, 5).map((d) => ({ href: `/destinations#${d.id}`, label: d.name }))}
+          companyLinks={filterLinks(footerLinks, pages)}
+          fleetLinks={pages.fleet ? yachts.map((y) => ({ href: `/fleet/${y.slug}`, label: y.name })) : []}
+          destinationLinks={
+            pages.destinations ? destinations.slice(0, 5).map((d) => ({ href: `/destinations#${d.id}`, label: d.name })) : []
+          }
+          showPrivacy={pages.privacy}
+          showTerms={pages.terms}
         />
       </body>
     </html>

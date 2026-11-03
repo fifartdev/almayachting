@@ -13,7 +13,7 @@ const TYPE_TAGS: Record<string, string[]> = {
   destination: [WP_TAGS.destinations],
   service: [WP_TAGS.services],
   team: [WP_TAGS.team],
-  page: [WP_TAGS.pages],
+  page: [WP_TAGS.pages, WP_TAGS.menus], // unpublished pages drop out of menus
   menu: [WP_TAGS.menus],
 };
 

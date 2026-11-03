@@ -11,6 +11,7 @@ import {
   getServicesPage,
 } from "@/lib/globals";
 import type { WpSeo } from "@/lib/wordpress";
+import { getPageSwitches, isLinkEnabled } from "@/lib/builtin-pages";
 
 type ChangeFrequency = NonNullable<MetadataRoute.Sitemap[number]["changeFrequency"]>;
 
@@ -23,7 +24,7 @@ interface Entry {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [site, yachts, pages, home, about, contact, destinations, fleet, services] = await Promise.all([
+  const [site, yachts, pages, home, about, contact, destinations, fleet, services, switches] = await Promise.all([
     getSeoSettings(),
     getYachts(),
     getPages(),
@@ -33,6 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getDestinationsPage(),
     getFleetPage(),
     getServicesPage(),
+    getPageSwitches(),
   ]);
 
   if (!site.crawlers.indexSite) return [];
@@ -65,6 +67,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const excluded = new Set(site.crawlers.sitemapExclude.map((p) => p.replace(/\/+$/, "") || "/"));
 
   return entries
+    .filter((e) => isLinkEnabled(switches, e.path))
     .filter((e) => !excluded.has(e.path) && !e.seo?.robots.noindex && !e.seo?.robots.excludeFromSitemap)
     .map((e) => ({
       url: e.seo?.canonicalUrl || absoluteUrl(site, e.path),
