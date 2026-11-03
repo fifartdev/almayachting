@@ -1,9 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import {
-  Barlow_Condensed,
-  Jost,
-  DM_Mono,
-} from "next/font/google";
+import localFont from "next/font/local";
 import "../globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -15,24 +11,30 @@ import { filterLinks } from "@/lib/builtin-pages";
 import { getYachts } from "@/lib/yachts";
 import { getDestinations } from "@/lib/destinations";
 
-const barlowCondensed = Barlow_Condensed({
+// Fonts are bundled (src/app/fonts, SIL Open Font License) so builds never depend on Google Fonts.
+const barlowCondensed = localFont({
   variable: "--font-barlow-condensed",
-  subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
+  src: [
+    { path: "../fonts/barlow-condensed-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/barlow-condensed-latin-600-normal.woff2", weight: "600", style: "normal" },
+    { path: "../fonts/barlow-condensed-latin-700-normal.woff2", weight: "700", style: "normal" },
+    { path: "../fonts/barlow-condensed-latin-800-normal.woff2", weight: "800", style: "normal" },
+  ],
   display: "swap",
 });
 
-const jost = Jost({
+// Variable font: covers the 300–600 weights used across the site.
+const jost = localFont({
   variable: "--font-cormorant-garamond",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  src: "../fonts/jost-latin-wght-normal.woff2",
+  weight: "100 900",
   display: "swap",
 });
 
-const dmMono = DM_Mono({
+const dmMono = localFont({
   variable: "--font-dm-mono",
-  subsets: ["latin"],
-  weight: ["400"],
+  src: "../fonts/dm-mono-latin-400-normal.woff2",
+  weight: "400",
   display: "swap",
 });
 
