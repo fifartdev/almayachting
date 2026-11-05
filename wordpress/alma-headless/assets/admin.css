@@ -1,0 +1,133 @@
+/* ALMA Headless admin fields */
+
+.alma-fields .alma-row--group > td {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.alma-group {
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	padding: 4px 16px 8px;
+	background: #fff;
+}
+
+.alma-group > legend {
+	font-weight: 600;
+	font-size: 14px;
+	padding: 0 6px;
+}
+
+.alma-group .alma-group {
+	background: #f6f7f7;
+}
+
+/* Media */
+.alma-media-preview {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 0 0 8px;
+}
+
+.alma-media-preview:empty {
+	display: none;
+}
+
+.alma-media-item {
+	position: relative;
+	margin: 0;
+	width: 96px;
+	height: 96px;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	background: #f6f7f7;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.alma-media[data-type="gallery"] .alma-media-item {
+	cursor: move;
+}
+
+.alma-media-item img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.alma-media-item .dashicons {
+	font-size: 32px;
+	width: 32px;
+	height: 32px;
+	color: #50575e;
+}
+
+.alma-media-name {
+	font-size: 11px;
+	padding: 4px;
+	text-align: center;
+	word-break: break-all;
+}
+
+.alma-media-remove {
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	width: 22px;
+	height: 22px;
+	border: 0;
+	border-radius: 50%;
+	background: rgba(0, 0, 0, 0.65);
+	color: #fff;
+	font-size: 16px;
+	line-height: 22px;
+	cursor: pointer;
+	padding: 0;
+}
+
+.alma-media.is-full .alma-media-select {
+	display: none;
+}
+
+.alma-media[data-type="image"] .alma-media-item ~ .alma-media-item {
+	display: none;
+}
+
+/* Repeaters */
+.alma-repeater-row {
+	position: relative;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	background: #f6f7f7;
+	padding: 28px 12px 4px;
+	margin-bottom: 8px;
+}
+
+.alma-repeater-row .form-table {
+	margin-top: 0;
+}
+
+.alma-repeater-row .form-table th {
+	width: 120px;
+	padding: 8px 10px 8px 0;
+}
+
+.alma-repeater-row .form-table td {
+	padding: 6px 0;
+}
+
+.alma-repeater-actions {
+	position: absolute;
+	top: 6px;
+	right: 10px;
+	display: flex;
+	gap: 10px;
+}
+
+.alma-repeater-actions .button-link {
+	text-decoration: none;
+}

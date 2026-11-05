@@ -37,10 +37,28 @@ export default function YachtDetailClient({ yacht, related }: Props) {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [website, setWebsite] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, yacht: yacht.name, source: `/fleet/${yacht.slug}`, website }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Something went wrong.");
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -468,7 +486,18 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                       </p>
                     </div>
                   ) : (
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                    <form onSubmit={handleSubmit} className="space-y-5 relative">
+                      {/* Spam trap: hidden from people, filled in by bots. */}
+                      <input
+                        type="text"
+                        name="website"
+                        value={website}
+                        onChange={(e) => setWebsite(e.target.value)}
+                        tabIndex={-1}
+                        autoComplete="off"
+                        aria-hidden="true"
+                        style={{ position: "absolute", left: "-10000px", width: "1px", height: "1px", opacity: 0 }}
+                      />
                       <p
                         style={{
                           fontFamily:
@@ -695,12 +724,27 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                         />
                       </div>
 
+                      {error && (
+                        <p
+                          role="alert"
+                          style={{
+                            fontFamily: "var(--font-cormorant-garamond), serif",
+                            fontSize: "14px",
+                            color: "#E8A598",
+                          }}
+                        >
+                          {error}
+                        </p>
+                      )}
+
                       <button
                         type="submit"
+                        disabled={loading}
                         className="btn-primary w-full justify-center mt-2"
+                        style={{ opacity: loading ? 0.6 : 1 }}
                       >
                         <Send size={13} />
-                        Send Enquiry
+                        {loading ? "Sending…" : "Send Enquiry"}
                       </button>
                     </form>
                   )}

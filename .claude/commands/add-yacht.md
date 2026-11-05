@@ -1,17 +1,18 @@
 Add a new yacht to the ALMA Yachting fleet.
 
-Ask the user for:
+Yachts are managed in WordPress (cms.almayachting.com → Fleet → Add new). Ask the user for:
 - Yacht name and builder (e.g. "Lagoon 50", "Fountaine Pajot 47")
 - Year built
 - Number of guests, cabins, bathrooms, crew
 - Starting price per week in EUR
 - Base port
 
-Then add a complete entry to `src/lib/yachts.ts` following the exact same structure as the existing yachts, with:
-- A realistic description in the same editorial voice (luxury, Greek sailing, evocative)
-- 8 highlights bullet points
-- Accurate specifications (loa, beam, draft, displacement, sailArea, engines, fuelCapacity, waterCapacity, maxSpeed, cruisingSpeed)
-- Image paths using the pattern `/images/[YachtFolder]/[YachtName]-1.jpg` through `-N.jpg` (heroImage = `-1.jpg`, images array = the rest)
-- Slug derived from the name (e.g. "lagoon-50", "fountaine-pajot-47")
+Then draft, in the same editorial voice (luxury, Greek sailing, evocative):
+- The description (main editor)
+- 8 highlights (one per line in "Highlights")
+- Specifications (LOA, beam, draft, displacement, sail area, engines, fuel/water capacity, max/cruising speed)
+- SEO & GEO panel: meta title, meta description, focus key phrase, content summary, 3–5 FAQ entries
 
-Also add the yacht to the footer fleet links in `src/components/Footer.tsx`.
+Either give the user the text to paste, or create it via the REST API (`POST /wp-json/wp/v2/vessels`
+with `title`, `content`, `status`, `fields`) using WP_URL / WP_USER / WP_APP_PASSWORD from .env.local.
+The website, footer and sitemap pick it up automatically.

@@ -1,18 +1,20 @@
 import type { NextConfig } from "next";
-import { withPayload } from "@payloadcms/next/withPayload";
+
+// WordPress media (featured images, galleries, hero slides) is served from the CMS host.
+const wpHost = process.env.WP_URL ? new URL(process.env.WP_URL).hostname : "cms.almayachting.com";
 
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "images.unsplash.com",
+        hostname: wpHost,
         port: "",
-        pathname: "/**",
+        pathname: "/wp-content/uploads/**",
       },
       {
         protocol: "https",
-        hostname: "*.public.blob.vercel-storage.com",
+        hostname: "images.unsplash.com",
         port: "",
         pathname: "/**",
       },
@@ -20,4 +22,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withPayload(nextConfig);
+export default nextConfig;

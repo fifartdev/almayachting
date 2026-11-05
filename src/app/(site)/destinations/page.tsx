@@ -6,22 +6,43 @@ import SectionTitle from "@/components/SectionTitle";
 import { getDestinations } from "@/lib/destinations";
 import { getDestinationsPage } from "@/lib/globals";
 import type { Metadata } from "next";
+import { requirePage } from "@/lib/builtin-pages";
+import { getSeoSettings, pageJsonLd, pageMetadata, destinationJsonLd } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
+import FaqSection from "@/components/FaqSection";
 
-export const metadata: Metadata = {
-  title: "Destinations",
-  description:
-    "Explore the finest Greek island destinations with ALMA Yachting. From Mykonos and Santorini to Corfu and Hydra — discover the Aegean and Ionian seas.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  await requirePage("destinations");
+  const { seo } = await getDestinationsPage();
+  return pageMetadata({
+    seo,
+    path: "/destinations",
+    title: "Destinations",
+    description:
+      "Explore the finest Greek island destinations with ALMA Yachting. From Mykonos and Santorini to Corfu and Hydra — discover the Aegean and Ionian seas.",
+  });
+}
 
 const seaIcons: LucideIcon[] = [Compass, Wind, Anchor];
 
 export default async function DestinationsPage() {
+  await requirePage("destinations");
   const [destinations, destinationsPage] = await Promise.all([
     getDestinations(),
     getDestinationsPage(),
   ]);
+  const site = await getSeoSettings();
   return (
     <>
+      <JsonLd
+        data={pageJsonLd(site, {
+          seo: destinationsPage.seo,
+          path: "/destinations",
+          title: "Destinations",
+          defaultType: "CollectionPage",
+        entities: destinations.map((d) => destinationJsonLd(site, d)),
+        })}
+      />
       {/* Hero */}
       <div
         className="relative flex items-end overflow-hidden"
@@ -385,6 +406,7 @@ export default async function DestinationsPage() {
           </div>
         </div>
       </section>
+      <FaqSection seo={destinationsPage.seo} />
     </>
   );
 }

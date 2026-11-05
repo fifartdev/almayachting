@@ -4,14 +4,24 @@ import { ArrowRight, Heart, Shield, Compass, Leaf } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import SectionTitle from "@/components/SectionTitle";
 import type { Metadata } from "next";
+import { requirePage } from "@/lib/builtin-pages";
+import { getSeoSettings, pageJsonLd, pageMetadata } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
+import FaqSection from "@/components/FaqSection";
 import { getAboutPage } from "@/lib/globals";
 import { richTextToParagraphs } from "@/lib/richtext";
 
-export const metadata: Metadata = {
-  title: "About Us",
-  description:
-    "The story of ALMA Yachting — born in Greece, built on a passion for the sea. Learn about our team, values, and commitment to extraordinary sailing experiences.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  await requirePage("about");
+  const { seo } = await getAboutPage();
+  return pageMetadata({
+    seo,
+    path: "/about",
+    title: "About Us",
+    description:
+      "The story of ALMA Yachting — born in Greece, built on a passion for the sea. Learn about our team, values, and commitment to extraordinary sailing experiences.",
+  });
+}
 
 const valueIcons: LucideIcon[] = [Heart, Shield, Compass, Leaf];
 
@@ -40,10 +50,20 @@ const team = [
 ];
 
 export default async function AboutPage() {
+  await requirePage("about");
   const aboutPage = await getAboutPage();
   const storyParagraphs = richTextToParagraphs(aboutPage.storyText);
+  const site = await getSeoSettings();
   return (
     <>
+      <JsonLd
+        data={pageJsonLd(site, {
+          seo: aboutPage.seo,
+          path: "/about",
+          title: "About Us",
+          defaultType: "AboutPage",
+        })}
+      />
       {/* Hero */}
       <div
         className="relative flex items-end overflow-hidden"
@@ -319,6 +339,7 @@ export default async function AboutPage() {
           </div>
         </div>
       </section>
+      <FaqSection seo={aboutPage.seo} />
     </>
   );
 }

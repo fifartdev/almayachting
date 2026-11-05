@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { pageMetadata } from "@/lib/seo";
+import { requirePage } from "@/lib/builtin-pages";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description: "Privacy Policy for ALMA Yachting — how we collect, use, and protect your personal data.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  await requirePage("privacy");
+  return pageMetadata({
+    seo: null,
+    path: "/privacy",
+    title: "Privacy Policy",
+    description: "Privacy Policy for ALMA Yachting — how we collect, use, and protect your personal data.",
+  });
+}
 
 const sections = [
   {
@@ -45,7 +52,8 @@ const sections = [
   },
 ];
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  await requirePage("privacy");
   return (
     <div style={{ background: "#F5F0EB", minHeight: "100vh" }}>
       {/* Header */}

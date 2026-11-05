@@ -1,8 +1,9 @@
 /**
  * Data layer for sailing destinations.
- * Fetches from Payload CMS. Type shape preserved.
+ * Fetches from WordPress. Type shape preserved.
  */
-import { getPayload } from "@/lib/payload";
+import { wpCollection, WP_TAGS, type WpPost, type WpSeo } from "@/lib/wordpress";
+import { decodeEntities, richTextToPlainText } from "@/lib/richtext";
 
 export interface Destination {
   id: string;
@@ -14,53 +15,45 @@ export interface Destination {
   highlights: string[];
   bestSeason: string;
   distance: string;
+  latitude: number | null;
+  longitude: number | null;
+  seo: WpSeo | null;
+  modified?: string;
 }
 
-function resolveImageUrl(image: unknown): string {
-  if (!image) return "";
-  if (typeof image === "string") return image;
-  const img = image as Record<string, unknown>;
-  return (img.url as string) || "";
+interface DestinationFields {
+  region: string;
+  shortDescription: string;
+  highlights: string[];
+  bestSeason: string;
+  distance: string;
+  latitude: number | null;
+  longitude: number | null;
 }
 
-function extractPlainText(richText: unknown): string {
-  if (!richText) return "";
-  if (typeof richText === "string") return richText;
-  try {
-    const rt = richText as { root?: { children?: Array<{ children?: Array<{ text?: string }> }> } };
-    return (rt.root?.children ?? [])
-      .flatMap((block) => block.children ?? [])
-      .map((node) => node.text ?? "")
-      .join(" ");
-  } catch {
-    return "";
-  }
-}
-
-function mapDocToDestination(doc: Record<string, unknown>): Destination {
-  const highlights = (doc.highlights as Array<{ text: string }> | undefined) ?? [];
+function mapPostToDestination(post: WpPost<DestinationFields>): Destination {
+  const f = post.fields;
   return {
-    id: (doc.slug as string) || (doc.id as string),
-    name: doc.name as string,
-    region: doc.region as string,
-    description: extractPlainText(doc.description),
-    shortDescription: (doc.shortDescription as string) ?? "",
-    image: resolveImageUrl(doc.image),
-    highlights: highlights.map((h) => h.text),
-    bestSeason: (doc.bestSeason as string) ?? "",
-    distance: (doc.distance as string) ?? "",
+    id: post.slug,
+    name: decodeEntities(post.title.rendered),
+    region: f.region,
+    description: richTextToPlainText(post.content?.rendered),
+    shortDescription: f.shortDescription,
+    image: post.featuredImage?.url ?? "",
+    highlights: f.highlights,
+    bestSeason: f.bestSeason,
+    distance: f.distance,
+    latitude: f.latitude ?? null,
+    longitude: f.longitude ?? null,
+    seo: post.fields.seo ?? null,
+    modified: post.modified_gmt,
   };
 }
 
 export async function getDestinations(): Promise<Destination[]> {
   try {
-    const payload = await getPayload();
-    const result = await payload.find({
-      collection: "destinations",
-      limit: 100,
-      sort: "name",
-    });
-    return result.docs.map((doc) => mapDocToDestination(doc as unknown as Record<string, unknown>));
+    const posts = await wpCollection<DestinationFields>("destinations", WP_TAGS.destinations);
+    return posts.map(mapPostToDestination);
   } catch {
     return [];
   }

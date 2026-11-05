@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { pageMetadata } from "@/lib/seo";
+import { requirePage } from "@/lib/builtin-pages";
 
-export const metadata: Metadata = {
-  title: "Terms & Conditions",
-  description: "Terms and Conditions for ALMA Yachting charter and fleet management services.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  await requirePage("terms");
+  return pageMetadata({
+    seo: null,
+    path: "/terms",
+    title: "Terms & Conditions",
+    description: "Terms and Conditions for ALMA Yachting charter and fleet management services.",
+  });
+}
 
 const sections = [
   {
@@ -49,7 +56,8 @@ const sections = [
   },
 ];
 
-export default function TermsPage() {
+export default async function TermsPage() {
+  await requirePage("terms");
   return (
     <div style={{ background: "#F5F0EB", minHeight: "100vh" }}>
       {/* Header */}

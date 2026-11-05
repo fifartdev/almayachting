@@ -10,29 +10,48 @@ import { getDestinations } from "@/lib/destinations";
 import { getServices } from "@/lib/services";
 import { getHomepage, getSiteSettings } from "@/lib/globals";
 import { richTextToParagraphs } from "@/lib/richtext";
+import { getSeoSettings, pageJsonLd, pageMetadata } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
+import FaqSection from "@/components/FaqSection";
+import type { Metadata } from "next";
+import { getPageSwitches } from "@/lib/builtin-pages";
 
 const serviceIcons: LucideIcon[] = [Ship, Anchor, Users, Star];
 
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getHomepage();
+  return pageMetadata({ seo, path: "/" });
+}
+
 export default async function HomePage() {
-  const [yachts, destinations, services, homepage, siteSettings] = await Promise.all([
+  const [yachts, destinations, services, homepage, siteSettings, site, pages] = await Promise.all([
     getYachts(),
     getDestinations(),
     getServices(),
     getHomepage(),
     getSiteSettings(),
+    getSeoSettings(),
+    getPageSwitches(),
   ]);
   const featuredDestinations = destinations.slice(0, 5);
   const aboutParagraphs = richTextToParagraphs(homepage.aboutIntro.bodyText);
   return (
     <>
+      <JsonLd data={pageJsonLd(site, { seo: homepage.seo, path: "/", title: site.general.defaultTitle })} />
       {/* 1. Hero */}
       <HeroSection
+        mode={homepage.hero.mode}
+        slides={homepage.hero.slides}
+        video={homepage.hero.video}
+        videoPoster={homepage.hero.videoPoster}
         label={homepage.hero.label}
         headline={homepage.hero.headline}
         subheadline={homepage.hero.subheadline}
         ctaPrimaryText={homepage.hero.ctaPrimaryText}
         ctaSecondaryText={homepage.hero.ctaSecondaryText}
         stats={homepage.hero.stats}
+        showFleetCta={pages.fleet}
+        showContactCta={pages.contact}
       />
 
       {/* 2. About Intro */}
@@ -106,16 +125,20 @@ export default async function HomePage() {
                 ))}
               </div>
               <div className="mt-8">
-                <Link href="/about" className="btn-dark">
-                  Our Story
-                  <ArrowRight size={14} />
-                </Link>
+                {pages.about && (
+                  <Link href="/about" className="btn-dark">
+                    Our Story
+                    <ArrowRight size={14} />
+                  </Link>
+                )}
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      {pages.fleet && (
+        <>
       {/* 3. Fleet Preview */}
       <section className="section-pad" style={{ background: "#fff" }}>
         <div className="container-xl">
@@ -150,7 +173,11 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+        </>
+      )}
 
+      {pages.services && (
+        <>
       {/* 4. Services */}
       <section
         className="section-pad grain-overlay"
@@ -257,7 +284,11 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+        </>
+      )}
 
+      {pages.destinations && (
+        <>
       {/* 5. Destinations */}
       <section className="section-pad" style={{ background: "#F5F0EB" }}>
         <div className="container-xl">
@@ -390,6 +421,8 @@ export default async function HomePage() {
           </div>}
         </div>
       </section>
+        </>
+      )}
 
       {/* 6. Contact CTA */}
       <section
@@ -398,8 +431,11 @@ export default async function HomePage() {
       >
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80"
-            alt="Greek island from the sea"
+            src={
+              homepage.ctaSection.backgroundImage?.url ??
+              "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80"
+            }
+            alt={homepage.ctaSection.backgroundImage?.alt || "Greek island from the sea"}
             fill
             className="object-cover opacity-20"
             sizes="100vw"
@@ -458,13 +494,21 @@ export default async function HomePage() {
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
+            {pages.contact && (
+            <>
             <Link href="/contact" className="btn-primary">
               {homepage.ctaSection.ctaPrimaryText}
               <ArrowRight size={14} />
             </Link>
+            </>
+            )}
+            {pages.fleet && (
+            <>
             <Link href="/fleet" className="btn-outline">
               {homepage.ctaSection.ctaSecondaryText}
             </Link>
+            </>
+            )}
           </div>
 
           <div className="mt-16 flex items-center justify-center gap-3">
@@ -495,6 +539,7 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      <FaqSection seo={homepage.seo} />
     </>
   );
 }
