@@ -57,3 +57,14 @@ reserved for built-in routes and get `-page` appended automatically.
 Reads are public. Writes (e.g. the content migration script) use an **application password**
 (Users → Profile → Application Passwords) for an Editor or Administrator account.
 Revoke it after the migration.
+
+## Client access: the "Site Manager" role
+
+Create the client's account under **Users → Add New** with the role **Site Manager**.
+They can edit everything the website shows and nothing else:
+
+| Can | Cannot |
+|---|---|
+| Enquiries (incl. GDPR export/erase), Fleet, Destinations, Services, Team, Pages, Media, Appearance → Menus, every ALMA Site screen (incl. SEO & GEO, built-in page switches), their own profile | Plugins, themes, Customizer/Widgets/Site Editor, Settings, Users, Tools, blog Posts, Comments, raw HTML/scripts |
+
+The role is created automatically when the plugin is activated or updated.
