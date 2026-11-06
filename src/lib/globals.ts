@@ -9,10 +9,14 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-/** Deep-merges CMS data over defaults; empty strings and empty lists keep the default. */
+/**
+ * Deep-merges CMS data over defaults. Once WordPress has answered, its values are final,
+ * including emptied lists and cleared texts; a default only fills a key WordPress did not
+ * return at all. When WordPress is unreachable, getSettings() uses the defaults as a whole.
+ */
 function withDefaults<T>(defaults: T, data: unknown): T {
   if (Array.isArray(defaults)) {
-    return (Array.isArray(data) && data.length ? data : defaults) as T;
+    return (Array.isArray(data) ? data : defaults) as T;
   }
   if (isPlainObject(defaults)) {
     const source = isPlainObject(data) ? data : {};
@@ -21,7 +25,7 @@ function withDefaults<T>(defaults: T, data: unknown): T {
     return merged as T;
   }
   if (typeof defaults === "string") {
-    return (typeof data === "string" && data.trim() ? data : defaults) as T;
+    return (typeof data === "string" ? data : defaults) as T;
   }
   return (data ?? defaults) as T;
 }
@@ -112,7 +116,8 @@ const homepageDefaults: HomepageContent = {
     quoteAttribution: "— ALMA YACHTING, GREECE",
     sectionLabel: "01 / Our Story",
     sectionHeading: "Born from a love of the sea",
-    bodyText: "",
+    bodyText:
+      "<p>ALMA Yachting was founded on a singular belief: that the Greek islands deserve to be experienced from the water, on your own terms, with the freedom to discover hidden coves inaccessible to any other traveller.</p><p>Based in Athens and operating across the Aegean and Ionian seas, our fleet of premium catamarans represents the finest vessels available for charter in Greece — each one maintained to the highest standard and crewed by professionals who know these waters intimately.</p>",
   },
   fleetPreview: {
     label: "02 / Fleet",
@@ -165,7 +170,8 @@ const aboutPageDefaults: AboutPageContent = {
   pageLabel: "06 / About",
   pageHeading: "Our Story",
   storyHeading: "Born in Athens, Made for the Sea",
-  storyText: "",
+  storyText:
+    "<p>ALMA Yachting was born from a simple conviction: that the Greek islands — among the most beautiful places on Earth — are best experienced not from a hotel terrace, but from the deck of a yacht, with the freedom to go wherever the wind and your curiosity lead you.</p><p>Founded in Athens in 2014 by competitive sailor Alexandros Papadopoulos, ALMA started as a single-vessel charter operation in the Saronic Gulf. Within three years, growing demand from discerning international guests had led to the development of our current fleet of five premium catamarans — each chosen for the quality of their design, performance, and onboard experience.</p><p>Today, ALMA Yachting serves guests from more than 30 countries, offering not just yacht charter but a full suite of maritime services: fleet management, crewing, and a concierge programme designed to make every moment on the Greek islands unforgettable. We are, in every sense, a company built by sailors, for those who love the sea.</p>",
   stats: [
     { value: "5", label: "Premium Yachts" },
     { value: "10+", label: "Years Experience" },

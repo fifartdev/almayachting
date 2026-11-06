@@ -104,13 +104,7 @@ export default async function HomePage() {
                 heading={homepage.aboutIntro.sectionHeading}
               />
               <div className="mt-6 space-y-4">
-                {(aboutParagraphs.length
-                  ? aboutParagraphs
-                  : [
-                      "ALMA Yachting was founded on a singular belief: that the Greek islands deserve to be experienced from the water, on your own terms, with the freedom to discover hidden coves inaccessible to any other traveller.",
-                      "Based in Athens and operating across the Aegean and Ionian seas, our fleet of premium catamarans represents the finest vessels available for charter in Greece — each one maintained to the highest standard and crewed by professionals who know these waters intimately.",
-                    ]
-                ).map((paragraph, i) => (
+                {aboutParagraphs.map((paragraph, i) => (
                   <p
                     key={i}
                     style={{

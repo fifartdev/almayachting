@@ -187,14 +187,7 @@ export default async function AboutPage() {
               />
 
               <div className="mt-8 space-y-5">
-                {(storyParagraphs.length
-                  ? storyParagraphs
-                  : [
-                      "ALMA Yachting was born from a simple conviction: that the Greek islands — among the most beautiful places on Earth — are best experienced not from a hotel terrace, but from the deck of a yacht, with the freedom to go wherever the wind and your curiosity lead you.",
-                      "Founded in Athens in 2014 by competitive sailor Alexandros Papadopoulos, ALMA started as a single-vessel charter operation in the Saronic Gulf. Within three years, growing demand from discerning international guests had led to the development of our current fleet of five premium catamarans — each chosen for the quality of their design, performance, and onboard experience.",
-                      "Today, ALMA Yachting serves guests from more than 30 countries, offering not just yacht charter but a full suite of maritime services: fleet management, crewing, and a concierge programme designed to make every moment on the Greek islands unforgettable. We are, in every sense, a company built by sailors, for those who love the sea.",
-                    ]
-                ).map((paragraph, i) => (
+                {storyParagraphs.map((paragraph, i) => (
                   <p
                     key={i}
                     style={{

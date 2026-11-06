@@ -289,45 +289,47 @@ export default function HeroSection({
         </div>
 
         {/* Stats row */}
+        {stats.length > 0 && (
         <div
-          className="absolute bottom-0 left-0 right-0"
-          style={{
-            borderTop: "1px solid rgba(245,240,235,0.1)",
-          }}
-        >
-          <div className="container-xl">
-            <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
-              {stats.map((stat) => (
-                <div key={stat.label} className="px-6 py-5 text-center">
-                  <div
-                    style={{
-                      fontFamily: "var(--font-barlow-condensed), sans-serif",
-                      fontWeight: 700,
-                      fontSize: "28px",
-                      color: "#8A9BA8",
-                      letterSpacing: "-0.01em",
-                    }}
-                  >
-                    {stat.value}
+            className="absolute bottom-0 left-0 right-0"
+            style={{
+              borderTop: "1px solid rgba(245,240,235,0.1)",
+            }}
+          >
+            <div className="container-xl">
+              <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
+                {stats.map((stat) => (
+                  <div key={stat.label} className="px-6 py-5 text-center">
+                    <div
+                      style={{
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
+                        fontWeight: 700,
+                        fontSize: "28px",
+                        color: "#8A9BA8",
+                        letterSpacing: "-0.01em",
+                      }}
+                    >
+                      {stat.value}
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
+                        fontWeight: 400,
+                        fontSize: "9px",
+                        letterSpacing: "0.15em",
+                        color: "rgba(245,240,235,0.45)",
+                        textTransform: "uppercase",
+                        marginTop: "4px",
+                      }}
+                    >
+                      {stat.label}
+                    </div>
                   </div>
-                  <div
-                    style={{
-                      fontFamily: "var(--font-barlow-condensed), sans-serif",
-                      fontWeight: 400,
-                      fontSize: "9px",
-                      letterSpacing: "0.15em",
-                      color: "rgba(245,240,235,0.45)",
-                      textTransform: "uppercase",
-                      marginTop: "4px",
-                    }}
-                  >
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Scroll indicator */}

@@ -122,8 +122,22 @@ const seoDefaults: SeoSettings = {
   },
 };
 
-export function getSeoSettings(): Promise<SeoSettings> {
-  return getSettings("seo", seoDefaults);
+export async function getSeoSettings(): Promise<SeoSettings> {
+  const site = await getSettings("seo", seoDefaults);
+  // Values every page's metadata depends on: a cleared field falls back instead of breaking them.
+  const g = site.general;
+  return {
+    ...site,
+    general: {
+      ...g,
+      siteUrl: /^https?:\/\//.test(g.siteUrl) ? g.siteUrl : seoDefaults.general.siteUrl,
+      siteName: g.siteName || seoDefaults.general.siteName,
+      defaultTitle: g.defaultTitle || seoDefaults.general.defaultTitle,
+      defaultDescription: g.defaultDescription || seoDefaults.general.defaultDescription,
+      locale: g.locale || seoDefaults.general.locale,
+    },
+    organization: { ...site.organization, name: site.organization.name || seoDefaults.organization.name },
+  };
 }
 
 export function siteUrl(site: SeoSettings): string {
