@@ -4,11 +4,12 @@ import { ArrowRight, Heart, Shield, Compass, Leaf } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import SectionTitle from "@/components/SectionTitle";
 import type { Metadata } from "next";
-import { requirePage } from "@/lib/builtin-pages";
+import { getPageSwitches, requirePage } from "@/lib/builtin-pages";
 import { getSeoSettings, pageJsonLd, pageMetadata } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 import FaqSection from "@/components/FaqSection";
 import { getAboutPage } from "@/lib/globals";
+import { getTeamMembers } from "@/lib/team";
 import { richTextToParagraphs } from "@/lib/richtext";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -51,7 +52,8 @@ const team = [
 
 export default async function AboutPage() {
   await requirePage("about");
-  const aboutPage = await getAboutPage();
+  const switches = await getPageSwitches();
+  const [aboutPage, team] = await Promise.all([getAboutPage(), getTeamMembers()]);
   const storyParagraphs = richTextToParagraphs(aboutPage.storyText);
   const site = await getSeoSettings();
   return (
@@ -70,8 +72,8 @@ export default async function AboutPage() {
         style={{ height: "70vh", minHeight: "500px" }}
       >
         <Image
-          src="/images/various/hero.jpg"
-          alt="Greek coast from the sea"
+          src={aboutPage.heroImage?.url ?? "/images/various/hero.jpg"}
+          alt={aboutPage.heroImage?.alt || "Greek coast from the sea"}
           fill
           priority
           className="object-cover"
@@ -128,55 +130,57 @@ export default async function AboutPage() {
                 style={{ aspectRatio: "3/4" }}
               >
                 <Image
-                  src="/images/various/attica-riviera-b.jpg"
-                  alt="ALMA Yachting — sailing Greece"
+                  src={aboutPage.storyImage?.url ?? "/images/various/attica-riviera-b.jpg"}
+                  alt={aboutPage.storyImage?.alt || "ALMA Yachting — sailing Greece"}
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
               {/* Stats overlay */}
-              <div
-                className="absolute bottom-0 right-0 grid grid-cols-2 gap-px"
-                style={{ background: "rgba(138,155,168,0.3)" }}
-              >
-                {aboutPage.stats.map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="flex flex-col items-center justify-center p-5"
-                    style={{
-                      background: "rgba(44,44,44,0.92)",
-                      minWidth: "100px",
-                    }}
-                  >
-                    <span
+              {aboutPage.stats.length > 0 && (
+                <div
+                  className="absolute bottom-0 right-0 grid grid-cols-2 gap-px"
+                  style={{ background: "rgba(138,155,168,0.3)" }}
+                >
+                  {aboutPage.stats.map((stat) => (
+                    <div
+                      key={stat.label}
+                      className="flex flex-col items-center justify-center p-5"
                       style={{
-                        fontFamily: "var(--font-barlow-condensed), sans-serif",
-                        fontWeight: 800,
-                        fontSize: "28px",
-                        color: "#8A9BA8",
-                        lineHeight: 1,
+                        background: "rgba(44,44,44,0.92)",
+                        minWidth: "100px",
                       }}
                     >
-                      {stat.value}
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: "var(--font-barlow-condensed), sans-serif",
-                        fontWeight: 500,
-                        fontSize: "8px",
-                        letterSpacing: "0.15em",
-                        color: "rgba(245,240,235,0.5)",
-                        textTransform: "uppercase",
-                        marginTop: "4px",
-                        textAlign: "center",
-                      }}
-                    >
-                      {stat.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
+                      <span
+                        style={{
+                          fontFamily: "var(--font-barlow-condensed), sans-serif",
+                          fontWeight: 800,
+                          fontSize: "28px",
+                          color: "#8A9BA8",
+                          lineHeight: 1,
+                        }}
+                      >
+                        {stat.value}
+                      </span>
+                      <span
+                        style={{
+                          fontFamily: "var(--font-barlow-condensed), sans-serif",
+                          fontWeight: 500,
+                          fontSize: "8px",
+                          letterSpacing: "0.15em",
+                          color: "rgba(245,240,235,0.5)",
+                          textTransform: "uppercase",
+                          marginTop: "4px",
+                          textAlign: "center",
+                        }}
+                      >
+                        {stat.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Right: story text */}
@@ -203,10 +207,12 @@ export default async function AboutPage() {
               </div>
 
               <div className="mt-10">
-                <Link href="/contact" className="btn-dark">
-                  Begin Your Journey
-                  <ArrowRight size={14} />
-                </Link>
+                {switches.contact && (
+                  <Link href="/contact" className="btn-dark">
+                    Begin Your Journey
+                    <ArrowRight size={14} />
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -214,77 +220,145 @@ export default async function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="section-pad" style={{ background: "#0A1628" }}>
-        <div className="container-xl">
-          <div className="text-center mb-14">
-            <SectionTitle
-              label="Our Values"
-              heading="What We Stand For"
-              subtitle="Four principles that guide every decision we make at ALMA Yachting."
-              align="center"
-              light
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {aboutPage.values.map((value, i) => {
-              const Icon = valueIcons[i % valueIcons.length];
-              return (
-                <div
-                  key={value.title}
-                  className="p-8"
-                  style={{ border: "1px solid rgba(138,155,168,0.15)" }}
-                >
-                  <div className="flex items-center justify-between mb-6">
-                    <div
-                      className="flex items-center justify-center w-10 h-10"
-                      style={{ border: "1px solid rgba(138,155,168,0.3)" }}
-                    >
-                      <Icon size={18} style={{ color: "#8A9BA8" }} />
+      {aboutPage.values.length > 0 && (
+        <section className="section-pad" style={{ background: "#0A1628" }}>
+          <div className="container-xl">
+            <div className="text-center mb-14">
+              <SectionTitle
+                label="Our Values"
+                heading="What We Stand For"
+                subtitle="Four principles that guide every decision we make at ALMA Yachting."
+                align="center"
+                light
+              />
+            </div>
+  
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {aboutPage.values.map((value, i) => {
+                const Icon = valueIcons[i % valueIcons.length];
+                return (
+                  <div
+                    key={value.title}
+                    className="p-8"
+                    style={{ border: "1px solid rgba(138,155,168,0.15)" }}
+                  >
+                    <div className="flex items-center justify-between mb-6">
+                      <div
+                        className="flex items-center justify-center w-10 h-10"
+                        style={{ border: "1px solid rgba(138,155,168,0.3)" }}
+                      >
+                        <Icon size={18} style={{ color: "#8A9BA8" }} />
+                      </div>
+                      <span
+                        style={{
+                          fontFamily: "var(--font-barlow-condensed), sans-serif",
+                          fontWeight: 500,
+                          fontSize: "10px",
+                          color: "rgba(138,155,168,0.3)",
+                          letterSpacing: "0.1em",
+                        }}
+                      >
+                        0{i + 1}
+                      </span>
                     </div>
-                    <span
+                    <h3
+                      className="mb-3"
                       style={{
                         fontFamily: "var(--font-barlow-condensed), sans-serif",
-                        fontWeight: 500,
-                        fontSize: "10px",
-                        color: "rgba(138,155,168,0.3)",
-                        letterSpacing: "0.1em",
+                        fontWeight: 700,
+                        fontSize: "22px",
+                        color: "#F5F0EB",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.04em",
                       }}
                     >
-                      0{i + 1}
-                    </span>
+                      {value.title}
+                    </h3>
+                    <p
+                      style={{
+                        fontFamily: "var(--font-cormorant-garamond), serif",
+                        fontSize: "15px",
+                        color: "rgba(245,240,235,0.5)",
+                        lineHeight: "1.7",
+                      }}
+                    >
+                      {value.description}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Team (WordPress → Team; hidden when no member is published) */}
+      {team.length > 0 && (
+        <section className="section-pad" style={{ background: "#F5F0EB" }}>
+          <div className="container-xl">
+            <div className="text-center mb-14">
+              <SectionTitle label={aboutPage.teamLabel} heading={aboutPage.teamHeading || "Our Team"} align="center" />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+              {team.map((member) => (
+                <div key={member.id}>
+                  <div className="relative mb-6 overflow-hidden" style={{ aspectRatio: "4/5", background: "#E8E2DA" }}>
+                    {member.photo && (
+                      <Image
+                        src={member.photo.url}
+                        alt={member.photo.alt || member.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    )}
                   </div>
                   <h3
-                    className="mb-3"
                     style={{
                       fontFamily: "var(--font-barlow-condensed), sans-serif",
                       fontWeight: 700,
                       fontSize: "22px",
-                      color: "#F5F0EB",
+                      color: "#0A1628",
                       textTransform: "uppercase",
-                      letterSpacing: "0.04em",
+                      letterSpacing: "0.02em",
                     }}
                   >
-                    {value.title}
+                    {member.name}
                   </h3>
-                  <p
-                    style={{
-                      fontFamily: "var(--font-cormorant-garamond), serif",
-                      fontSize: "15px",
-                      color: "rgba(245,240,235,0.5)",
-                      lineHeight: "1.7",
-                    }}
-                  >
-                    {value.description}
-                  </p>
+                  {member.role && (
+                    <p
+                      className="mt-1 mb-4"
+                      style={{
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
+                        fontWeight: 500,
+                        fontSize: "11px",
+                        letterSpacing: "0.15em",
+                        color: "#8A9BA8",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {member.role}
+                    </p>
+                  )}
+                  {member.bio && (
+                    <p
+                      style={{
+                        fontFamily: "var(--font-cormorant-garamond), serif",
+                        fontSize: "16px",
+                        color: "rgba(44,44,44,0.75)",
+                        lineHeight: "1.7",
+                        whiteSpace: "pre-line",
+                      }}
+                    >
+                      {member.bio}
+                    </p>
+                  )}
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* Team */}
+        </section>
+      )}
 
       {/* CTA */}
       <section
@@ -322,13 +396,17 @@ export default async function AboutPage() {
             {aboutPage.ctaBodyText}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/fleet" className="btn-primary">
-              View Our Fleet
-              <ArrowRight size={14} />
-            </Link>
-            <Link href="/contact" className="btn-outline">
-              Get in Touch
-            </Link>
+            {switches.fleet && (
+              <Link href="/fleet" className="btn-primary">
+                View Our Fleet
+                <ArrowRight size={14} />
+              </Link>
+            )}
+            {switches.contact && (
+              <Link href="/contact" className="btn-outline">
+                Get in Touch
+              </Link>
+            )}
           </div>
         </div>
       </section>

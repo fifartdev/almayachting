@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { pageMetadata } from "@/lib/seo";
-import { requirePage } from "@/lib/builtin-pages";
+import { getSeoSettings, pageJsonLd, pageMetadata } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
+import FaqSection from "@/components/FaqSection";
+import { getPageSwitches, requirePage } from "@/lib/builtin-pages";
+import { getPrivacyPage } from "@/lib/globals";
 
 export async function generateMetadata(): Promise<Metadata> {
   await requirePage("privacy");
+  const page = await getPrivacyPage();
   return pageMetadata({
-    seo: null,
+    seo: page.seo,
     path: "/privacy",
-    title: "Privacy Policy",
+    title: page.pageHeading || "Privacy Policy",
     description: "Privacy Policy for ALMA Yachting — how we collect, use, and protect your personal data.",
   });
 }
@@ -54,7 +58,10 @@ const sections = [
 
 export default async function PrivacyPage() {
   await requirePage("privacy");
+  const [page, switches, site] = await Promise.all([getPrivacyPage(), getPageSwitches(), getSeoSettings()]);
   return (
+    <>
+    <JsonLd data={pageJsonLd(site, { seo: page.seo, path: "/privacy", title: page.pageHeading || "Privacy Policy" })} />
     <div style={{ background: "#F5F0EB", minHeight: "100vh" }}>
       {/* Header */}
       <div
@@ -89,7 +96,7 @@ export default async function PrivacyPage() {
               lineHeight: 1,
             }}
           >
-            Privacy Policy
+            {page.pageHeading || "Privacy Policy"}
           </h1>
           <p
             style={{
@@ -102,7 +109,7 @@ export default async function PrivacyPage() {
               marginTop: "20px",
             }}
           >
-            Effective date: January 2025
+            {page.lastUpdated ? `Last updated: ${page.lastUpdated}` : "Effective date: January 2025"}
           </p>
         </div>
       </div>
@@ -110,80 +117,87 @@ export default async function PrivacyPage() {
       {/* Content */}
       <div className="container-xl" style={{ paddingTop: "80px", paddingBottom: "100px" }}>
         <div style={{ maxWidth: "760px" }}>
+          {page.body ? (
+            // Text written in WordPress (ALMA Site → Privacy Policy) replaces the built-in text.
+            <div className="wp-content" style={{ margin: 0 }} dangerouslySetInnerHTML={{ __html: page.body }} />
+          ) : (
+            <>
           <p
-            style={{
-              fontFamily: "var(--font-cormorant-garamond), serif",
-              fontStyle: "italic",
-              fontSize: "20px",
-              fontWeight: 300,
-              color: "rgba(44,44,44,0.75)",
-              lineHeight: "1.75",
-              marginBottom: "60px",
-            }}
-          >
-            At ALMA Yachting, we are committed to protecting your privacy and
-            handling your personal data with transparency and care. This policy
-            explains how we collect, use, and safeguard the information you
-            share with us.
-          </p>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: "48px" }}>
-            {sections.map((section, i) => (
-              <div key={section.title}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "16px",
-                    marginBottom: "16px",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: "var(--font-barlow-condensed), sans-serif",
-                      fontWeight: 500,
-                      fontSize: "10px",
-                      letterSpacing: "0.2em",
-                      color: "rgba(10,22,40,0.4)",
-                    }}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
+              style={{
+                fontFamily: "var(--font-cormorant-garamond), serif",
+                fontStyle: "italic",
+                fontSize: "20px",
+                fontWeight: 300,
+                color: "rgba(44,44,44,0.75)",
+                lineHeight: "1.75",
+                marginBottom: "60px",
+              }}
+            >
+              At ALMA Yachting, we are committed to protecting your privacy and
+              handling your personal data with transparency and care. This policy
+              explains how we collect, use, and safeguard the information you
+              share with us.
+            </p>
+  
+            <div style={{ display: "flex", flexDirection: "column", gap: "48px" }}>
+              {sections.map((section, i) => (
+                <div key={section.title}>
                   <div
                     style={{
-                      flex: 1,
-                      height: "1px",
-                      background: "rgba(10,22,40,0.1)",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "16px",
+                      marginBottom: "16px",
                     }}
-                  />
+                  >
+                    <span
+                      style={{
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
+                        fontWeight: 500,
+                        fontSize: "10px",
+                        letterSpacing: "0.2em",
+                        color: "rgba(10,22,40,0.4)",
+                      }}
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div
+                      style={{
+                        flex: 1,
+                        height: "1px",
+                        background: "rgba(10,22,40,0.1)",
+                      }}
+                    />
+                  </div>
+                  <h2
+                    style={{
+                      fontFamily: "var(--font-barlow-condensed), sans-serif",
+                      fontWeight: 700,
+                      fontSize: "20px",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.04em",
+                      color: "#2C2C2C",
+                      marginBottom: "14px",
+                    }}
+                  >
+                    {section.title}
+                  </h2>
+                  <p
+                    style={{
+                      fontFamily: "var(--font-cormorant-garamond), serif",
+                      fontSize: "17px",
+                      color: "rgba(44,44,44,0.7)",
+                      lineHeight: "1.8",
+                      whiteSpace: "pre-line",
+                    }}
+                  >
+                    {section.body}
+                  </p>
                 </div>
-                <h2
-                  style={{
-                    fontFamily: "var(--font-barlow-condensed), sans-serif",
-                    fontWeight: 700,
-                    fontSize: "20px",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.04em",
-                    color: "#2C2C2C",
-                    marginBottom: "14px",
-                  }}
-                >
-                  {section.title}
-                </h2>
-                <p
-                  style={{
-                    fontFamily: "var(--font-cormorant-garamond), serif",
-                    fontSize: "17px",
-                    color: "rgba(44,44,44,0.7)",
-                    lineHeight: "1.8",
-                    whiteSpace: "pre-line",
-                  }}
-                >
-                  {section.body}
-                </p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+            </>
+          )}
 
           <div
             style={{
@@ -195,30 +209,36 @@ export default async function PrivacyPage() {
               flexWrap: "wrap",
             }}
           >
-            <Link
-              href="/contact"
-              className="btn-primary"
-            >
-              Contact Us
-            </Link>
-            <Link
-              href="/terms"
-              style={{
-                fontFamily: "var(--font-barlow-condensed), sans-serif",
-                fontWeight: 700,
-                fontSize: "12px",
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                color: "#0A1628",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              View Terms & Conditions →
-            </Link>
+            {switches.contact && (
+              <Link
+                href="/contact"
+                className="btn-primary"
+              >
+                Contact Us
+              </Link>
+            )}
+            {switches.terms && (
+              <Link
+                href="/terms"
+                style={{
+                  fontFamily: "var(--font-barlow-condensed), sans-serif",
+                  fontWeight: 700,
+                  fontSize: "12px",
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "#0A1628",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                View Terms & Conditions →
+              </Link>
+            )}
           </div>
         </div>
       </div>
     </div>
+    <FaqSection seo={page.seo} />
+    </>
   );
 }

@@ -42,16 +42,18 @@ export default function Footer({
               />
             </Link>
 
-            <p
-              className="text-sm leading-relaxed mb-6"
-              style={{
-                fontFamily: "var(--font-cormorant-garamond), serif",
-                fontSize: "15px",
-                color: "rgba(245,240,235,0.55)",
-              }}
-            >
-              {settings.tagline}
-            </p>
+            {settings.tagline && (
+              <p
+                className="text-sm leading-relaxed mb-6"
+                style={{
+                  fontFamily: "var(--font-cormorant-garamond), serif",
+                  fontSize: "15px",
+                  color: "rgba(245,240,235,0.55)",
+                }}
+              >
+                {settings.tagline}
+              </p>
+            )}
 
             <div className="flex items-center gap-2 mb-8">
               <Anchor size={14} style={{ color: "#8A9BA8", flexShrink: 0 }} />
@@ -272,72 +274,78 @@ export default function Footer({
               Contact
             </h4>
             <ul className="space-y-4 list-none p-0 m-0">
-              <li className="flex items-start gap-3">
-                <MapPin
-                  size={14}
-                  className="mt-1 flex-shrink-0"
-                  style={{ color: "#C4965A" }}
-                />
-                <span
-                  style={{
-                    fontFamily: "var(--font-cormorant-garamond), serif",
-                    fontSize: "15px",
-                    color: "rgba(245,240,235,0.55)",
-                    lineHeight: "1.6",
-                    whiteSpace: "pre-line",
-                  }}
-                >
-                  {settings.address}
-                </span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone
-                  size={14}
-                  className="flex-shrink-0"
-                  style={{ color: "#C4965A" }}
-                />
-                <a
-                  href={`tel:${settings.phone.replace(/\s+/g, "")}`}
-                  style={{
-                    fontFamily: "var(--font-cormorant-garamond), serif",
-                    fontSize: "15px",
-                    color: "rgba(245,240,235,0.55)",
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = "#F5F0EB";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.color =
-                      "rgba(245,240,235,0.55)";
-                  }}
-                >
-                  {settings.phone}
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Mail
-                  size={14}
-                  className="flex-shrink-0"
-                  style={{ color: "#C4965A" }}
-                />
-                <a
-                  href={`mailto:${settings.email}`}
-                  style={{
-                    fontFamily: "var(--font-cormorant-garamond), serif",
-                    fontSize: "15px",
-                    color: "rgba(245,240,235,0.55)",
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = "#F5F0EB";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.color =
-                      "rgba(245,240,235,0.55)";
-                  }}
-                >
-                  {settings.email}
-                </a>
-              </li>
+              {settings.address && (
+                <li className="flex items-start gap-3">
+                  <MapPin
+                    size={14}
+                    className="mt-1 flex-shrink-0"
+                    style={{ color: "#C4965A" }}
+                  />
+                  <span
+                    style={{
+                      fontFamily: "var(--font-cormorant-garamond), serif",
+                      fontSize: "15px",
+                      color: "rgba(245,240,235,0.55)",
+                      lineHeight: "1.6",
+                      whiteSpace: "pre-line",
+                    }}
+                  >
+                    {settings.address}
+                  </span>
+                </li>
+              )}
+              {settings.phone && (
+                <li className="flex items-center gap-3">
+                  <Phone
+                    size={14}
+                    className="flex-shrink-0"
+                    style={{ color: "#C4965A" }}
+                  />
+                  <a
+                    href={`tel:${settings.phone.replace(/\s+/g, "")}`}
+                    style={{
+                      fontFamily: "var(--font-cormorant-garamond), serif",
+                      fontSize: "15px",
+                      color: "rgba(245,240,235,0.55)",
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLElement).style.color = "#F5F0EB";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.color =
+                        "rgba(245,240,235,0.55)";
+                    }}
+                  >
+                    {settings.phone}
+                  </a>
+                </li>
+              )}
+              {settings.email && (
+                <li className="flex items-center gap-3">
+                  <Mail
+                    size={14}
+                    className="flex-shrink-0"
+                    style={{ color: "#C4965A" }}
+                  />
+                  <a
+                    href={`mailto:${settings.email}`}
+                    style={{
+                      fontFamily: "var(--font-cormorant-garamond), serif",
+                      fontSize: "15px",
+                      color: "rgba(245,240,235,0.55)",
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLElement).style.color = "#F5F0EB";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.color =
+                        "rgba(245,240,235,0.55)";
+                    }}
+                  >
+                    {settings.email}
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
         </div>

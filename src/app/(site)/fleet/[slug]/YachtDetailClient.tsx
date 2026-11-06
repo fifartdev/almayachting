@@ -150,7 +150,9 @@ export default function YachtDetailClient({ yacht, related }: Props) {
               { icon: Users, label: `${yacht.guests} Guests` },
               { icon: Bed, label: `${yacht.cabins} Cabins` },
               { icon: Bath, label: `${yacht.bathrooms} Bathrooms` },
-            ].map((spec) => {
+            ]
+              .filter((spec) => spec.label && !/^0 /.test(spec.label))
+              .map((spec) => {
               const Icon = spec.icon;
               return (
                 <div key={spec.label} className="flex items-center gap-2">
@@ -201,57 +203,59 @@ export default function YachtDetailClient({ yacht, related }: Props) {
               </div>
 
               {/* Highlights */}
-              <div className="mb-12">
-                <h2
-                  className="mb-6"
-                  style={{
-                    fontFamily: "var(--font-barlow-condensed), sans-serif",
-                    fontWeight: 700,
-                    fontSize: "22px",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.05em",
-                    color: "#2C2C2C",
-                  }}
-                >
-                  Highlights
-                </h2>
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 list-none p-0 m-0">
-                  {yacht.highlights.map((h) => (
-                    <li key={h} className="flex items-start gap-3">
-                      <div
-                        style={{
-                          width: "16px",
-                          height: "16px",
-                          border: "1px solid rgba(10,22,40,0.25)",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          flexShrink: 0,
-                          marginTop: "3px",
-                        }}
-                      >
+              {yacht.highlights.length > 0 && (
+                <div className="mb-12">
+                  <h2
+                    className="mb-6"
+                    style={{
+                      fontFamily: "var(--font-barlow-condensed), sans-serif",
+                      fontWeight: 700,
+                      fontSize: "22px",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                      color: "#2C2C2C",
+                    }}
+                  >
+                    Highlights
+                  </h2>
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 list-none p-0 m-0">
+                    {yacht.highlights.map((h) => (
+                      <li key={h} className="flex items-start gap-3">
                         <div
                           style={{
-                            width: "4px",
-                            height: "4px",
-                            background: "#0A1628",
+                            width: "16px",
+                            height: "16px",
+                            border: "1px solid rgba(10,22,40,0.25)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            flexShrink: 0,
+                            marginTop: "3px",
                           }}
-                        />
-                      </div>
-                      <span
-                        style={{
-                          fontFamily: "var(--font-cormorant-garamond), serif",
-                          fontSize: "16px",
-                          color: "rgba(44,44,44,0.75)",
-                          lineHeight: "1.5",
-                        }}
-                      >
-                        {h}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                        >
+                          <div
+                            style={{
+                              width: "4px",
+                              height: "4px",
+                              background: "#0A1628",
+                            }}
+                          />
+                        </div>
+                        <span
+                          style={{
+                            fontFamily: "var(--font-cormorant-garamond), serif",
+                            fontSize: "16px",
+                            color: "rgba(44,44,44,0.75)",
+                            lineHeight: "1.5",
+                          }}
+                        >
+                          {h}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               {/* Specifications Table */}
               <div className="mb-12">
@@ -316,8 +320,12 @@ export default function YachtDetailClient({ yacht, related }: Props) {
                       label: "Bathrooms",
                       value: `${yacht.bathrooms} en-suite`,
                     },
+                    { label: "Crew", value: yacht.crew ? `${yacht.crew} crew` : "" },
                     { label: "Base Port", value: yacht.basePort },
-                  ].map((row, i) => (
+                    { label: "Cruising Area", value: yacht.location },
+                  ]
+                    .filter((row) => row.value && !/^0 /.test(row.value))
+                    .map((row, i) => (
                     <div
                       key={row.label}
                       className="flex items-center justify-between px-6 py-3"
@@ -353,50 +361,52 @@ export default function YachtDetailClient({ yacht, related }: Props) {
               </div>
 
               {/* Image Gallery */}
-              <div>
-                <h2
-                  className="mb-6"
-                  style={{
-                    fontFamily: "var(--font-barlow-condensed), sans-serif",
-                    fontWeight: 700,
-                    fontSize: "22px",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.05em",
-                    color: "#2C2C2C",
-                  }}
-                >
-                  Gallery
-                </h2>
-                <Swiper
-                  modules={[Navigation, Pagination]}
-                  spaceBetween={12}
-                  slidesPerView={1}
-                  navigation
-                  pagination={{ clickable: true }}
-                  breakpoints={{
-                    640: { slidesPerView: 2 },
-                  }}
-                  className="yacht-gallery-swiper"
-                  style={{ paddingBottom: "40px" }}
-                >
-                  {yacht.images.map((img, idx) => (
-                    <SwiperSlide key={idx}>
-                      <div
-                        className="relative overflow-hidden"
-                        style={{ aspectRatio: "4/3" }}
-                      >
-                        <Image
-                          src={`${img.split("?")[0]}`}
-                          alt={`${yacht.name} — image ${idx + 1}`}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 640px) 100vw, 50vw"
-                        />
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </div>
+              {yacht.images.length > 0 && (
+                <div>
+                  <h2
+                    className="mb-6"
+                    style={{
+                      fontFamily: "var(--font-barlow-condensed), sans-serif",
+                      fontWeight: 700,
+                      fontSize: "22px",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                      color: "#2C2C2C",
+                    }}
+                  >
+                    Gallery
+                  </h2>
+                  <Swiper
+                    modules={[Navigation, Pagination]}
+                    spaceBetween={12}
+                    slidesPerView={1}
+                    navigation
+                    pagination={{ clickable: true }}
+                    breakpoints={{
+                      640: { slidesPerView: 2 },
+                    }}
+                    className="yacht-gallery-swiper"
+                    style={{ paddingBottom: "40px" }}
+                  >
+                    {yacht.images.map((img, idx) => (
+                      <SwiperSlide key={idx}>
+                        <div
+                          className="relative overflow-hidden"
+                          style={{ aspectRatio: "4/3" }}
+                        >
+                          <Image
+                            src={`${img.split("?")[0]}`}
+                            alt={`${yacht.name} — image ${idx + 1}`}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 640px) 100vw, 50vw"
+                          />
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </div>
+              )}
             </div>
 
             {/* Right: sticky enquiry sidebar */}

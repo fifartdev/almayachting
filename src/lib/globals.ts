@@ -154,6 +154,8 @@ export function getHomepage(): Promise<HomepageContent> {
 }
 
 export interface AboutPageContent {
+  heroImage: WpImage | null;
+  storyImage: WpImage | null;
   pageLabel: string;
   pageHeading: string;
   storyHeading: string;
@@ -161,12 +163,16 @@ export interface AboutPageContent {
   storyText: string;
   stats: StatItem[];
   values: Array<{ title: string; description: string }>;
+  teamLabel: string;
+  teamHeading: string;
   ctaHeading: string;
   ctaBodyText: string;
   seo: WpSeo | null;
 }
 
 const aboutPageDefaults: AboutPageContent = {
+  heroImage: null,
+  storyImage: null,
   pageLabel: "06 / About",
   pageHeading: "Our Story",
   storyHeading: "Born in Athens, Made for the Sea",
@@ -200,6 +206,8 @@ const aboutPageDefaults: AboutPageContent = {
         "The sea we sail is the sea we cherish. We minimise our environmental footprint through modern vessel technology, responsible anchoring practices, and partnerships with local conservation initiatives.",
     },
   ],
+  teamLabel: "The Crew Ashore",
+  teamHeading: "Our Team",
   ctaHeading: "Sail with ALMA",
   ctaBodyText:
     "Join the hundreds of guests who have experienced the Greek islands through our eyes — and our fleet.",
@@ -211,6 +219,8 @@ export function getAboutPage(): Promise<AboutPageContent> {
 }
 
 export interface ContactPageContent {
+  heroImage: WpImage | null;
+  sideImage: WpImage | null;
   pageLabel: string;
   pageHeading: string;
   subheading: string;
@@ -221,6 +231,8 @@ export interface ContactPageContent {
 }
 
 const contactPageDefaults: ContactPageContent = {
+  heroImage: null,
+  sideImage: null,
   pageLabel: "07 / Contact",
   pageHeading: "Get in Touch",
   subheading: "Begin Your Journey",
@@ -242,6 +254,7 @@ export interface SeaRegion {
 }
 
 export interface DestinationsPageContent {
+  heroImage: WpImage | null;
   pageLabel: string;
   pageHeading: string;
   pageSubheading: string;
@@ -252,6 +265,7 @@ export interface DestinationsPageContent {
 }
 
 const destinationsPageDefaults: DestinationsPageContent = {
+  heroImage: null,
   pageLabel: "04 / Destinations",
   pageHeading: "Greek Islands",
   pageSubheading: "The Aegean, Ionian and Saronic seas await.",
@@ -289,6 +303,7 @@ export function getDestinationsPage(): Promise<DestinationsPageContent> {
 }
 
 export interface FleetPageContent {
+  heroImage: WpImage | null;
   pageLabel: string;
   pageHeading: string;
   introText: string;
@@ -302,6 +317,7 @@ export interface FleetPageContent {
 }
 
 const fleetPageDefaults: FleetPageContent = {
+  heroImage: null,
   pageLabel: "02 / Fleet",
   pageHeading: "Our Fleet",
   introText:
@@ -336,6 +352,7 @@ export interface WhyAlmaStat {
 }
 
 export interface ServicesPageContent {
+  heroImage: WpImage | null;
   pageLabel: string;
   pageHeading: string;
   pageSubheading: string;
@@ -347,6 +364,7 @@ export interface ServicesPageContent {
 }
 
 const servicesPageDefaults: ServicesPageContent = {
+  heroImage: null,
   pageLabel: "03 / Services",
   pageHeading: "What We Offer",
   pageSubheading: "A complete suite of maritime services, delivered with Greek warmth.",
@@ -406,4 +424,22 @@ const siteSettingsDefaults: SiteSettingsContent = {
 
 export function getSiteSettings(): Promise<SiteSettingsContent> {
   return getSettings("site-settings", siteSettingsDefaults);
+}
+
+export interface LegalPageContent {
+  pageHeading: string;
+  lastUpdated: string;
+  /** HTML; empty means the page keeps its built-in text. */
+  body: string;
+  seo: WpSeo | null;
+}
+
+const legalDefaults: LegalPageContent = { pageHeading: "", lastUpdated: "", body: "", seo: null };
+
+export function getPrivacyPage(): Promise<LegalPageContent> {
+  return getSettings("privacy-page", legalDefaults);
+}
+
+export function getTermsPage(): Promise<LegalPageContent> {
+  return getSettings("terms-page", legalDefaults);
 }

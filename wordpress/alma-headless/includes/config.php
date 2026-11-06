@@ -320,6 +320,7 @@ function post_types(): array {
 			'icon'      => 'dashicons-sos',
 			'supports'  => array( 'title', 'editor', 'thumbnail', 'page-attributes' ),
 			'image'     => 'Hero image',
+			'seo'       => 'full',
 			'fields'    => array(
 				array( 'name' => 'type', 'type' => 'text', 'label' => 'Type', 'description' => 'e.g. Luxury Catamaran' ),
 				array( 'name' => 'year', 'type' => 'number', 'label' => 'Year' ),
@@ -362,6 +363,7 @@ function post_types(): array {
 			'icon'      => 'dashicons-location-alt',
 			'supports'  => array( 'title', 'editor', 'thumbnail', 'page-attributes' ),
 			'image'     => 'Destination image',
+			'seo'       => array( 'ai', 'location' ), // No page of its own: only AI search and geo data are used.
 			'fields'    => array(
 				array( 'name' => 'region', 'type' => 'text', 'label' => 'Region', 'description' => 'e.g. Ionian Islands, Saronic Gulf, Cyclades' ),
 				array( 'name' => 'shortDescription', 'type' => 'text', 'label' => 'Short description', 'description' => 'One sentence shown in preview cards.' ),
@@ -380,6 +382,7 @@ function post_types(): array {
 			'icon'      => 'dashicons-star-filled',
 			'supports'  => array( 'title', 'editor', 'thumbnail', 'page-attributes' ),
 			'image'     => 'Service image',
+			'seo'       => array( 'ai' ), // No page of its own: only AI search data is used.
 			'fields'    => array(
 				array( 'name' => 'subtitle', 'type' => 'text', 'label' => 'Subtitle', 'description' => 'Short tagline shown below the title.' ),
 				array( 'name' => 'shortDescription', 'type' => 'text', 'label' => 'Short description', 'description' => 'One sentence used on the homepage services grid.' ),
@@ -395,6 +398,7 @@ function post_types(): array {
 			'icon'      => 'dashicons-groups',
 			'supports'  => array( 'title', 'thumbnail', 'page-attributes' ),
 			'image'     => 'Photo',
+			'seo'       => false,
 			'fields'    => array(
 				array( 'name' => 'role', 'type' => 'text', 'label' => 'Role', 'description' => 'e.g. Founder & Managing Director' ),
 				array( 'name' => 'bio', 'type' => 'textarea', 'label' => 'Bio' ),
@@ -549,6 +553,8 @@ function settings_pages(): array {
 		'about-page'        => array(
 			'title'  => 'About Page',
 			'fields' => array(
+				array( 'name' => 'heroImage', 'type' => 'image', 'label' => 'Hero image', 'description' => 'Wide photo behind the page title. Leave empty for the default.' ),
+				array( 'name' => 'storyImage', 'type' => 'image', 'label' => 'Story image', 'description' => 'Photo beside the story text. Leave empty for the default.' ),
 				array( 'name' => 'pageLabel', 'type' => 'text', 'label' => 'Small label' ),
 				array( 'name' => 'pageHeading', 'type' => 'text', 'label' => 'Page heading' ),
 				array( 'name' => 'storyHeading', 'type' => 'text', 'label' => 'Story heading' ),
@@ -564,6 +570,8 @@ function settings_pages(): array {
 						array( 'name' => 'description', 'type' => 'textarea', 'label' => 'Description' ),
 					),
 				),
+				array( 'name' => 'teamLabel', 'type' => 'text', 'label' => 'Team section label', 'default' => 'The Crew Ashore', 'description' => 'The section shows every published entry under Team.' ),
+				array( 'name' => 'teamHeading', 'type' => 'text', 'label' => 'Team section heading', 'default' => 'Our Team' ),
 				array( 'name' => 'ctaHeading', 'type' => 'text', 'label' => 'CTA heading' ),
 				array( 'name' => 'ctaBodyText', 'type' => 'text', 'label' => 'CTA text' ),
 				seo_group(),
@@ -572,6 +580,7 @@ function settings_pages(): array {
 		'fleet-page'        => array(
 			'title'  => 'Fleet Page',
 			'fields' => array(
+				array( 'name' => 'heroImage', 'type' => 'image', 'label' => 'Hero image', 'description' => 'Wide photo behind the page title. Leave empty for the default.' ),
 				array( 'name' => 'pageLabel', 'type' => 'text', 'label' => 'Small label' ),
 				array( 'name' => 'pageHeading', 'type' => 'text', 'label' => 'Page heading' ),
 				array( 'name' => 'introText', 'type' => 'text', 'label' => 'Intro text' ),
@@ -602,6 +611,7 @@ function settings_pages(): array {
 		'destinations-page' => array(
 			'title'  => 'Destinations Page',
 			'fields' => array(
+				array( 'name' => 'heroImage', 'type' => 'image', 'label' => 'Hero image', 'description' => 'Wide photo behind the page title. Leave empty for the default.' ),
 				array( 'name' => 'pageLabel', 'type' => 'text', 'label' => 'Small label' ),
 				array( 'name' => 'pageHeading', 'type' => 'text', 'label' => 'Page heading' ),
 				array( 'name' => 'pageSubheading', 'type' => 'text', 'label' => 'Page subheading' ),
@@ -633,6 +643,7 @@ function settings_pages(): array {
 		'services-page'     => array(
 			'title'  => 'Services Page',
 			'fields' => array(
+				array( 'name' => 'heroImage', 'type' => 'image', 'label' => 'Hero image', 'description' => 'Wide photo behind the page title. Leave empty for the default.' ),
 				array( 'name' => 'pageLabel', 'type' => 'text', 'label' => 'Small label' ),
 				array( 'name' => 'pageHeading', 'type' => 'text', 'label' => 'Page heading' ),
 				array( 'name' => 'pageSubheading', 'type' => 'text', 'label' => 'Page subheading' ),
@@ -657,12 +668,32 @@ function settings_pages(): array {
 		'contact-page'      => array(
 			'title'  => 'Contact Page',
 			'fields' => array(
+				array( 'name' => 'heroImage', 'type' => 'image', 'label' => 'Hero image', 'description' => 'Wide photo behind the page title. Leave empty for the default.' ),
+				array( 'name' => 'sideImage', 'type' => 'image', 'label' => 'Side image', 'description' => 'Photo beside the enquiry form. Leave empty for the default.' ),
 				array( 'name' => 'pageLabel', 'type' => 'text', 'label' => 'Small label' ),
 				array( 'name' => 'pageHeading', 'type' => 'text', 'label' => 'Page heading' ),
 				array( 'name' => 'subheading', 'type' => 'text', 'label' => 'Subheading' ),
 				array( 'name' => 'introText', 'type' => 'textarea', 'label' => 'Intro text' ),
 				array( 'name' => 'mapLabel', 'type' => 'text', 'label' => 'Map label' ),
 				array( 'name' => 'responseGuarantee', 'type' => 'text', 'label' => 'Response guarantee' ),
+				seo_group(),
+			),
+		),
+		'privacy-page'      => array(
+			'title'  => 'Privacy Policy',
+			'fields' => array(
+				array( 'name' => 'pageHeading', 'type' => 'text', 'label' => 'Page heading', 'default' => 'Privacy Policy' ),
+				array( 'name' => 'lastUpdated', 'type' => 'text', 'label' => 'Last updated', 'description' => 'e.g. 1 November 2026' ),
+				array( 'name' => 'body', 'type' => 'wysiwyg', 'label' => 'Policy text', 'description' => 'Leave empty to keep the built-in text.' ),
+				seo_group(),
+			),
+		),
+		'terms-page'        => array(
+			'title'  => 'Terms & Conditions',
+			'fields' => array(
+				array( 'name' => 'pageHeading', 'type' => 'text', 'label' => 'Page heading', 'default' => 'Terms & Conditions' ),
+				array( 'name' => 'lastUpdated', 'type' => 'text', 'label' => 'Last updated', 'description' => 'e.g. 1 November 2026' ),
+				array( 'name' => 'body', 'type' => 'wysiwyg', 'label' => 'Terms text', 'description' => 'Leave empty to keep the built-in text.' ),
 				seo_group(),
 			),
 		),

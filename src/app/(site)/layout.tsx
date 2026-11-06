@@ -74,7 +74,8 @@ export default async function SiteLayout({
         <main>{children}</main>
         <Footer
           settings={siteSettings}
-          companyLinks={filterLinks(footerLinks, pages)}
+          // The footer is a flat list: sub-menu items follow their parent.
+          companyLinks={filterLinks(footerLinks, pages).flatMap((link) => [link, ...(link.children ?? [])])}
           fleetLinks={pages.fleet ? yachts.map((y) => ({ href: `/fleet/${y.slug}`, label: y.name })) : []}
           destinationLinks={
             pages.destinations ? destinations.slice(0, 5).map((d) => ({ href: `/destinations#${d.id}`, label: d.name })) : []

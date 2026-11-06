@@ -112,9 +112,10 @@ export default function Navigation({ links: navLinks, showContact }: { links: Na
                   pathname === link.href ||
                   (link.href !== "/" && pathname.startsWith(link.href));
                 return (
-                  <li key={link.href}>
+                  <li key={link.href} className="relative group">
                     <Link
                       href={link.href}
+                      target={link.target ?? undefined}
                       className="nav-link"
                       style={{
                         color: isActive ? "#8A9BA8" : "rgba(245,240,235,0.85)",
@@ -122,6 +123,29 @@ export default function Navigation({ links: navLinks, showContact }: { links: Na
                     >
                       {link.label}
                     </Link>
+                    {/* Sub-menu items from Appearance → Menus */}
+                    {link.children && link.children.length > 0 && (
+                      <ul
+                        className="absolute left-0 top-full pt-4 min-w-[220px] list-none m-0 invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-opacity duration-200"
+                      >
+                        <li className="py-2" style={{ background: "rgba(10,22,40,0.97)", border: "1px solid rgba(138,155,168,0.15)" }}>
+                          <ul className="list-none m-0 p-0">
+                            {link.children.map((child) => (
+                              <li key={child.href}>
+                                <Link
+                                  href={child.href}
+                                  target={child.target ?? undefined}
+                                  className="block px-5 py-2.5 nav-link"
+                                  style={{ color: pathname === child.href ? "#8A9BA8" : "rgba(245,240,235,0.85)" }}
+                                >
+                                  {child.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </li>
+                      </ul>
+                    )}
                   </li>
                 );
               })}
@@ -221,6 +245,7 @@ export default function Navigation({ links: navLinks, showContact }: { links: Na
                   <li key={link.href}>
                     <Link
                       href={link.href}
+                      target={link.target ?? undefined}
                       onClick={() => setMenuOpen(false)}
                       className="flex items-center justify-between py-4 transition-colors duration-200 group"
                       style={{
@@ -250,6 +275,29 @@ export default function Navigation({ links: navLinks, showContact }: { links: Na
                         0{i + 1}
                       </span>
                     </Link>
+                    {link.children && link.children.length > 0 && (
+                      <ul className="list-none m-0 py-2 pl-5">
+                        {link.children.map((child) => (
+                          <li key={child.href}>
+                            <Link
+                              href={child.href}
+                              target={child.target ?? undefined}
+                              onClick={() => setMenuOpen(false)}
+                              className="block py-2"
+                              style={{
+                                fontFamily: "var(--font-barlow-condensed), sans-serif",
+                                fontWeight: 600,
+                                fontSize: "16px",
+                                letterSpacing: "0.05em",
+                                color: pathname === child.href ? "#8A9BA8" : "rgba(245,240,235,0.7)",
+                              }}
+                            >
+                              {child.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </li>
                 );
               })}

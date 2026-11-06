@@ -6,7 +6,7 @@ import SectionTitle from "@/components/SectionTitle";
 import { getYachts } from "@/lib/yachts";
 import { getFleetPage } from "@/lib/globals";
 import type { Metadata } from "next";
-import { requirePage } from "@/lib/builtin-pages";
+import { getPageSwitches, requirePage } from "@/lib/builtin-pages";
 import { getSeoSettings, pageJsonLd, pageMetadata, fleetListJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 import FaqSection from "@/components/FaqSection";
@@ -25,6 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function FleetPage() {
   await requirePage("fleet");
+  const switches = await getPageSwitches();
   const [yachts, fleetPage] = await Promise.all([getYachts(), getFleetPage()]);
   const site = await getSeoSettings();
   return (
@@ -44,8 +45,8 @@ export default async function FleetPage() {
         style={{ height: "60vh", minHeight: "400px" }}
       >
         <Image
-          src="/images/FP44/FP-44-4.jpg"
-          alt="ALMA Yachting fleet"
+          src={fleetPage.heroImage?.url ?? "/images/FP44/FP-44-4.jpg"}
+          alt={fleetPage.heroImage?.alt || "ALMA Yachting fleet"}
           fill
           priority
           className="object-cover"
@@ -108,46 +109,48 @@ export default async function FleetPage() {
             >
               {fleetPage.introText}
             </p>
-            <div className="flex items-center gap-6">
-              {fleetPage.stats.map((stat, i) => (
-                <div key={stat.label} className="flex items-center gap-6">
-                  {i > 0 && (
-                    <div
-                      style={{
-                        width: "1px",
-                        height: "32px",
-                        background: "rgba(138,155,168,0.2)",
-                      }}
-                    />
-                  )}
-                  <div>
-                    <span
-                      style={{
-                        fontFamily: "var(--font-barlow-condensed), sans-serif",
-                        fontWeight: 700,
-                        fontSize: "22px",
-                        color: "#8A9BA8",
-                      }}
-                    >
-                      {stat.value}
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: "var(--font-barlow-condensed), sans-serif",
-                        fontWeight: 500,
-                        fontSize: "9px",
-                        letterSpacing: "0.15em",
-                        color: "rgba(245,240,235,0.4)",
-                        display: "block",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {stat.label}
-                    </span>
+            {fleetPage.stats.length > 0 && (
+              <div className="flex items-center gap-6">
+                {fleetPage.stats.map((stat, i) => (
+                  <div key={stat.label} className="flex items-center gap-6">
+                    {i > 0 && (
+                      <div
+                        style={{
+                          width: "1px",
+                          height: "32px",
+                          background: "rgba(138,155,168,0.2)",
+                        }}
+                      />
+                    )}
+                    <div>
+                      <span
+                        style={{
+                          fontFamily: "var(--font-barlow-condensed), sans-serif",
+                          fontWeight: 700,
+                          fontSize: "22px",
+                          color: "#8A9BA8",
+                        }}
+                      >
+                        {stat.value}
+                      </span>
+                      <span
+                        style={{
+                          fontFamily: "var(--font-barlow-condensed), sans-serif",
+                          fontWeight: 500,
+                          fontSize: "9px",
+                          letterSpacing: "0.15em",
+                          color: "rgba(245,240,235,0.4)",
+                          display: "block",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {stat.label}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -178,45 +181,49 @@ export default async function FleetPage() {
                 light
               />
               <div className="mt-10 flex flex-wrap gap-4">
-                <Link href="/contact" className="btn-primary">
-                  Speak to Our Team
-                  <ArrowRight size={14} />
-                </Link>
+                {switches.contact && (
+                  <Link href="/contact" className="btn-primary">
+                    Speak to Our Team
+                    <ArrowRight size={14} />
+                  </Link>
+                )}
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              {fleetPage.bespokeSection.details.map((item) => (
-                <div
-                  key={item.label}
-                  className="p-6"
-                  style={{ border: "1px solid rgba(138,155,168,0.2)" }}
-                >
-                  <p
-                    style={{
-                      fontFamily: "var(--font-barlow-condensed), sans-serif",
-                      fontWeight: 500,
-                      fontSize: "9px",
-                      letterSpacing: "0.18em",
-                      color: "#8A9BA8",
-                      textTransform: "uppercase",
-                      marginBottom: "8px",
-                    }}
+            {fleetPage.bespokeSection.details.length > 0 && (
+              <div className="grid grid-cols-2 gap-4">
+                {fleetPage.bespokeSection.details.map((item) => (
+                  <div
+                    key={item.label}
+                    className="p-6"
+                    style={{ border: "1px solid rgba(138,155,168,0.2)" }}
                   >
-                    {item.label}
-                  </p>
-                  <p
-                    style={{
-                      fontFamily: "var(--font-barlow-condensed), sans-serif",
-                      fontWeight: 600,
-                      fontSize: "18px",
-                      color: "#F5F0EB",
-                    }}
-                  >
-                    {item.value}
-                  </p>
-                </div>
-              ))}
-            </div>
+                    <p
+                      style={{
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
+                        fontWeight: 500,
+                        fontSize: "9px",
+                        letterSpacing: "0.18em",
+                        color: "#8A9BA8",
+                        textTransform: "uppercase",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      {item.label}
+                    </p>
+                    <p
+                      style={{
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
+                        fontWeight: 600,
+                        fontSize: "18px",
+                        color: "#F5F0EB",
+                      }}
+                    >
+                      {item.value}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>

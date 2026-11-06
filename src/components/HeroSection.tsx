@@ -208,27 +208,29 @@ export default function HeroSection({
       >
         <div className="max-w-4xl">
           {/* Label */}
-          <div ref={labelRef} className="flex items-center gap-4 mb-8">
-            <div
-              style={{
-                width: "40px",
-                height: "1px",
-                background: "rgba(138,155,168,0.5)",
-              }}
-            />
-            <span
-              style={{
-                fontFamily: "var(--font-barlow-condensed), sans-serif",
-                fontWeight: 500,
-                fontSize: "11px",
-                letterSpacing: "0.2em",
-                color: "rgba(138,155,168,0.9)",
-                textTransform: "uppercase",
-              }}
-            >
-              {label}
-            </span>
-          </div>
+          {label && (
+            <div ref={labelRef} className="flex items-center gap-4 mb-8">
+              <div
+                style={{
+                  width: "40px",
+                  height: "1px",
+                  background: "rgba(138,155,168,0.5)",
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: "var(--font-barlow-condensed), sans-serif",
+                  fontWeight: 500,
+                  fontSize: "11px",
+                  letterSpacing: "0.2em",
+                  color: "rgba(138,155,168,0.9)",
+                  textTransform: "uppercase",
+                }}
+              >
+                {label}
+              </span>
+            </div>
+          )}
 
           {/* Headline */}
           <h1

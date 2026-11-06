@@ -4,7 +4,7 @@ import { Ship, Anchor, Users, Star, ArrowRight, Check } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import SectionTitle from "@/components/SectionTitle";
 import type { Metadata } from "next";
-import { requirePage } from "@/lib/builtin-pages";
+import { getPageSwitches, requirePage } from "@/lib/builtin-pages";
 import { getSeoSettings, pageJsonLd, pageMetadata, serviceJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 import FaqSection from "@/components/FaqSection";
@@ -33,6 +33,7 @@ const fallbackImages = [
 
 export default async function ServicesPage() {
   await requirePage("services");
+  const switches = await getPageSwitches();
   const [services, servicesPage] = await Promise.all([getServices(), getServicesPage()]);
   const site = await getSeoSettings();
   return (
@@ -52,8 +53,8 @@ export default async function ServicesPage() {
         style={{ height: "60vh", minHeight: "420px" }}
       >
         <Image
-          src="/images/various/hero.jpg"
-          alt="Luxury yacht services"
+          src={servicesPage.heroImage?.url ?? "/images/various/hero.jpg"}
+          alt={servicesPage.heroImage?.alt || "Luxury yacht services"}
           fill
           priority
           className="object-cover"
@@ -221,34 +222,40 @@ export default async function ServicesPage() {
                       {service.longDescription}
                     </p>
 
-                    <ul className="space-y-3 mb-8 list-none p-0 m-0">
-                      {service.features.map((feature) => (
-                        <li key={feature} className="flex items-start gap-3">
-                          <div
-                            className="flex items-center justify-center w-5 h-5 mt-0.5 shrink-0"
-                            style={{ background: "rgba(10,22,40,0.08)" }}
-                          >
-                            <Check size={11} style={{ color: "#0A1628" }} />
-                          </div>
-                          <span
-                            style={{
-                              fontFamily:
-                                "var(--font-cormorant-garamond), serif",
-                              fontSize: "16px",
-                              color: "rgba(44,44,44,0.7)",
-                              lineHeight: "1.5",
-                            }}
-                          >
-                            {feature}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
+                    {service.features.length > 0 && (
+                      <ul className="space-y-3 mb-8 list-none p-0 m-0">
+                        {service.features.map((feature) => (
+                          <li key={feature} className="flex items-start gap-3">
+                            <div
+                              className="flex items-center justify-center w-5 h-5 mt-0.5 shrink-0"
+                              style={{ background: "rgba(10,22,40,0.08)" }}
+                            >
+                              <Check size={11} style={{ color: "#0A1628" }} />
+                            </div>
+                            <span
+                              style={{
+                                fontFamily:
+                                  "var(--font-cormorant-garamond), serif",
+                                fontSize: "16px",
+                                color: "rgba(44,44,44,0.7)",
+                                lineHeight: "1.5",
+                              }}
+                            >
+                              {feature}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
 
-                    <Link href="/contact" className="btn-dark">
-                      Enquire About This Service
-                      <ArrowRight size={14} />
-                    </Link>
+                    {switches.contact && (
+  
+                      <Link href="/contact" className="btn-dark">
+                        Enquire About This Service
+                        <ArrowRight size={14} />
+                      </Link>
+
+                    )}
                   </div>
                 </div>
               </div>
@@ -258,78 +265,82 @@ export default async function ServicesPage() {
       </div>
 
       {/* Why Choose ALMA */}
-      <section
-        className="section-pad grain-overlay"
-        style={{ background: "#0A1628" }}
-      >
-        <div className="container-xl">
-          <div className="text-center mb-16">
-            <SectionTitle
-              label={servicesPage.whyAlmaLabel}
-              heading={servicesPage.whyAlmaHeading}
-              subtitle={servicesPage.whyAlmaSubtitle}
-              align="center"
-              light
-            />
-          </div>
-
-          <div
-            className="grid grid-cols-2 lg:grid-cols-4 gap-px"
-            style={{ background: "rgba(255,255,255,0.06)" }}
-          >
-            {servicesPage.whyAlmaStats.map((item) => (
-              <div
-                key={item.stat}
-                className="p-8 text-center"
-                style={{ background: "#0A1628" }}
-              >
+      {servicesPage.whyAlmaStats.length > 0 && (
+        <section
+          className="section-pad grain-overlay"
+          style={{ background: "#0A1628" }}
+        >
+          <div className="container-xl">
+            <div className="text-center mb-16">
+              <SectionTitle
+                label={servicesPage.whyAlmaLabel}
+                heading={servicesPage.whyAlmaHeading}
+                subtitle={servicesPage.whyAlmaSubtitle}
+                align="center"
+                light
+              />
+            </div>
+  
+            <div
+              className="grid grid-cols-2 lg:grid-cols-4 gap-px"
+              style={{ background: "rgba(255,255,255,0.06)" }}
+            >
+              {servicesPage.whyAlmaStats.map((item) => (
                 <div
-                  style={{
-                    fontFamily: "var(--font-barlow-condensed), sans-serif",
-                    fontWeight: 800,
-                    fontSize: "clamp(40px, 5vw, 64px)",
-                    color: "#8A9BA8",
-                    lineHeight: 1,
-                    marginBottom: "8px",
-                  }}
+                  key={item.stat}
+                  className="p-8 text-center"
+                  style={{ background: "#0A1628" }}
                 >
-                  {item.stat}
+                  <div
+                    style={{
+                      fontFamily: "var(--font-barlow-condensed), sans-serif",
+                      fontWeight: 800,
+                      fontSize: "clamp(40px, 5vw, 64px)",
+                      color: "#8A9BA8",
+                      lineHeight: 1,
+                      marginBottom: "8px",
+                    }}
+                  >
+                    {item.stat}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "var(--font-barlow-condensed), sans-serif",
+                      fontWeight: 700,
+                      fontSize: "16px",
+                      color: "#F5F0EB",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.04em",
+                      marginBottom: "6px",
+                    }}
+                  >
+                    {item.label}
+                  </div>
+                  <p
+                    style={{
+                      fontFamily: "var(--font-cormorant-garamond), serif",
+                      fontSize: "14px",
+                      color: "rgba(245,240,235,0.4)",
+                      lineHeight: "1.5",
+                    }}
+                  >
+                    {item.description}
+                  </p>
                 </div>
-                <div
-                  style={{
-                    fontFamily: "var(--font-barlow-condensed), sans-serif",
-                    fontWeight: 700,
-                    fontSize: "16px",
-                    color: "#F5F0EB",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.04em",
-                    marginBottom: "6px",
-                  }}
-                >
-                  {item.label}
-                </div>
-                <p
-                  style={{
-                    fontFamily: "var(--font-cormorant-garamond), serif",
-                    fontSize: "14px",
-                    color: "rgba(245,240,235,0.4)",
-                    lineHeight: "1.5",
-                  }}
-                >
-                  {item.description}
-                </p>
-              </div>
-            ))}
+              ))}
+            </div>
+  
+            <div className="text-center mt-14">
+              {switches.contact && (
+                <Link href="/contact" className="btn-primary">
+                  Begin Your Journey
+                  <ArrowRight size={14} />
+                </Link>
+              )}
+            </div>
           </div>
-
-          <div className="text-center mt-14">
-            <Link href="/contact" className="btn-primary">
-              Begin Your Journey
-              <ArrowRight size={14} />
-            </Link>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
       <FaqSection seo={servicesPage.seo} />
     </>
   );

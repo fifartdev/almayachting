@@ -6,7 +6,7 @@ import SectionTitle from "@/components/SectionTitle";
 import { getDestinations } from "@/lib/destinations";
 import { getDestinationsPage } from "@/lib/globals";
 import type { Metadata } from "next";
-import { requirePage } from "@/lib/builtin-pages";
+import { getPageSwitches, requirePage } from "@/lib/builtin-pages";
 import { getSeoSettings, pageJsonLd, pageMetadata, destinationJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 import FaqSection from "@/components/FaqSection";
@@ -27,6 +27,7 @@ const seaIcons: LucideIcon[] = [Compass, Wind, Anchor];
 
 export default async function DestinationsPage() {
   await requirePage("destinations");
+  const switches = await getPageSwitches();
   const [destinations, destinationsPage] = await Promise.all([
     getDestinations(),
     getDestinationsPage(),
@@ -49,8 +50,8 @@ export default async function DestinationsPage() {
         style={{ height: "65vh", minHeight: "440px" }}
       >
         <Image
-          src="https://images.unsplash.com/photo-1533105079780-92b9be482077?w=1920&q=80"
-          alt="Greek islands from above"
+          src={destinationsPage.heroImage?.url ?? "https://images.unsplash.com/photo-1533105079780-92b9be482077?w=1920&q=80"}
+          alt={destinationsPage.heroImage?.alt || "Greek islands from above"}
           fill
           priority
           className="object-cover"
@@ -105,76 +106,78 @@ export default async function DestinationsPage() {
       </div>
 
       {/* Seas Section */}
-      <section className="py-16" style={{ background: "#0A1628" }}>
-        <div className="container-xl">
-          <div
-            className="grid grid-cols-1 md:grid-cols-3 gap-px"
-            style={{ background: "rgba(255,255,255,0.06)" }}
-          >
-            {destinationsPage.seas.map((sea, i) => {
-              const Icon = seaIcons[i % seaIcons.length];
-              const islands = sea.islands.split(",").map((s) => s.trim()).filter(Boolean);
-              return (
-                <div
-                  key={sea.name}
-                  className="p-8 lg:p-10"
-                  style={{ background: "#0A1628" }}
-                >
+      {destinationsPage.seas.length > 0 && (
+        <section className="py-16" style={{ background: "#0A1628" }}>
+          <div className="container-xl">
+            <div
+              className="grid grid-cols-1 md:grid-cols-3 gap-px"
+              style={{ background: "rgba(255,255,255,0.06)" }}
+            >
+              {destinationsPage.seas.map((sea, i) => {
+                const Icon = seaIcons[i % seaIcons.length];
+                const islands = sea.islands.split(",").map((s) => s.trim()).filter(Boolean);
+                return (
                   <div
-                    className="flex items-center justify-center w-10 h-10 mb-5"
-                    style={{ border: "1px solid rgba(138,155,168,0.3)" }}
+                    key={sea.name}
+                    className="p-8 lg:p-10"
+                    style={{ background: "#0A1628" }}
                   >
-                    <Icon size={18} style={{ color: "#8A9BA8" }} />
+                    <div
+                      className="flex items-center justify-center w-10 h-10 mb-5"
+                      style={{ border: "1px solid rgba(138,155,168,0.3)" }}
+                    >
+                      <Icon size={18} style={{ color: "#8A9BA8" }} />
+                    </div>
+                    <h3
+                      className="mb-3"
+                      style={{
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
+                        fontWeight: 700,
+                        fontSize: "22px",
+                        color: "#F5F0EB",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.04em",
+                      }}
+                    >
+                      {sea.name}
+                    </h3>
+                    <p
+                      className="mb-5"
+                      style={{
+                        fontFamily: "var(--font-cormorant-garamond), serif",
+                        fontSize: "15px",
+                        color: "rgba(245,240,235,0.55)",
+                        lineHeight: "1.7",
+                      }}
+                    >
+                      {sea.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {islands.map((island) => (
+                        <span
+                          key={island}
+                          style={{
+                            fontFamily: "var(--font-barlow-condensed), sans-serif",
+                            fontWeight: 500,
+                            fontSize: "9px",
+                            letterSpacing: "0.12em",
+                            color: "rgba(138,155,168,0.7)",
+                            border: "1px solid rgba(138,155,168,0.2)",
+                            padding: "3px 8px",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          {island}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <h3
-                    className="mb-3"
-                    style={{
-                      fontFamily: "var(--font-barlow-condensed), sans-serif",
-                      fontWeight: 700,
-                      fontSize: "22px",
-                      color: "#F5F0EB",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.04em",
-                    }}
-                  >
-                    {sea.name}
-                  </h3>
-                  <p
-                    className="mb-5"
-                    style={{
-                      fontFamily: "var(--font-cormorant-garamond), serif",
-                      fontSize: "15px",
-                      color: "rgba(245,240,235,0.55)",
-                      lineHeight: "1.7",
-                    }}
-                  >
-                    {sea.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {islands.map((island) => (
-                      <span
-                        key={island}
-                        style={{
-                          fontFamily: "var(--font-barlow-condensed), sans-serif",
-                          fontWeight: 500,
-                          fontSize: "9px",
-                          letterSpacing: "0.12em",
-                          color: "rgba(138,155,168,0.7)",
-                          border: "1px solid rgba(138,155,168,0.2)",
-                          padding: "3px 8px",
-                          textTransform: "uppercase",
-                        }}
-                      >
-                        {island}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Destinations Grid */}
       <section className="section-pad" style={{ background: "#F5F0EB" }}>
@@ -396,13 +399,17 @@ export default async function DestinationsPage() {
             {destinationsPage.customRouteCta.bodyText}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/contact" className="btn-primary">
-              Plan Your Route
-              <ArrowRight size={14} />
-            </Link>
-            <Link href="/fleet" className="btn-outline">
-              Browse Our Fleet
-            </Link>
+            {switches.contact && (
+              <Link href="/contact" className="btn-primary">
+                Plan Your Route
+                <ArrowRight size={14} />
+              </Link>
+            )}
+            {switches.fleet && (
+              <Link href="/fleet" className="btn-outline">
+                Browse Our Fleet
+              </Link>
+            )}
           </div>
         </div>
       </section>

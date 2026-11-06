@@ -9,6 +9,8 @@ import {
   getFleetPage,
   getHomepage,
   getServicesPage,
+  getPrivacyPage,
+  getTermsPage,
 } from "@/lib/globals";
 import type { WpSeo } from "@/lib/wordpress";
 import { getPageSwitches, isLinkEnabled } from "@/lib/builtin-pages";
@@ -24,7 +26,7 @@ interface Entry {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [site, yachts, pages, home, about, contact, destinations, fleet, services, switches] = await Promise.all([
+  const [site, yachts, pages, home, about, contact, destinations, fleet, services, switches, privacy, terms] = await Promise.all([
     getSeoSettings(),
     getYachts(),
     getPages(),
@@ -35,6 +37,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getFleetPage(),
     getServicesPage(),
     getPageSwitches(),
+    getPrivacyPage(),
+    getTermsPage(),
   ]);
 
   if (!site.crawlers.indexSite) return [];
@@ -46,8 +50,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/services", seo: services.seo, priority: 0.8, changeFrequency: "monthly" },
     { path: "/about", seo: about.seo, priority: 0.6, changeFrequency: "monthly" },
     { path: "/contact", seo: contact.seo, priority: 0.7, changeFrequency: "yearly" },
-    { path: "/privacy", seo: null, priority: 0.2, changeFrequency: "yearly" },
-    { path: "/terms", seo: null, priority: 0.2, changeFrequency: "yearly" },
+    { path: "/privacy", seo: privacy.seo, priority: 0.2, changeFrequency: "yearly" },
+    { path: "/terms", seo: terms.seo, priority: 0.2, changeFrequency: "yearly" },
     ...yachts.map((y) => ({
       path: `/fleet/${y.slug}`,
       seo: y.seo,

@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { pageMetadata } from "@/lib/seo";
-import { requirePage } from "@/lib/builtin-pages";
+import { getSeoSettings, pageJsonLd, pageMetadata } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
+import FaqSection from "@/components/FaqSection";
+import { getPageSwitches, requirePage } from "@/lib/builtin-pages";
+import { getTermsPage } from "@/lib/globals";
 
 export async function generateMetadata(): Promise<Metadata> {
   await requirePage("terms");
+  const page = await getTermsPage();
   return pageMetadata({
-    seo: null,
+    seo: page.seo,
     path: "/terms",
-    title: "Terms & Conditions",
+    title: page.pageHeading || "Terms & Conditions",
     description: "Terms and Conditions for ALMA Yachting charter and fleet management services.",
   });
 }
@@ -58,7 +62,10 @@ const sections = [
 
 export default async function TermsPage() {
   await requirePage("terms");
+  const [page, switches, site] = await Promise.all([getTermsPage(), getPageSwitches(), getSeoSettings()]);
   return (
+    <>
+    <JsonLd data={pageJsonLd(site, { seo: page.seo, path: "/terms", title: page.pageHeading || "Terms & Conditions" })} />
     <div style={{ background: "#F5F0EB", minHeight: "100vh" }}>
       {/* Header */}
       <div
@@ -93,7 +100,7 @@ export default async function TermsPage() {
               lineHeight: 1,
             }}
           >
-            Terms &amp; Conditions
+            {page.pageHeading || "Terms & Conditions"}
           </h1>
           <p
             style={{
@@ -106,7 +113,7 @@ export default async function TermsPage() {
               marginTop: "20px",
             }}
           >
-            Effective date: January 2025
+            {page.lastUpdated ? `Last updated: ${page.lastUpdated}` : "Effective date: January 2025"}
           </p>
         </div>
       </div>
@@ -114,80 +121,87 @@ export default async function TermsPage() {
       {/* Content */}
       <div className="container-xl" style={{ paddingTop: "80px", paddingBottom: "100px" }}>
         <div style={{ maxWidth: "760px" }}>
+          {page.body ? (
+            // Text written in WordPress (ALMA Site → Terms & Conditions) replaces the built-in text.
+            <div className="wp-content" style={{ margin: 0 }} dangerouslySetInnerHTML={{ __html: page.body }} />
+          ) : (
+            <>
           <p
-            style={{
-              fontFamily: "var(--font-cormorant-garamond), serif",
-              fontStyle: "italic",
-              fontSize: "20px",
-              fontWeight: 300,
-              color: "rgba(44,44,44,0.75)",
-              lineHeight: "1.75",
-              marginBottom: "60px",
-            }}
-          >
-            These Terms and Conditions govern the relationship between ALMA
-            Yachting and its clients across all charter bookings, fleet
-            management agreements, and ancillary services. Please read them
-            carefully before confirming any booking.
-          </p>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: "48px" }}>
-            {sections.map((section, i) => (
-              <div key={section.title}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "16px",
-                    marginBottom: "16px",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: "var(--font-barlow-condensed), sans-serif",
-                      fontWeight: 500,
-                      fontSize: "10px",
-                      letterSpacing: "0.2em",
-                      color: "rgba(10,22,40,0.4)",
-                    }}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
+              style={{
+                fontFamily: "var(--font-cormorant-garamond), serif",
+                fontStyle: "italic",
+                fontSize: "20px",
+                fontWeight: 300,
+                color: "rgba(44,44,44,0.75)",
+                lineHeight: "1.75",
+                marginBottom: "60px",
+              }}
+            >
+              These Terms and Conditions govern the relationship between ALMA
+              Yachting and its clients across all charter bookings, fleet
+              management agreements, and ancillary services. Please read them
+              carefully before confirming any booking.
+            </p>
+  
+            <div style={{ display: "flex", flexDirection: "column", gap: "48px" }}>
+              {sections.map((section, i) => (
+                <div key={section.title}>
                   <div
                     style={{
-                      flex: 1,
-                      height: "1px",
-                      background: "rgba(10,22,40,0.1)",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "16px",
+                      marginBottom: "16px",
                     }}
-                  />
+                  >
+                    <span
+                      style={{
+                        fontFamily: "var(--font-barlow-condensed), sans-serif",
+                        fontWeight: 500,
+                        fontSize: "10px",
+                        letterSpacing: "0.2em",
+                        color: "rgba(10,22,40,0.4)",
+                      }}
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div
+                      style={{
+                        flex: 1,
+                        height: "1px",
+                        background: "rgba(10,22,40,0.1)",
+                      }}
+                    />
+                  </div>
+                  <h2
+                    style={{
+                      fontFamily: "var(--font-barlow-condensed), sans-serif",
+                      fontWeight: 700,
+                      fontSize: "20px",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.04em",
+                      color: "#2C2C2C",
+                      marginBottom: "14px",
+                    }}
+                  >
+                    {section.title}
+                  </h2>
+                  <p
+                    style={{
+                      fontFamily: "var(--font-cormorant-garamond), serif",
+                      fontSize: "17px",
+                      color: "rgba(44,44,44,0.7)",
+                      lineHeight: "1.8",
+                      whiteSpace: "pre-line",
+                    }}
+                  >
+                    {section.body}
+                  </p>
                 </div>
-                <h2
-                  style={{
-                    fontFamily: "var(--font-barlow-condensed), sans-serif",
-                    fontWeight: 700,
-                    fontSize: "20px",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.04em",
-                    color: "#2C2C2C",
-                    marginBottom: "14px",
-                  }}
-                >
-                  {section.title}
-                </h2>
-                <p
-                  style={{
-                    fontFamily: "var(--font-cormorant-garamond), serif",
-                    fontSize: "17px",
-                    color: "rgba(44,44,44,0.7)",
-                    lineHeight: "1.8",
-                    whiteSpace: "pre-line",
-                  }}
-                >
-                  {section.body}
-                </p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+            </>
+          )}
 
           <div
             style={{
@@ -199,27 +213,33 @@ export default async function TermsPage() {
               flexWrap: "wrap",
             }}
           >
-            <Link href="/contact" className="btn-primary">
-              Contact Us
-            </Link>
-            <Link
-              href="/privacy"
-              style={{
-                fontFamily: "var(--font-barlow-condensed), sans-serif",
-                fontWeight: 700,
-                fontSize: "12px",
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                color: "#0A1628",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              View Privacy Policy →
-            </Link>
+            {switches.contact && (
+              <Link href="/contact" className="btn-primary">
+                Contact Us
+              </Link>
+            )}
+            {switches.privacy && (
+              <Link
+                href="/privacy"
+                style={{
+                  fontFamily: "var(--font-barlow-condensed), sans-serif",
+                  fontWeight: 700,
+                  fontSize: "12px",
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "#0A1628",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                View Privacy Policy →
+              </Link>
+            )}
           </div>
         </div>
       </div>
     </div>
+    <FaqSection seo={page.seo} />
+    </>
   );
 }

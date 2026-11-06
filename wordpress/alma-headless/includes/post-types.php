@@ -96,7 +96,9 @@ add_action(
 		}
 		$title = 'page' === $post_type ? 'Page template options' : post_types()[ $post_type ]['singular'] . ' details';
 		add_meta_box( 'alma_fields', $title, __NAMESPACE__ . '\render_fields_meta_box', $post_type, 'normal', 'high' );
-		add_meta_box( 'alma_seo', 'SEO', __NAMESPACE__ . '\render_seo_meta_box', $post_type, 'normal', 'low' );
+		if ( false !== seo_scope( $post_type ) ) {
+			add_meta_box( 'alma_seo', 'SEO & GEO', __NAMESPACE__ . '\render_seo_meta_box', $post_type, 'normal', 'low' );
+		}
 	}
 );
 
@@ -106,10 +108,32 @@ function render_fields_meta_box( \WP_Post $post ): void {
 	render_fields( $fields, 'alma', load_post_values( $post->ID, $fields ) );
 }
 
+/**
+ * Which parts of the SEO & GEO panel apply: 'full' for anything with its own page, a list of
+ * sub-groups for content shown inside another page, false for content that is never public.
+ */
+function seo_scope( string $post_type ) {
+	return 'page' === $post_type ? 'full' : ( post_types()[ $post_type ]['seo'] ?? 'full' );
+}
+
 function render_seo_meta_box( \WP_Post $post ): void {
 	$seo    = seo_group();
+	$scope  = seo_scope( $post->post_type );
+	$fields = 'full' === $scope
+		? $seo['fields']
+		: array_values(
+			array_filter(
+				$seo['fields'],
+				function ( $field ) use ( $scope ) {
+					return in_array( $field['name'], (array) $scope, true );
+				}
+			)
+		);
+	if ( 'full' !== $scope ) {
+		echo '<p class="description">This entry appears inside another page, so only these settings apply to it.</p>';
+	}
 	$values = load_post_values( $post->ID, array( $seo ) );
-	render_fields( $seo['fields'], 'alma[seo]', is_array( $values['seo'] ?? null ) ? $values['seo'] : array() );
+	render_fields( $fields, 'alma[seo]', is_array( $values['seo'] ?? null ) ? $values['seo'] : array() );
 }
 
 add_action(

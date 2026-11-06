@@ -63,8 +63,8 @@ export default function ContactClient({ yachts, contactPage, siteSettings }: Pro
         style={{ height: "50vh", minHeight: "360px" }}
       >
         <Image
-          src="/images/various/hero.jpg"
-          alt="Athens harbour"
+          src={contactPage.heroImage?.url ?? "/images/various/hero.jpg"}
+          alt={contactPage.heroImage?.alt || "Athens harbour"}
           fill
           priority
           className="object-cover"
@@ -148,69 +148,93 @@ export default function ContactClient({ yachts, contactPage, siteSettings }: Pro
               </p>
 
               <div className="space-y-7">
-                <div className="flex items-start gap-4">
-                  <div
-                    className="flex items-center justify-center w-10 h-10 shrink-0 mt-0.5"
-                    style={{ border: "1px solid rgba(10,22,40,0.15)" }}
-                  >
-                    <MapPin size={16} style={{ color: "#0A1628" }} />
+                {siteSettings.address && (
+                  <div className="flex items-start gap-4">
+                    <div
+                      className="flex items-center justify-center w-10 h-10 shrink-0 mt-0.5"
+                      style={{ border: "1px solid rgba(10,22,40,0.15)" }}
+                    >
+                      <MapPin size={16} style={{ color: "#0A1628" }} />
+                    </div>
+                    <div>
+                      <p style={{ fontFamily: "var(--font-barlow-condensed), sans-serif", fontSize: "9px", letterSpacing: "0.18em", color: "#0A1628", textTransform: "uppercase", marginBottom: "6px" }}>
+                        Office Address
+                      </p>
+                      <p style={{ fontFamily: "var(--font-cormorant-garamond), serif", fontSize: "16px", color: "#2C2C2C", lineHeight: "1.6", whiteSpace: "pre-line" }}>
+                        {siteSettings.address}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p style={{ fontFamily: "var(--font-barlow-condensed), sans-serif", fontSize: "9px", letterSpacing: "0.18em", color: "#0A1628", textTransform: "uppercase", marginBottom: "6px" }}>
-                      Office Address
-                    </p>
-                    <p style={{ fontFamily: "var(--font-cormorant-garamond), serif", fontSize: "16px", color: "#2C2C2C", lineHeight: "1.6", whiteSpace: "pre-line" }}>
-                      {siteSettings.address}
-                    </p>
-                  </div>
-                </div>
+                )}
 
-                <div className="flex items-start gap-4">
-                  <div className="flex items-center justify-center w-10 h-10 shrink-0 mt-0.5" style={{ border: "1px solid rgba(10,22,40,0.15)" }}>
-                    <Phone size={16} style={{ color: "#0A1628" }} />
+                {siteSettings.phone && (
+                  <div className="flex items-start gap-4">
+                    <div className="flex items-center justify-center w-10 h-10 shrink-0 mt-0.5" style={{ border: "1px solid rgba(10,22,40,0.15)" }}>
+                      <Phone size={16} style={{ color: "#0A1628" }} />
+                    </div>
+                    <div>
+                      <p style={{ fontFamily: "var(--font-barlow-condensed), sans-serif", fontSize: "9px", letterSpacing: "0.18em", color: "#0A1628", textTransform: "uppercase", marginBottom: "6px" }}>
+                        Phone
+                      </p>
+                      <a href={`tel:${siteSettings.phone.replace(/\s+/g, "")}`} style={{ fontFamily: "var(--font-cormorant-garamond), serif", fontSize: "17px", color: "#2C2C2C", textDecoration: "none" }}>
+                        {siteSettings.phone}
+                      </a>
+                    </div>
                   </div>
-                  <div>
-                    <p style={{ fontFamily: "var(--font-barlow-condensed), sans-serif", fontSize: "9px", letterSpacing: "0.18em", color: "#0A1628", textTransform: "uppercase", marginBottom: "6px" }}>
-                      Phone
-                    </p>
-                    <a href={`tel:${siteSettings.phone.replace(/\s+/g, "")}`} style={{ fontFamily: "var(--font-cormorant-garamond), serif", fontSize: "17px", color: "#2C2C2C", textDecoration: "none" }}>
-                      {siteSettings.phone}
-                    </a>
-                  </div>
-                </div>
+                )}
 
-                <div className="flex items-start gap-4">
-                  <div className="flex items-center justify-center w-10 h-10 shrink-0 mt-0.5" style={{ border: "1px solid rgba(10,22,40,0.15)" }}>
-                    <Mail size={16} style={{ color: "#0A1628" }} />
+                {siteSettings.email && (
+                  <div className="flex items-start gap-4">
+                    <div className="flex items-center justify-center w-10 h-10 shrink-0 mt-0.5" style={{ border: "1px solid rgba(10,22,40,0.15)" }}>
+                      <Mail size={16} style={{ color: "#0A1628" }} />
+                    </div>
+                    <div>
+                      <p style={{ fontFamily: "var(--font-barlow-condensed), sans-serif", fontSize: "9px", letterSpacing: "0.18em", color: "#0A1628", textTransform: "uppercase", marginBottom: "6px" }}>
+                        Email
+                      </p>
+                      <a href={`mailto:${siteSettings.email}`} style={{ fontFamily: "var(--font-cormorant-garamond), serif", fontSize: "17px", color: "#2C2C2C", textDecoration: "none" }}>
+                        {siteSettings.email}
+                      </a>
+                    </div>
                   </div>
-                  <div>
-                    <p style={{ fontFamily: "var(--font-barlow-condensed), sans-serif", fontSize: "9px", letterSpacing: "0.18em", color: "#0A1628", textTransform: "uppercase", marginBottom: "6px" }}>
-                      Email
-                    </p>
-                    <a href={`mailto:${siteSettings.email}`} style={{ fontFamily: "var(--font-cormorant-garamond), serif", fontSize: "17px", color: "#2C2C2C", textDecoration: "none" }}>
-                      {siteSettings.email}
-                    </a>
-                  </div>
-                </div>
+                )}
 
-                <div className="flex items-start gap-4">
-                  <div className="flex items-center justify-center w-10 h-10 shrink-0 mt-0.5" style={{ border: "1px solid rgba(10,22,40,0.15)" }}>
-                    <Clock size={16} style={{ color: "#0A1628" }} />
+                {siteSettings.officeHours && (
+                  <div className="flex items-start gap-4">
+                    <div className="flex items-center justify-center w-10 h-10 shrink-0 mt-0.5" style={{ border: "1px solid rgba(10,22,40,0.15)" }}>
+                      <Clock size={16} style={{ color: "#0A1628" }} />
+                    </div>
+                    <div>
+                      <p style={{ fontFamily: "var(--font-barlow-condensed), sans-serif", fontSize: "9px", letterSpacing: "0.18em", color: "#0A1628", textTransform: "uppercase", marginBottom: "6px" }}>
+                        Office Hours
+                      </p>
+                      <p style={{ fontFamily: "var(--font-cormorant-garamond), serif", fontSize: "16px", color: "#2C2C2C", lineHeight: "1.6", whiteSpace: "pre-line" }}>
+                        {siteSettings.officeHours}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p style={{ fontFamily: "var(--font-barlow-condensed), sans-serif", fontSize: "9px", letterSpacing: "0.18em", color: "#0A1628", textTransform: "uppercase", marginBottom: "6px" }}>
-                      Office Hours
-                    </p>
-                    <p style={{ fontFamily: "var(--font-cormorant-garamond), serif", fontSize: "16px", color: "#2C2C2C", lineHeight: "1.6", whiteSpace: "pre-line" }}>
-                      {siteSettings.officeHours}
-                    </p>
+                )}
+
+                {siteSettings.basePort && (
+                  <div className="flex items-start gap-4">
+                    <div className="flex items-center justify-center w-10 h-10 shrink-0 mt-0.5" style={{ border: "1px solid rgba(10,22,40,0.15)" }}>
+                      <Anchor size={16} style={{ color: "#0A1628" }} />
+                    </div>
+                    <div>
+                      <p style={{ fontFamily: "var(--font-barlow-condensed), sans-serif", fontSize: "9px", letterSpacing: "0.18em", color: "#0A1628", textTransform: "uppercase", marginBottom: "6px" }}>
+                        Base Port
+                      </p>
+                      <p style={{ fontFamily: "var(--font-cormorant-garamond), serif", fontSize: "16px", color: "#2C2C2C", lineHeight: "1.6" }}>
+                        {siteSettings.basePort}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               {/* Map placeholder */}
               <div className="mt-10 relative overflow-hidden" style={{ aspectRatio: "4/3" }}>
-                <Image src="/images/various/marina.jpg" alt="Athens marina" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 40vw" />
+                <Image src={contactPage.sideImage?.url ?? "/images/various/marina.jpg"} alt={contactPage.sideImage?.alt || "Athens marina"} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 40vw" />
                 <div className="absolute inset-0 flex items-center justify-center" style={{ background: "rgba(10,22,40,0.3)" }}>
                   <div className="flex items-center gap-2 px-4 py-2" style={{ background: "rgba(44,44,44,0.85)", backdropFilter: "blur(8px)" }}>
                     <Anchor size={14} style={{ color: "#8A9BA8" }} />
